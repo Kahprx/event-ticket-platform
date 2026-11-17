@@ -158,6 +158,17 @@
   background: #fbfaf7;
 }
 
+.btn-danger {
+  background: var(--color-danger);
+  border-color: var(--color-danger);
+  color: #fff;
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #b93c2c;
+  border-color: #b93c2c;
+}
+
 .btn-dark {
   background: var(--color-ink-900);
   border-color: var(--color-ink-900);

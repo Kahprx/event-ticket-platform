@@ -6,7 +6,7 @@ export const demoAccounts = [
   {
     id: "user",
     ...initialProfile,
-    role: "USER",
+    role: "CUSTOMER",
     password: "User@123",
   },
   {

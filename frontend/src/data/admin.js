@@ -5,7 +5,7 @@ export const overviewStats = [
   { id: "events", label: "Sự kiện đang mở bán", value: 48, change: "+6 so với tháng trước", trend: "up" },
   { id: "bookings", label: "Đơn đặt vé", value: 1284, change: "+12,4% so với tháng trước", trend: "up" },
   { id: "revenue", label: "Doanh thu tháng 11", value: 486250000, change: "+8,1% so với tháng trước", trend: "up", isCurrency: true },
-  { id: "users", label: "Người dùng hoạt động", value: 3462, change: "+214 tài khoản mới", trend: "up" },
+  { id: "users", label: "Khách hàng hoạt động", value: 3462, change: "+214 tài khoản mới", trend: "up" },
 ];
 
 export const revenueByMonth = [
@@ -42,14 +42,33 @@ export const recentOrders = [
 ];
 
 export const adminUsers = [
-  { id: "U-1001", name: "Nguyễn Minh Anh", email: "minhanh.nguyen@example.com", role: "USER", city: "TP. Hồ Chí Minh", joinedAt: "08/09/2025", status: "active", bookings: 6 },
-  { id: "U-1002", name: "Trần Quốc Bảo", email: "quocbao.tran@example.com", role: "USER", city: "TP. Hồ Chí Minh", joinedAt: "14/10/2025", status: "active", bookings: 11 },
-  { id: "U-1003", name: "Lê Thu Hà", email: "thuha.le@example.com", role: "USER", city: "Hà Nội", joinedAt: "02/01/2026", status: "active", bookings: 4 },
-  { id: "U-1004", name: "Phạm Đức Long", email: "duclong.pham@example.com", role: "USER", city: "Đà Nẵng", joinedAt: "21/02/2026", status: "active", bookings: 2 },
-  { id: "U-1005", name: "Đỗ Hoàng Nam", email: "hoangnam.do@example.com", role: "USER", city: "Hải Phòng", joinedAt: "05/03/2026", status: "locked", bookings: 7 },
-  { id: "U-1006", name: "Vũ Khánh Linh", email: "khanhlinh.vu@example.com", role: "USER", city: "TP. Hồ Chí Minh", joinedAt: "19/04/2026", status: "active", bookings: 9 },
+  { id: "U-1001", name: "Nguyễn Minh Anh", email: "minhanh.nguyen@example.com", role: "CUSTOMER", city: "TP. Hồ Chí Minh", joinedAt: "08/09/2025", status: "active", bookings: 6 },
+  { id: "U-1002", name: "Trần Quốc Bảo", email: "quocbao.tran@example.com", role: "CUSTOMER", city: "TP. Hồ Chí Minh", joinedAt: "14/10/2025", status: "active", bookings: 11 },
+  { id: "U-1003", name: "Lê Thu Hà", email: "thuha.le@example.com", role: "CUSTOMER", city: "Hà Nội", joinedAt: "02/01/2026", status: "active", bookings: 4 },
+  { id: "U-1004", name: "Phạm Đức Long", email: "duclong.pham@example.com", role: "CUSTOMER", city: "Đà Nẵng", joinedAt: "21/02/2026", status: "active", bookings: 2 },
+  { id: "U-1005", name: "Đỗ Hoàng Nam", email: "hoangnam.do@example.com", role: "CUSTOMER", city: "Hải Phòng", joinedAt: "05/03/2026", status: "locked", bookings: 7 },
+  { id: "U-1006", name: "Vũ Khánh Linh", email: "khanhlinh.vu@example.com", role: "CUSTOMER", city: "TP. Hồ Chí Minh", joinedAt: "19/04/2026", status: "active", bookings: 9 },
   { id: "U-1007", name: "Ngô Thanh Tùng", email: "thanhtung.ngo@example.com", role: "ADMIN", city: "TP. Hồ Chí Minh", joinedAt: "08/09/2025", status: "active", bookings: 0 },
   { id: "U-1008", name: "Hoàng Mai Chi", email: "maichi.hoang@example.com", role: "ADMIN", city: "Hà Nội", joinedAt: "11/11/2025", status: "active", bookings: 0 },
+];
+
+export const adminRoles = [
+  {
+    key: "CUSTOMER",
+    name: "Khách hàng",
+    description: "Đặt vé, xem vé và quản lý hồ sơ cá nhân",
+    permissions: ["event:read", "ticket:create", "ticket:read", "profile:update"],
+    isSystem: true,
+    userCount: 3462,
+  },
+  {
+    key: "ADMIN",
+    name: "Quản trị viên",
+    description: "Toàn quyền quản lý sự kiện, đơn hàng, tài khoản và báo cáo",
+    permissions: ["admin:access", "event:write", "order:write", "account:write", "report:read"],
+    isSystem: true,
+    userCount: 2,
+  },
 ];
 
 export const chatbotLogs = [
