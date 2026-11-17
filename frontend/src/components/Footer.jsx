@@ -1,8 +1,11 @@
 import { Link } from "react-router-dom";
 import { Mail, MapPin, Phone } from "lucide-react";
 import Brand from "./Brand.jsx";
+import { useAppStore } from "../store/appStore.js";
 
 export default function Footer() {
+  const user = useAppStore((state) => state.user);
+
   return (
     <footer className="mt-auto border-t border-white/10 bg-ink-950 pb-24 text-white/70 md:pb-0">
       <div className="container-page grid gap-8 py-10 sm:grid-cols-2 lg:grid-cols-4">
@@ -20,7 +23,9 @@ export default function Footer() {
             <li><Link to="/events" className="hover:text-white">Tất cả sự kiện</Link></li>
             <li><Link to="/my-tickets" className="hover:text-white">Vé của tôi</Link></li>
             <li><Link to="/chatbot" className="hover:text-white">Trợ lý AI</Link></li>
-            <li><Link to="/admin" className="hover:text-white">Khu vực quản trị</Link></li>
+            {user?.role === "ADMIN" && (
+              <li><Link to="/admin" className="hover:text-white">Khu vực quản trị</Link></li>
+            )}
           </ul>
         </div>
 

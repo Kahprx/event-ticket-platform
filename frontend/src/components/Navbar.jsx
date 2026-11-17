@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import {
   ChevronDown,
   LayoutDashboard,
@@ -30,6 +30,8 @@ const initials = (name = "") =>
 
 export default function Navbar() {
   const user = useAppStore((state) => state.user);
+  const signOut = useAppStore((state) => state.signOut);
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
   const menuRef = useRef(null);
@@ -46,6 +48,12 @@ export default function Navbar() {
     `relative py-2 text-[13px] font-medium transition ${
       isActive ? "text-white" : "text-white/60 hover:text-white"
     }`;
+
+  const handleSignOut = () => {
+    signOut();
+    setMenuOpen(false);
+    navigate("/login");
+  };
 
   return (
     <header className="sticky top-0 z-40 border-b border-white/10 bg-ink-950">
@@ -113,25 +121,27 @@ export default function Navbar() {
                     <Ticket size={15} className="text-muted" />
                     Vé của tôi
                   </Link>
-                  <Link
-                    to="/admin"
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-ink-800 hover:bg-paper"
-                    role="menuitem"
-                  >
-                    <LayoutDashboard size={15} className="text-muted" />
-                    Khu vực quản trị
-                  </Link>
+                  {user?.role === "ADMIN" && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-ink-800 hover:bg-paper"
+                      role="menuitem"
+                    >
+                      <LayoutDashboard size={15} className="text-muted" />
+                      Khu vực quản trị
+                    </Link>
+                  )}
                   <div className="my-1 border-t border-line" />
-                  <Link
-                    to="/login"
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-2.5 px-3 py-2 text-[13px] text-ink-800 hover:bg-paper"
+                  <button
+                    type="button"
+                    onClick={handleSignOut}
+                    className="flex w-full items-center gap-2.5 px-3 py-2 text-left text-[13px] text-ink-800 hover:bg-paper"
                     role="menuitem"
                   >
                     <LogOut size={15} className="text-muted" />
                     Đăng xuất
-                  </Link>
+                  </button>
                 </div>
               )}
             </div>
@@ -179,13 +189,15 @@ export default function Navbar() {
               >
                 Hồ sơ cá nhân
               </NavLink>
-              <NavLink
-                to="/admin"
-                onClick={() => setMobileOpen(false)}
-                className="rounded-md px-3 py-2 text-[14px] font-medium text-white/70 hover:bg-white/5"
-              >
-                Khu vực quản trị
-              </NavLink>
+              {user?.role === "ADMIN" && (
+                <NavLink
+                  to="/admin"
+                  onClick={() => setMobileOpen(false)}
+                  className="rounded-md px-3 py-2 text-[14px] font-medium text-white/70 hover:bg-white/5"
+                >
+                  Khu vực quản trị
+                </NavLink>
+              )}
             </nav>
           </div>
         </div>

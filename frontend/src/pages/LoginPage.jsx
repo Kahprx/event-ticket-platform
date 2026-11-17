@@ -2,11 +2,12 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Check, Music2, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, LayoutDashboard, Music2, ShieldCheck } from "lucide-react";
 import { api } from "../services/api.js";
 import { useAuthStore } from "../store/authStore.js";
 import { useAppStore } from "../store/appStore.js";
 import { loginSchema, registerSchema } from "../validators/auth.js";
+import { demoAccounts, findDemoAccount } from "../data/demoAccounts.js";
 import Brand from "../components/Brand.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 
@@ -15,6 +16,7 @@ export default function LoginPage() {
   const location = useLocation();
   const setSession = useAuthStore((state) => state.setSession);
   const user = useAppStore((state) => state.user);
+  const updateUser = useAppStore((state) => state.updateUser);
   const pushToast = useAppStore((state) => state.pushToast);
 
   const [mode, setMode] = useState("login");
@@ -32,27 +34,57 @@ export default function LoginPage() {
   });
 
   const destination = location.state?.from || "/";
+  const needAdmin = Boolean(location.state?.needAdmin);
 
-  const enterDemo = () => {
+  // Đăng nhập demo: lưu hồ sơ vào appStore và token giả vào authStore.
+  const signInWithDemo = (account) => {
+    const { password, ...profile } = account;
+    const path =
+      profile.role === "ADMIN"
+        ? destination === "/"
+          ? "/admin"
+          : destination
+        : destination.startsWith("/admin")
+          ? "/"
+          : destination;
+
+    updateUser(profile);
+    setSession({ token: `demo-${account.id}`, user: profile });
     pushToast({
       type: "success",
-      title: `Chào ${user?.name || "bạn"}!`,
-      message: "Bạn đang dùng tài khoản demo của đồ án.",
+      title: `Chào ${profile.name}!`,
+      message:
+        profile.role === "ADMIN"
+          ? "Bạn đang dùng tài khoản quản trị demo."
+          : "Bạn đang dùng tài khoản người dùng demo.",
     });
-    navigate(destination);
+    navigate(path);
   };
 
   const onSubmit = async (values) => {
     setBackendError(false);
+
+    // Ưu tiên tài khoản demo để không gọi backend khi backend chưa chạy.
+    if (mode === "login") {
+      const account = findDemoAccount(values.email, values.password);
+      if (account) {
+        signInWithDemo(account);
+        return;
+      }
+    }
+
     setSubmitting(true);
     try {
       const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
       const response = await api.post(endpoint, values);
       const { token, user: apiUser } = response.data || {};
-      if (token) setSession({ token, user: apiUser });
+      if (token) {
+        const profile = apiUser || {};
+        updateUser(profile);
+        setSession({ token, user: profile });
+      }
       navigate(destination);
     } catch {
-      // Backend chưa chạy là tình huống thật trong quá trình phát triển đồ án.
       setBackendError(true);
     } finally {
       setSubmitting(false);
@@ -131,11 +163,18 @@ export default function LoginPage() {
               : "Điền thông tin để lưu vé và nhận nhắc lịch."}
           </p>
 
+          {needAdmin && (
+            <p className="mt-4 rounded-md border border-accent/25 bg-accent-soft px-3 py-2.5 text-[12px] leading-5 text-accent-dark">
+              Khu vực quản trị yêu cầu tài khoản có vai trò <strong>ADMIN</strong>. Chọn nút
+              “Vào quản trị” bên dưới hoặc đăng nhập bằng tài khoản quản trị demo.
+            </p>
+          )}
+
           {backendError && (
             <div className="mt-5">
               <ErrorState
                 title="Không kết nối được máy chủ"
-                description="Backend chưa chạy hoặc chưa cấu hình VITE_API_URL. Bạn có thể dùng tài khoản demo để xem toàn bộ giao diện."
+                description="Backend chưa chạy hoặc email/mật khẩu không khớp tài khoản demo. Kiểm tra lại hoặc dùng một trong các tài khoản bên dưới."
                 onRetry={() => setBackendError(false)}
               />
             </div>
@@ -168,18 +207,44 @@ export default function LoginPage() {
 
           <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-wide text-muted-2">
             <span className="h-px flex-1 bg-line" />
-            hoặc
+            hoặc dùng tài khoản demo
             <span className="h-px flex-1 bg-line" />
           </div>
 
-          <button type="button" onClick={enterDemo} className="btn btn-secondary btn-block">
-            <Music2 size={16} />
-            Dùng tài khoản demo
-          </button>
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-2">
-            <ShieldCheck size={13} />
-            Tài khoản demo: Nguyễn Minh Anh · 3 vé mẫu
-          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <button
+              type="button"
+              onClick={() => signInWithDemo(demoAccounts[0])}
+              className="btn btn-secondary justify-center"
+            >
+              <Music2 size={16} />
+              Người dùng
+            </button>
+            <button
+              type="button"
+              onClick={() => signInWithDemo(demoAccounts[1])}
+              className="btn btn-secondary justify-center"
+            >
+              <LayoutDashboard size={16} />
+              Vào quản trị
+            </button>
+          </div>
+
+          <div className="mt-3 space-y-1 rounded-md border border-line bg-white px-3 py-2.5 text-[11px] leading-5 text-muted">
+            <p className="flex items-center gap-1.5">
+              <ShieldCheck size={13} className="text-success" />
+              Người dùng: {demoAccounts[0].email} · {demoAccounts[0].password}
+            </p>
+            <p className="flex items-center gap-1.5">
+              <ShieldCheck size={13} className="text-accent" />
+              Quản trị: {demoAccounts[1].email} · {demoAccounts[1].password}
+            </p>
+            {user && (
+              <p className="border-t border-line pt-1.5 text-muted-2">
+                Đang đăng nhập: {user.name} ({user.role || "USER"})
+              </p>
+            )}
+          </div>
 
           <p className="mt-8 text-center text-[12px] text-muted">
             Chỉ để xem giao diện? <Link to="/events" className="link">Vào danh sách sự kiện</Link>

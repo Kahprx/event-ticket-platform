@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { Route, Routes, useLocation } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
+import RequireAdmin from "./components/RequireAdmin.jsx";
 
 import HomePage from "./pages/HomePage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
@@ -56,7 +57,14 @@ export default function App() {
 
         <Route path="login" element={<LoginPage />} />
 
-        <Route path="admin" element={<AdminLayout />}>
+        <Route
+          path="admin"
+          element={
+            <RequireAdmin>
+              <AdminLayout />
+            </RequireAdmin>
+          }
+        >
           <Route index element={<AdminOverviewPage />} />
           <Route path="events" element={<AdminEventsPage />} />
           <Route path="tickets" element={<AdminTicketsPage />} />
