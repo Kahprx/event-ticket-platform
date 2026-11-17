@@ -2,17 +2,16 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Check, LayoutDashboard, Music2, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check } from "lucide-react";
 import { api } from "../services/api.js";
 import { useAuthStore } from "../store/authStore.js";
 import { useAppStore } from "../store/appStore.js";
 import { loginSchema, registerSchema } from "../validators/auth.js";
 import { initialProfile } from "../data/bookings.js";
-import { demoAccounts, findDemoAccount } from "../data/demoAccounts.js";
 import Brand from "../components/Brand.jsx";
 import ErrorState from "../components/ErrorState.jsx";
 
-// API trả về createdAt, frontend dùng joinedAt/notifications cho hồ sơ demo.
+// API trả về createdAt, frontend dùng joinedAt/notifications cho hồ sơ người dùng.
 const normalizeUser = (apiUser = {}) => ({
   ...initialProfile,
   ...apiUser,
@@ -26,7 +25,6 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const setSession = useAuthStore((state) => state.setSession);
-  const user = useAppStore((state) => state.user);
   const updateUser = useAppStore((state) => state.updateUser);
   const pushToast = useAppStore((state) => state.pushToast);
 
@@ -64,13 +62,7 @@ export default function LoginPage() {
     navigate(resolvePath(profile.role));
   };
 
-  // Dùng khi backend chưa chạy: vẫn cho xem demo bằng tài khoản có sẵn.
-  const signInWithDemo = (account) => {
-    const { password, ...profile } = account;
-    applySession({ token: `demo-${account.id}`, user: profile });
-  };
-
-  const signInWithApi = async (payload, fallbackAccount) => {
+  const signInWithApi = async (payload) => {
     try {
       const response = await api.post("/auth/login", payload);
       const data = response.data?.data || response.data || {};
@@ -78,12 +70,7 @@ export default function LoginPage() {
       applySession(data);
       return true;
     } catch (error) {
-      // Chỉ fallback khi không kết nối được server, không fallback khi sai mật khẩu.
-      if (!error.response && fallbackAccount) {
-        signInWithDemo(fallbackAccount);
-        return true;
-      }
-      setBackendError(error.response?.data?.message || "Email hoặc mật khẩu không đúng. Vui lòng thử lại.");
+      setBackendError(error.response?.data?.message || "Không thể kết nối máy chủ. Vui lòng thử lại.");
       return false;
     }
   };
@@ -106,20 +93,10 @@ export default function LoginPage() {
     setSubmitting(true);
     try {
       if (mode === "login") {
-        await signInWithApi(values, findDemoAccount(values.email, values.password));
+        await signInWithApi(values);
       } else {
         await registerWithApi(values);
       }
-    } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const quickSignIn = async (account) => {
-    setBackendError(null);
-    setSubmitting(true);
-    try {
-      await signInWithApi({ email: account.email, password: account.password }, account);
     } finally {
       setSubmitting(false);
     }
@@ -199,8 +176,8 @@ export default function LoginPage() {
 
           {needAdmin && (
             <p className="mt-4 rounded-md border border-accent/25 bg-accent-soft px-3 py-2.5 text-[12px] leading-5 text-accent-dark">
-              Khu vực quản trị yêu cầu tài khoản có vai trò <strong>ADMIN</strong>. Chọn nút
-              “Vào quản trị” bên dưới hoặc đăng nhập bằng tài khoản quản trị.
+              Khu vực quản trị yêu cầu tài khoản có vai trò <strong>ADMIN</strong>. Hãy đăng nhập
+              bằng tài khoản quản trị để tiếp tục.
             </p>
           )}
 

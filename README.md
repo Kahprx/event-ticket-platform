@@ -55,6 +55,69 @@ Backend health: http://localhost:5000/api/health
 
 Backend hỗ trợ nhiều origin qua `CLIENT_URL` (phân cách bằng dấu phẩy), mặc định là `http://localhost:5173,http://localhost:5174`.
 
+## Chạy riêng backend và frontend bằng npm
+
+Mở **2 terminal riêng** từ thư mục gốc dự án. Chạy backend trước, giữ nguyên terminal đó, rồi mới chạy frontend.
+
+### Terminal 1 — Backend (API)
+
+```powershell
+cd C:\Users\kaqua\Downloads\QuanLyNhanVien\event-ticket-platform
+
+# Cài dependencies (chạy 1 lần; dùng npm ci nếu có sẵn package-lock.json)
+npm install
+
+# Khởi tạo DB (chạy 1 lần, hoặc sau khi đổi schema)
+npm run db:generate
+npm run db:migrate
+npm run db:seed
+
+# Chạy API
+npm run dev:backend
+```
+
+→ API ở **http://localhost:5000**, kiểm tra: http://localhost:5000/api/health
+
+### Terminal 2 — Frontend (UI)
+
+```powershell
+cd C:\Users\kaqua\Downloads\QuanLyNhanVien\event-ticket-platform
+
+# Cài dependencies (chạy 1 lần)
+npm install
+
+# Chạy UI
+npm run dev:frontend
+```
+
+→ UI ở **http://localhost:5173** (tự sang 5174 nếu 5173 bận).
+
+### Chạy từ thư mục con (tuỳ chọn)
+
+Không cần `cd` về gốc, vào thẳng từng workspace:
+
+```powershell
+cd backend  ; npm install  ; npm run dev    # API :5000
+cd frontend ; npm install  ; npm run dev    # UI  :5173/:5174
+```
+
+### Gộp 2 lệnh vào 1 terminal (tuỳ chọn)
+
+```powershell
+npm run dev
+```
+
+Script này dùng `concurrently` để chạy cả backend lẫn frontend.
+
+### Lưu ý & lỗi thường gặp
+
+- `CLIENT_URL` trong `backend/.env` phải chứa đúng port frontend (`5173,5174`), nếu không trình duyệt sẽ báo CORS.
+- Frontend mặc định gọi `http://localhost:5000/api`. Nếu đổi port backend, tạo `frontend/.env` với `VITE_API_URL=http://localhost:<port>/api`.
+- PowerShell báo `npm.ps1 cannot be loaded`: chạy `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` rồi thử lại, hoặc dùng `npm.cmd`.
+- `npm install` lỗi mạng: `npm config set registry https://registry.npmjs.org/`, xoá `node_modules` rồi `npm ci`.
+- Lỗi build native (bcrypt / Prisma engine): cài Node 20.19+ hoặc 22.12+ và Visual Studio Build Tools (workload C++).
+- Chạy frontend mà không có backend: UI vẫn lên với dữ liệu mẫu, nhưng đăng nhập/đăng ký và CRUD quản trị cần API.
+
 ## API Phase 1
 
 - `POST /api/auth/register` — `{ "name": "...", "email": "...", "password": "..." }`
