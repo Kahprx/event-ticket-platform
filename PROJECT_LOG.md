@@ -16,6 +16,14 @@ Ghi lại tiến độ theo thời gian để cả nhóm dễ theo dõi. Các m�
 | **~19:45–19:55** | Tắt sạch dev server (BE :5000, FE :5174/5175/5176), giữ Postgres | ✅ |
 | **19:57** | Thêm hướng dẫn chạy npm riêng BE/FE vào README; bỏ nút demo quick-login + danh sách tài khoản, thay bằng nút "Vào trang chủ"; bỏ fallback demo trong code | `1a2ac6d` ✅ |
 
+## 18/11/2026
+
+| Time | Việc đã làm | Trạng thái / Commit |
+| --- | --- | --- |
+| ~09:00 | Sửa lỗi còn sót trong `LoginPage.jsx`: đoạn JSX nút demoquick-login vẫn giữ lại dù import/hàm đã xoá (gây lỗi runtime). Thay bằng liên kết "Vào trang chủ", bỏ hoàn toàn fallback demo | commit tiếp theo ✅ |
+
+> Lưu ý: port `5173` đang được dùng bởi dự án khác (`C:\Users\kaqua\Downloads\web`). UI mới của dự án này chạy ở `http://localhost:5174`.
+
 ## Trạng thái hiện tại
 
 - Remote `upstream/soundpass-ui` = `1a2ac6d93ba66bf00f834db077fd54f69dcb19f8`.

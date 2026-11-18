@@ -218,46 +218,13 @@ export default function LoginPage() {
 
           <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-wide text-muted-2">
             <span className="h-px flex-1 bg-line" />
-            hoặc dùng tài khoản demo
+            hoặc
             <span className="h-px flex-1 bg-line" />
           </div>
 
-          <div className="grid gap-2 sm:grid-cols-2">
-            <button
-              type="button"
-              disabled={submitting}
-              onClick={() => quickSignIn(demoAccounts[0])}
-              className="btn btn-secondary justify-center"
-            >
-              <Music2 size={16} />
-              Khách hàng
-            </button>
-            <button
-              type="button"
-              disabled={submitting}
-              onClick={() => quickSignIn(demoAccounts[1])}
-              className="btn btn-secondary justify-center"
-            >
-              <LayoutDashboard size={16} />
-              Vào quản trị
-            </button>
-          </div>
-
-          <div className="mt-3 space-y-1 rounded-md border border-line bg-white px-3 py-2.5 text-[11px] leading-5 text-muted">
-            <p className="flex items-center gap-1.5">
-              <ShieldCheck size={13} className="text-success" />
-              Khách hàng: {demoAccounts[0].email} · {demoAccounts[0].password}
-            </p>
-            <p className="flex items-center gap-1.5">
-              <ShieldCheck size={13} className="text-accent" />
-              Quản trị: {demoAccounts[1].email} · {demoAccounts[1].password}
-            </p>
-            {user && (
-              <p className="border-t border-line pt-1.5 text-muted-2">
-                Đang đăng nhập: {user.name} ({user.role || "CUSTOMER"})
-              </p>
-            )}
-          </div>
+          <Link to="/" className="btn btn-secondary btn-block justify-center">
+            Vào trang chủ
+          </Link>
 
           <p className="mt-8 text-center text-[12px] text-muted">
             Chỉ để xem giao diện? <Link to="/events" className="link">Vào danh sách sự kiện</Link>
