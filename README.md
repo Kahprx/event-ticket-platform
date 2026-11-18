@@ -2,6 +2,8 @@
 
 Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite và Express/Prisma/PostgreSQL. Mã nguồn dùng JavaScript, không dùng TypeScript.
 
+> Quy trình làm việc, nhật ký thời gian, danh sách nhiệm vụ, commit và pull request: xem [`PROJECT_LOG.md`](./PROJECT_LOG.md).
+
 ## Yêu cầu
 
 - Node.js 20.19+ hoặc 22.12+
