@@ -33,7 +33,7 @@
 | T08 | Ghi nhật ký dự án lần đầu vào `PROJECT_LOG.md` | 17/11 19:58 | `03ca592` | #2 | ✅ Xong |
 | T09 | Sửa triệt để lỗi còn sót: đoạn JSX nút demo vẫn nằm trong `LoginPage.jsx` gây runtime error; bỏ hoàn toàn fallback demo | 18/11 11:04 | `5c3ad7a` | #2 | ✅ Xong |
 | T10 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng folder `web` | 18/11 11:15 | `ebc3d1a` | #2 | ✅ Xong |
-| T11 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | `6dc64d9` | #2 | ✅ Xong |
+| T11 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #2 | #2 | ✅ Xong |
 | T12 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | — | — | #2 | ⏳ Chưa làm |
 
 ---
@@ -63,7 +63,7 @@
 | **11:04** | Sửa triệt để `LoginPage.jsx`: bỏ hoàn toàn demo/fallback, chỉ còn form + "Vào trang chủ"; build FE pass | `5c3ad7a` |
 | **~11:10** | Dời toàn bộ repo từ `QuanLyNhanVien\event-ticket-platform` về `C:\Users\kaqua\Downloads\web` theo yêu cầu; restart FE/BE từ path mới | — |
 | **11:15** | Cập nhật log và commit thay đổi đường dẫn | `ebc3d1a` |
-| **11:17** | Viết lại tài liệu thành quy trình đầy đủ (file này) | `6dc64d9` |
+| **11:17** | Viết lại tài liệu thành quy trình đầy đủ (file này) | xem commit cuối PR #2 |
 
 ---
 
@@ -103,7 +103,7 @@
 | 17/11 19:58 | `03ca592` | docs: add project timeline log |
 | 18/11 11:04 | `5c3ad7a` | fix(frontend): replace demo login block with homepage link |
 | 18/11 11:15 | `ebc3d1a` | docs: move project root to web folder and update log |
-| 18/11 11:17 | `6dc64d9` | docs: rewrite project log as full workflow and task record |
+| 18/11 11:17 | (commit cuối PR #2) | docs: rewrite project log as full workflow and task record |
 
 ---
 
@@ -113,7 +113,7 @@
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
 - **Branch:** `soundpass-ui`
-- **HEAD / remote:** `6dc64d9` (sau khi push)
+- **HEAD / remote:** luôn là commit mới nhất của `upstream/soundpass-ui` (`git log -1`)
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
