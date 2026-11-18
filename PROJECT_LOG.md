@@ -14,7 +14,7 @@
 | 4 | Kiểm tra trước khi commit | Build FE, kiểm tra import thừa, syntax BE, curl health, test browser CRUD |
 | 5 | Commit theo convention | `feat:` / `fix:` / `docs:` kèm mô tả ngắn |
 | 6 | Push lên remote | `git push upstream feat/soundpass-ui feat/auth-admin docs-cleanup` |
-| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2 đã đóng (tách PR); PR #3/#4/#5 đang mở |
+| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2 đã đóng (tách PR); PR #3/#4/#5/#6 đang mở |
 | 8 | Review → merge → ghi log | Chưa merge #3/#4/#5; merge lần lượt #3 → #4 → #5 |
 
 ---
@@ -35,6 +35,7 @@
 | T10 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng folder `web` | 18/11 11:15 | `ebc3d1a` | #5 | ✅ Xong |
 | T11 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #5 | #5 | ✅ Xong |
 | T12 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | — | — | #5 | ⏳ Chưa làm |
+| T13 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | xem commit cuối PR #6 | #6 | ✅ Xong |
 
 ---
 
@@ -107,6 +108,7 @@
 | 18/11 11:17 | (xem PR #5) | docs: rewrite project log as full workflow and task record |
 | 18/11 11:18 | (xem PR #5) | docs: correct self-references in workflow log |
 | **11:27** | Đóng PR #2, tạo 3 branch stacked và mở PR #3/#4/#5 | PR #3/#4/#5 |
+| **11:32** | Fix AI chatbot: nhận diện tên nghệ sĩ, hỏi/gợi ý theo nghệ sĩ, hiển thị tên nghệ sĩ trong thẻ gợi ý | PR #6 |
 
 ---
 
@@ -140,7 +142,17 @@
 | Nội dung | Fix login, dọn UI cũ, dời repo về `web`, tài liệu + file Word |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/5 |
 
-> Thứ tự merge: **PR #3 → PR #4 → PR #5**. Mỗi PR chỉ chứa phần của mình vì branch sau dùng branch trước làm base.
+### PR #6 — `fix: chatbot understands artist names`
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🟢 **OPEN** |
+| Branch | `fix/chatbot-artist` → `docs-cleanup` |
+| Tạo lúc | 18/11/2026 11:32 |
+| Nội dung | Nhận diện tên nghệ sĩ từ dữ liệu sự kiện; hỏi/gợi ý theo nghệ sĩ; câu trả lời và thẻ gợi ý đều hiện tên nghệ sĩ |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/6 |
+
+> Thứ tự merge: **PR #3 → PR #4 → PR #5 → PR #6**. Mỗi PR chỉ chứa phần của mình vì branch sau dùng branch trước làm base.
 
 ---
 
@@ -149,9 +161,9 @@
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
-- **Branch làm việc:** stacked `feat/soundpass-ui` → `feat/auth-admin` → `docs-cleanup` (`soundpass-ui` là branch tổng cũ, PR #2 đã đóng)
-- **HEAD / remote:** luôn là commit mới nhất của `upstream/docs-cleanup` (`git log -1`)
-- **PR đang mở:** #3, #4, #5 (xem mục 4)
+- **Branch làm việc:** stacked `feat/soundpass-ui` → `feat/auth-admin` → `docs-cleanup` → `fix/chatbot-artist` (`soundpass-ui` là branch tổng cũ, PR #2 đã đóng)
+- **HEAD / remote:** luôn là commit mới nhất của `upstream/fix/chatbot-artist` (`git log -1`)
+- **PR đang mở:** #3, #4, #5, #6 (xem mục 4)
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
@@ -173,7 +185,7 @@
 - [ ] Thêm CI GitHub Actions nếu yêu cầu
 - [ ] Review bởi người khác
 - [x] Tách PR #2 thành 3 PR stacked (#3/#4/#5)
-- [ ] Merge lần lượt PR #3 → PR #4 → PR #5 vào `main`
+- [ ] Merge lần lượt PR #3 → PR #4 → PR #5 → PR #6 vào `main`
 
 ---
 

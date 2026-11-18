@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { CalendarDays, MapPin } from "lucide-react";
+import { CalendarDays, MapPin, Music2 } from "lucide-react";
 import { formatDate, formatTime, formatVnd } from "../utils/format.js";
 import { eventLocationName, minTicketPrice } from "../utils/events.js";
 
@@ -23,6 +23,10 @@ export default function RecommendationCard({ event, onSelect }) {
       </div>
       <div className="min-w-0 flex-1 py-2 pr-2">
         <p className="truncate text-[13px] font-semibold text-ink-900">{event.name}</p>
+        <p className="mt-0.5 flex items-center gap-1 truncate text-[11px] text-muted">
+          <Music2 size={11} />
+          {event.artist}
+        </p>
         <p className="mt-0.5 flex items-center gap-1 text-[11px] text-muted">
           <CalendarDays size={11} />
           {formatDate(event.date)} · {formatTime(event.time)}
