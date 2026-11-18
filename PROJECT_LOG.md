@@ -92,7 +92,7 @@
 | CI / status check | Chưa có (repo chưa có `.github/workflows`) |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/2 |
 
-**Commit trong PR #2 (7 commit):**
+**Commit trong PR #2 (danh sách cập nhật tự động trên GitHub):**
 
 | Giờ | Commit | Nội dung |
 | --- | --- | --- |
@@ -103,7 +103,8 @@
 | 17/11 19:58 | `03ca592` | docs: add project timeline log |
 | 18/11 11:04 | `5c3ad7a` | fix(frontend): replace demo login block with homepage link |
 | 18/11 11:15 | `ebc3d1a` | docs: move project root to web folder and update log |
-| 18/11 11:17 | (commit cuối PR #2) | docs: rewrite project log as full workflow and task record |
+| 18/11 11:17 | (xem PR #2) | docs: rewrite project log as full workflow and task record |
+| 18/11 11:18 | (xem PR #2) | docs: correct self-references in workflow log |
 
 ---
 
