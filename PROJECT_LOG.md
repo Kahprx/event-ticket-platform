@@ -19,27 +19,64 @@
 
 ---
 
-## 2. Danh sách nhiệm vụ (Tasks)
+## 2. Phân chia nghiệp vụ (2 thành viên)
 
-| ID | Nhiệm vụ | Thời gian | Commit | PR | Trạng thái |
+> Chưa có tên thật nên dùng placeholder `Dev 1` / `Dev 2`. Đổi tên ở bảng này và cột “Người làm” là đủ, không ảnh hưởng commit hay PR.
+
+| Thành viên | Vai trò chính | Số nghiệp vụ | Đã xong | Chưa xong | PR phụ trách |
 | --- | --- | --- | --- | --- | --- |
-| T01 | Khởi tạo nền tảng: monorepo, Prisma schema, Express skeleton, React/Vite base | 17/11 16:36 | `b2f8dd3` | #1 | ✅ Đã merge |
-| T02 | Dựng toàn bộ UI Soundpass: Home → location → events → filter/search → detail → seat → checkout → payment → confirmation → My Tickets, Profile, Chatbot, Admin, Login, 404 | 17/11 18:46 | `ce3540f` | #3 | ✅ Xong |
-| T03 | Phân quyền khu vực `ADMIN`, chặn route `/admin`, greeting theo role, sign-out clear token | 17/11 19:01 | `28e62cf` | #4 | ✅ Xong (sau thay bằng auth thật) |
-| T04 | Đổi `USER` → `CUSTOMER`; tạo bảng `Role`; migration bảo toàn dữ liệu; seed 2 role + 4 tài khoản | 17/11 ~19:05–19:12 | `fac11ce` | #4 | ✅ Xong |
-| T05 | Auth thật: bcrypt + JWT, API login/register/me/profile; CORS multi-origin; admin CRUD accounts/roles/customers | 17/11 ~19:12–19:20 | `fac11ce` | #4 | ✅ Xong |
-| T06 | UI CRUD `/admin/accounts`, `/admin/roles`, `/admin/customers`; sửa lỗi runtime + role dropdown; test browser tạo/sửa/xoá | 17/11 ~19:20–19:40 | `fac11ce` | #4 | ✅ Xong |
-| T07 | Thêm hướng dẫn chạy npm riêng BE/FE vào README; bỏ nút demo quick-login + danh sách tài khoản, thay bằng "Vào trang chủ" | 17/11 19:57 | `1a2ac6d` | #5 | ✅ Xong (lần 1, còn sót JSX) |
-| T08 | Ghi nhật ký dự án lần đầu vào `PROJECT_LOG.md` | 17/11 19:58 | `03ca592` | #5 | ✅ Xong |
-| T09 | Sửa triệt để lỗi còn sót: đoạn JSX nút demo vẫn nằm trong `LoginPage.jsx` gây runtime error; bỏ hoàn toàn fallback demo | 18/11 11:04 | `5c3ad7a` | #5 | ✅ Xong |
-| T10 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng folder `web` | 18/11 11:15 | `ebc3d1a` | #5 | ✅ Xong |
-| T11 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #5 | #5 | ✅ Xong |
-| T12 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | — | — | #5 | ⏳ Chưa làm |
-| T13 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | xem commit cuối PR #6 | #6 | ✅ Xong |
+| **Dev 1** | Frontend / UI / Chatbot | 7 | 7 | 0 | #3, #6 |
+| **Dev 2** | Backend / DB / Hạ tầng / Tài liệu | 6 | 5 | 1 (`T12` CI) | #1 (đã merge), #4, #5 |
+| **Tổng** | — | **13** | **12** | **1** | 4 PR đang mở |
+
+### Dev 1 — đã làm gì
+
+- `T02` Dựng toàn bộ UI Soundpass: Home → location → events → detail → seat → checkout → payment → confirmation → My Tickets, Profile, Chatbot, Admin, Login, 404.
+- `T03` Chặn route `/admin` theo role (sau được thay bằng auth thật ở `T05`).
+- `T06` UI CRUD accounts/roles/customers; sửa lỗi runtime và dropdown role; test browser.
+- `T07` Hướng dẫn chạy npm riêng BE/FE; bỏ nút demo, thay bằng “Vào trang chủ”.
+- `T09` Sửa triệt để JSX demo còn sót trong `LoginPage.jsx`, bỏ fallback demo.
+- `T11` Viết lại `PROJECT_LOG.md` thành quy trình + timeline + PR.
+- `T13` Sửa AI chatbot: hiểu tên nghệ sĩ, gợi ý và thẻ kết quả đều hiện tên nghệ sĩ.
+
+### Dev 2 — đã làm gì
+
+- `T01` Nền tảng Phase 1: monorepo, Prisma schema, Express skeleton, React/Vite base (PR #1 đã merge).
+- `T04` Đổi `USER` → `CUSTOMER`; tạo bảng `Role`; migration + seed 2 role / 4 tài khoản.
+- `T05` Auth thật bcrypt/JWT, API login/register/me/profile, CORS multi-origin, API CRUD admin.
+- `T08` Ghi nhật ký dự án lần đầu vào `PROJECT_LOG.md`.
+- `T10` Xoá UI cũ, dời toàn bộ repo về `C:\Users\kaqua\Downloads\web`.
+- `T12` ⏳ Chưa làm: GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE).
+
+### Quy ước
+
+- Mỗi nghiệp vụ có **đúng 1 người chịu trách nhiệm chính** — xem cột “Người làm” trong bảng task bên dưới.
+- PR stacked: **Dev 1** giữ #3/#6, **Dev 2** giữ #4/#5. Merge theo thứ tự **#3 → #4 → #5 → #6**.
+- Đổi tên thành viên chỉ cần sửa bảng này + cột “Người làm”; commit/PR giữ nguyên.
 
 ---
 
-## 3. Nhật ký thời gian (làm lại theo mốc Git)
+## 3. Danh sách nhiệm vụ (Tasks)
+
+| ID | Người làm | Nhiệm vụ | Thời gian | Commit | PR | Trạng thái |
+| --- | --- | --- | --- | --- | --- | --- |
+| T01 | Dev 2 | Khởi tạo nền tảng: monorepo, Prisma schema, Express skeleton, React/Vite base | 17/11 16:36 | `b2f8dd3` | #1 | ✅ Đã merge |
+| T02 | Dev 1 | Dựng toàn bộ UI Soundpass: Home → location → events → filter/search → detail → seat → checkout → payment → confirmation → My Tickets, Profile, Chatbot, Admin, Login, 404 | 17/11 18:46 | `ce3540f` | #3 | ✅ Xong |
+| T03 | Dev 1 | Phân quyền khu vực `ADMIN`, chặn route `/admin`, greeting theo role, sign-out clear token | 17/11 19:01 | `28e62cf` | #4 | ✅ Xong (sau thay bằng auth thật) |
+| T04 | Dev 2 | Đổi `USER` → `CUSTOMER`; tạo bảng `Role`; migration bảo toàn dữ liệu; seed 2 role + 4 tài khoản | 17/11 ~19:05–19:12 | `fac11ce` | #4 | ✅ Xong |
+| T05 | Dev 2 | Auth thật: bcrypt + JWT, API login/register/me/profile; CORS multi-origin; admin CRUD accounts/roles/customers | 17/11 ~19:12–19:20 | `fac11ce` | #4 | ✅ Xong |
+| T06 | Dev 1 | UI CRUD `/admin/accounts`, `/admin/roles`, `/admin/customers`; sửa lỗi runtime + role dropdown; test browser tạo/sửa/xoá | 17/11 ~19:20–19:40 | `fac11ce` | #4 | ✅ Xong |
+| T07 | Dev 1 | Thêm hướng dẫn chạy npm riêng BE/FE vào README; bỏ nút demo quick-login + danh sách tài khoản, thay bằng "Vào trang chủ" | 17/11 19:57 | `1a2ac6d` | #5 | ✅ Xong (lần 1, còn sót JSX) |
+| T08 | Dev 2 | Ghi nhật ký dự án lần đầu vào `PROJECT_LOG.md` | 17/11 19:58 | `03ca592` | #5 | ✅ Xong |
+| T09 | Dev 1 | Sửa triệt để lỗi còn sót: đoạn JSX nút demo vẫn nằm trong `LoginPage.jsx` gây runtime error; bỏ hoàn toàn fallback demo | 18/11 11:04 | `5c3ad7a` | #5 | ✅ Xong |
+| T10 | Dev 2 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng folder `web` | 18/11 11:15 | `ebc3d1a` | #5 | ✅ Xong |
+| T11 | Dev 1 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #5 | #5 | ✅ Xong |
+| T12 | Dev 2 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | — | — | #5 | ⏳ Chưa làm |
+| T13 | Dev 1 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | xem commit cuối PR #6 | #6 | ✅ Xong |
+
+---
+
+## 4. Nhật ký thời gian (làm lại theo mốc Git)
 
 ### 17/11/2026
 
@@ -68,7 +105,7 @@
 
 ---
 
-## 4. Pull Request
+## 5. Pull Request
 
 ### PR #1 — `feat: add phase 1 project foundation`
 
@@ -156,14 +193,14 @@
 
 ---
 
-## 5. Trạng thái hiện tại
+## 6. Trạng thái hiện tại
 
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
 - **Branch làm việc:** stacked `feat/soundpass-ui` → `feat/auth-admin` → `docs-cleanup` → `fix/chatbot-artist` (`soundpass-ui` là branch tổng cũ, PR #2 đã đóng)
 - **HEAD / remote:** luôn là commit mới nhất của `upstream/fix/chatbot-artist` (`git log -1`)
-- **PR đang mở:** #3, #4, #5, #6 (xem mục 4)
+- **PR đang mở:** #3, #4, #5, #6 (xem mục 5)
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
@@ -176,7 +213,7 @@
 
 ---
 
-## 6. Checklist trước khi merge các PR
+## 7. Checklist trước khi merge các PR
 
 - [x] Build frontend thành công
 - [x] Kiểm tra import thừa / syntax backend
@@ -189,7 +226,7 @@
 
 ---
 
-## 7. Ghi chú đường dẫn
+## 8. Ghi chú đường dẫn
 
 | Thời gian | Đường dẫn | Ghi chú |
 | --- | --- | --- |
