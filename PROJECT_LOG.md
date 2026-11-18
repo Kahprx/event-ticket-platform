@@ -14,7 +14,7 @@
 | 4 | Kiểm tra trước khi commit | Build FE, kiểm tra import thừa, syntax BE, curl health, test browser CRUD |
 | 5 | Commit theo convention | `feat:` / `fix:` / `docs:` kèm mô tả ngắn |
 | 6 | Push lên remote | `git push upstream feat/soundpass-ui feat/auth-admin docs-cleanup` |
-| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2 đã đóng (tách PR); PR #3/#4/#5/#6 đang mở |
+| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2 đã đóng (tách PR); PR #3/#4/#5/#6 đang mở. Các phương án fork/nhiều PR xem mục 9 |
 | 8 | Review → merge → ghi log | Chưa merge #3/#4/#5; merge lần lượt #3 → #4 → #5 |
 
 ---
@@ -222,6 +222,7 @@
 - [ ] Thêm CI GitHub Actions nếu yêu cầu
 - [ ] Review bởi người khác
 - [x] Tách PR #2 thành 3 PR stacked (#3/#4/#5)
+- [x] Ghi phương án fork và nhiều PR vào mục 9
 - [ ] Merge lần lượt PR #3 → PR #4 → PR #5 → PR #6 vào `main`
 
 ---
@@ -235,3 +236,44 @@
 | cũ (đã xoá) | `C:\Users\kaqua\Downloads\web` (bản clone UI phase 1) | File đã xoá sạch, thay bằng repo mới |
 
 > Mọi thao tác từ nay về sau thực hiện tại `C:\Users\kaqua\Downloads\web`.
+
+---
+
+## 9. Phương án Fork và nhiều Pull Request
+
+### 9.1. Ba cách mở PR
+
+| Cách | Khi nào dùng | Ưu điểm | Nhược điểm | Dự án này |
+| --- | --- | --- | --- | --- |
+| Branch trong cùng repo | Có quyền push | Đơn giản, push là PR tự cập nhật | Cần quyền write | ✅ Đang dùng (#3/#4/#5/#6) |
+| Fork + PR | Không có quyền push repo gốc (người ngoài đóng góp) | Không cần quyền write vào repo gốc | Phải đồng bộ fork; push nhầm chỗ là PR không update | ❌ Không cần vì `Kahprx` là owner |
+| Draft PR | Muốn review sớm, code chưa xong | Comment sớm, tránh merge nhầm | Phải `gh pr ready` trước khi merge | Có thể dùng cho PR #6 |
+
+### 9.2. Fork — quy trình chuẩn
+
+1. Fork repo: `gh repo fork Kahprx/event-ticket-platform --clone=false`
+2. Thêm remote fork: `git remote add myfork https://github.com/<user>/event-ticket-platform.git`
+3. Tạo branch: `git checkout -b feat/xyz`
+4. Push lên **fork**: `git push myfork feat/xyz`
+5. Mở PR: `gh pr create --repo Kahprx/event-ticket-platform --head <user>:feat/xyz --base main`
+
+Lưu ý khi dùng fork:
+
+- Đồng bộ định kỳ: `git fetch upstream` rồi `git merge upstream/main`.
+- PR từ fork lấy head từ `<user>:<branch>`; push vào branch cùng tên trên repo gốc sẽ **không** cập nhật PR đó.
+- Stacked PR qua fork phức tạp hơn vì branch base cũng phải tồn tại trên fork hoặc upstream.
+
+### 9.3. Nhiều PR — 3 kiểu chia
+
+| Kiểu | Cách làm | Dùng khi |
+| --- | --- | --- |
+| Stacked PR (đang dùng) | Branch sau lấy branch trước làm base | Các phần phụ thuộc nhau: UI → auth → docs → fix |
+| Independent PR | Mỗi branch tách từ `main`, `cherry-pick` commit | Các phần độc lập, merge thứ tự tuỳ |
+| Draft PR | `gh pr create --draft`, sau đó `gh pr ready` | Muốn review sớm trong lúc vẫn đang code |
+
+### 9.4. Áp dụng cho repo này
+
+- Đang dùng **stacked branch trong cùng repo**: `main ← #3 ← #4 ← #5 ← #6`.
+- Không dùng fork vì tài khoản `Kahprx` là chủ repo, đã có quyền push.
+- Nếu sau này có người ngoài đóng góp: áp dụng mục 9.2, head PR là `<user>:<branch>`.
+- Merge luôn từ dưới lên: **#3 → #4 → #5 → #6**; PR #1 đã merge, PR #2 đã đóng.
