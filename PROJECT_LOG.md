@@ -14,7 +14,7 @@
 | 4 | Kiểm tra trước khi commit | Build FE, kiểm tra import thừa, syntax BE, curl health, test browser CRUD |
 | 5 | Commit theo convention | `feat:` / `fix:` / `docs:` kèm mô tả ngắn |
 | 6 | Push lên remote | `git push upstream feat/soundpass-ui feat/auth-admin docs-cleanup` |
-| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2 đã đóng (tách PR); PR #3/#4/#5/#6 đang mở. Các phương án fork/nhiều PR xem mục 9 |
+| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2/#6 đã đóng (thay bằng PR từ fork); PR #3/#4/#5/#7 đang mở. Fork thật + nhiều PR ở mục 9 |
 | 8 | Review → merge → ghi log | Chưa merge #3/#4/#5; merge lần lượt #3 → #4 → #5 |
 
 ---
@@ -25,7 +25,7 @@
 
 | Thành viên | Vai trò chính | Số nghiệp vụ | Đã xong | Chưa xong | PR phụ trách |
 | --- | --- | --- | --- | --- | --- |
-| **Dev 1** | Frontend / UI / Chatbot | 7 | 7 | 0 | #3, #6 |
+| **Dev 1** | Frontend / UI / Chatbot | 7 | 7 | 0 | #3, #7 (từ fork) |
 | **Dev 2** | Backend / DB / Hạ tầng / Tài liệu | 6 | 5 | 1 (`T12` CI) | #1 (đã merge), #4, #5 |
 | **Tổng** | — | **13** | **12** | **1** | 4 PR đang mở |
 
@@ -51,7 +51,7 @@
 ### Quy ước
 
 - Mỗi nghiệp vụ có **đúng 1 người chịu trách nhiệm chính** — xem cột “Người làm” trong bảng task bên dưới.
-- PR stacked: **Dev 1** giữ #3/#6, **Dev 2** giữ #4/#5. Merge theo thứ tự **#3 → #4 → #5 → #6**.
+- PR stacked: **Dev 1** giữ #3/#7 (PR #7 từ fork `ka31203`), **Dev 2** giữ #4/#5. Merge theo thứ tự **#3 → #4 → #5 → #7**.
 - Đổi tên thành viên chỉ cần sửa bảng này + cột “Người làm”; commit/PR giữ nguyên.
 
 ---
@@ -72,7 +72,7 @@
 | T10 | Dev 2 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng folder `web` | 18/11 11:15 | `ebc3d1a` | #5 | ✅ Xong |
 | T11 | Dev 1 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #5 | #5 | ✅ Xong |
 | T12 | Dev 2 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | — | — | #5 | ⏳ Chưa làm |
-| T13 | Dev 1 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | xem commit cuối PR #6 | #6 | ✅ Xong |
+| T13 | Dev 1 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | `c4e04fa`, `32b66ec`, `463a8a9` | #7 (từ fork) | ✅ Xong |
 
 ---
 
@@ -145,7 +145,8 @@
 | 18/11 11:17 | (xem PR #5) | docs: rewrite project log as full workflow and task record |
 | 18/11 11:18 | (xem PR #5) | docs: correct self-references in workflow log |
 | **11:27** | Đóng PR #2, tạo 3 branch stacked và mở PR #3/#4/#5 | PR #3/#4/#5 |
-| **11:32** | Fix AI chatbot: nhận diện tên nghệ sĩ, hỏi/gợi ý theo nghệ sĩ, hiển thị tên nghệ sĩ trong thẻ gợi ý | PR #6 |
+| **11:32** | Fix AI chatbot: nhận diện tên nghệ sĩ, hỏi/gợi ý theo nghệ sĩ, hiển thị tên nghệ sĩ trong thẻ gợi ý | PR #6 (đã đóng) |
+| **18/11 (sau device flow)** | Thêm `ka31203` vào gh CLI, fork repo, push 4 branch lên fork, đóng PR #6, mở PR #7 từ fork | PR #7 |
 
 ---
 
@@ -179,17 +180,27 @@
 | Nội dung | Fix login, dọn UI cũ, dời repo về `web`, tài liệu + file Word |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/5 |
 
-### PR #6 — `fix: chatbot understands artist names`
+### PR #6 — `fix: chatbot understands artist names` (ĐÃ ĐÓNG)
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🔴 **CLOSED** — thay bằng PR #7 từ fork |
+| Branch | `fix/chatbot-artist` → `docs-cleanup` (cùng repo) |
+| Tạo lúc | 18/11/2026 11:32 |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/6 |
+
+### PR #7 — `fix: chatbot artist names (PR tu fork ka31203)`
 
 | Trường | Giá trị |
 | --- | --- |
 | Trạng thái | 🟢 **OPEN** |
-| Branch | `fix/chatbot-artist` → `docs-cleanup` |
-| Tạo lúc | 18/11/2026 11:32 |
-| Nội dung | Nhận diện tên nghệ sĩ từ dữ liệu sự kiện; hỏi/gợi ý theo nghệ sĩ; câu trả lời và thẻ gợi ý đều hiện tên nghệ sĩ |
-| Link | https://github.com/Kahprx/event-ticket-platform/pull/6 |
+| Branch | `ka31203:fix/chatbot-artist` → `Kahprx:docs-cleanup` (cross-repo từ fork) |
+| Fork | https://github.com/ka31203/event-ticket-platform |
+| Tạo lúc | 18/11/2026 (sau khi xác thực device flow) |
+| Nội dung | Cùng nội dung PR #6 + ghi nhận fork thật, phân chia 2 thành viên và phương án nhiều PR |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/7 |
 
-> Thứ tự merge: **PR #3 → PR #4 → PR #5 → PR #6**. Mỗi PR chỉ chứa phần của mình vì branch sau dùng branch trước làm base.
+> Thứ tự merge: **PR #3 → PR #4 → PR #5 → PR #7**. PR #6 đã đóng để tránh trùng nội dung.
 
 ---
 
@@ -200,7 +211,7 @@
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
 - **Branch làm việc:** stacked `feat/soundpass-ui` → `feat/auth-admin` → `docs-cleanup` → `fix/chatbot-artist` (`soundpass-ui` là branch tổng cũ, PR #2 đã đóng)
 - **HEAD / remote:** luôn là commit mới nhất của `upstream/fix/chatbot-artist` (`git log -1`)
-- **PR đang mở:** #3, #4, #5, #6 (xem mục 5)
+- **PR đang mở:** #3, #4, #5, #7 (xem mục 5) — #7 là PR từ fork `ka31203`
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
@@ -223,7 +234,8 @@
 - [ ] Review bởi người khác
 - [x] Tách PR #2 thành 3 PR stacked (#3/#4/#5)
 - [x] Ghi phương án fork và nhiều PR vào mục 9
-- [ ] Merge lần lượt PR #3 → PR #4 → PR #5 → PR #6 vào `main`
+- [x] Fork thật sang `ka31203`, push 4 branch, mở PR #7 từ fork (PR #6 đã đóng)
+- [ ] Merge lần lượt PR #3 → PR #4 → PR #5 → PR #7 vào `main`
 
 ---
 
@@ -245,9 +257,9 @@
 
 | Cách | Khi nào dùng | Ưu điểm | Nhược điểm | Dự án này |
 | --- | --- | --- | --- | --- |
-| Branch trong cùng repo | Có quyền push | Đơn giản, push là PR tự cập nhật | Cần quyền write | ✅ Đang dùng (#3/#4/#5/#6) |
-| Fork + PR | Không có quyền push repo gốc (người ngoài đóng góp) | Không cần quyền write vào repo gốc | Phải đồng bộ fork; push nhầm chỗ là PR không update | ❌ Không cần vì `Kahprx` là owner |
-| Draft PR | Muốn review sớm, code chưa xong | Comment sớm, tránh merge nhầm | Phải `gh pr ready` trước khi merge | Có thể dùng cho PR #6 |
+| Branch trong cùng repo | Có quyền push | Đơn giản, push là PR tự cập nhật | Cần quyền write | ✅ Đang dùng (#3/#4/#5) |
+| Fork + PR | Muốn đóng góp từ account khác / không có quyền write repo gốc | Không cần quyền write vào repo gốc; vẫn mở PR được | Phải đồng bộ fork; push nhầm chỗ là PR không update | ✅ **Đang dùng PR #7 từ `ka31203`** |
+| Draft PR | Muốn review sớm, code chưa xong | Comment sớm, tránh merge nhầm | Phải `gh pr ready` trước khi merge | Có thể dùng cho PR #7 |
 
 ### 9.2. Fork — quy trình chuẩn
 
@@ -256,6 +268,8 @@
 3. Tạo branch: `git checkout -b feat/xyz`
 4. Push lên **fork**: `git push myfork feat/xyz`
 5. Mở PR: `gh pr create --repo Kahprx/event-ticket-platform --head <user>:feat/xyz --base main`
+
+> Thực tế: `gh repo fork` bằng `Kahprx` bị chặn (`A single user account cannot own both a parent and fork`) nên fork được tạo bằng account `ka31203`. Thêm account thứ 2 vào gh CLI bằng device flow: `gh auth login --web -p https`, rồi `gh auth switch -u <user>`.
 
 Lưu ý khi dùng fork:
 
@@ -271,9 +285,12 @@ Lưu ý khi dùng fork:
 | Independent PR | Mỗi branch tách từ `main`, `cherry-pick` commit | Các phần độc lập, merge thứ tự tuỳ |
 | Draft PR | `gh pr create --draft`, sau đó `gh pr ready` | Muốn review sớm trong lúc vẫn đang code |
 
-### 9.4. Áp dụng cho repo này
+### 9.4. Áp dụng cho repo này (fork thật)
 
-- Đang dùng **stacked branch trong cùng repo**: `main ← #3 ← #4 ← #5 ← #6`.
-- Không dùng fork vì tài khoản `Kahprx` là chủ repo, đã có quyền push.
-- Nếu sau này có người ngoài đóng góp: áp dụng mục 9.2, head PR là `<user>:<branch>`.
-- Merge luôn từ dưới lên: **#3 → #4 → #5 → #6**; PR #1 đã merge, PR #2 đã đóng.
+- **Fork:** https://github.com/ka31203/event-ticket-platform — parent là `Kahprx/event-ticket-platform`, tạo 17/11/2026.
+- **gh CLI:** đã lưu cả 2 account — `Kahprx` (owner, push `upstream`) và `ka31203` (push `fork`). Chuyển bằng `gh auth switch -u <user>`.
+- **Remote local:** `upstream` → repo gốc `Kahprx`; `fork` / `origin` → repo fork `ka31203`.
+- **4 branch đã push lên fork:** `feat/soundpass-ui`, `feat/auth-admin`, `docs-cleanup`, `fix/chatbot-artist`.
+- **Stacked PR:** `main ← #3 ← #4 ← #5 ← #7`, trong đó **#7 là PR cross-repo từ fork** (`ka31203:fix/chatbot-artist` → `Kahprx:docs-cleanup`).
+- **PR #6 đã đóng** để tránh trùng nội dung với #7. PR #1 đã merge, PR #2 đã đóng.
+- Merge luôn từ dưới lên: **#3 → #4 → #5 → #7**.
