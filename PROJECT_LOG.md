@@ -20,13 +20,16 @@ Ghi lại tiến độ theo thời gian để cả nhóm dễ theo dõi. Các m�
 
 | Time | Việc đã làm | Trạng thái / Commit |
 | --- | --- | --- |
-| ~09:00 | Sửa lỗi còn sót trong `LoginPage.jsx`: đoạn JSX nút demoquick-login vẫn giữ lại dù import/hàm đã xoá (gây lỗi runtime). Thay bằng liên kết "Vào trang chủ", bỏ hoàn toàn fallback demo | commit tiếp theo ✅ |
+| ~09:00 | Sửa lỗi còn sót trong `LoginPage.jsx`: đoạn JSX nút demo quick-login vẫn giữ lại dù import/hàm đã xoá (gây lỗi runtime). Thay bằng liên kết "Vào trang chủ", bỏ hoàn toàn fallback demo | `5c3ad7a` ✅ |
+| ~09:30 | Xoá toàn bộ file UI cũ trong `C:\Users\kaqua\Downloads\web`, rồi dời toàn bộ repo Soundpass từ `QuanLyNhanVien\event-ticket-platform` về đúng thư mục `C:\Users\kaqua\Downloads\web` theo yêu cầu | commit tiếp theo ✅ |
 
-> Lưu ý: port `5173` đang được dùng bởi dự án khác (`C:\Users\kaqua\Downloads\web`). UI mới của dự án này chạy ở `http://localhost:5174`.
+> Lưu ý: repo hiện nằm tại `C:\Users\kaqua\Downloads\web`. UI mới chạy ở `http://localhost:5173` (bản cũ đã bị xoá nên port 5173 đã trống).
 
 ## Trạng thái hiện tại
 
-- Remote `upstream/soundpass-ui` = `1a2ac6d93ba66bf00f834db077fd54f69dcb19f8`.
+- Remote `upstream/soundpass-ui` = `5c3ad7ab1b13ff9a02dba810b5095b567c69cf9b`.
+
+- Đường dẫn source hiện tại: `C:\Users\kaqua\Downloads\web\frontend\src` và `C:\Users\kaqua\Downloads\web\backend\src`.
 - Working tree sạch, không còn file chưa commit.
 - Build frontend pass; không còn import thừa. Còn chunk-size warning (không blocking).
 - Dev server đã tắt; PostgreSQL vẫn chạy ở `localhost:5432` để lần sau khởi động backend ngay.
