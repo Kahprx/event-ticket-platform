@@ -14,8 +14,8 @@
 | 4 | Kiểm tra trước khi commit | Build FE, kiểm tra import thừa, syntax BE, curl health, test browser CRUD |
 | 5 | Commit theo convention | `feat:` / `fix:` / `docs:` kèm mô tả ngắn |
 | 6 | Push lên remote | `git push upstream feat/soundpass-ui feat/auth-admin docs-cleanup` |
-| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2/#3/#4/#5/#6 đã đóng; **4 PR #8/#9/#10/#7 từ fork `ka31203` đều đã merged**. Fork thật + nhiều PR ở mục 9 |
-| 8 | Review → merge → ghi log | Review chéo xong; merge lần lượt **#8 → #9 → #10 → #7** vào `main` (4 PR từ fork) |
+| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2/#3/#4/#5/#6 đã đóng; **4 PR #8/#9/#10/#7 từ fork `ka31203` đều đã merged**. Thêm **PR #12 đang mở** (Figma export), CI pass. Fork thật + nhiều PR ở mục 9 |
+| 8 | Review → merge → ghi log | Review chéo xong; merge lần lượt **#8 → #9 → #10 → #7** vào `main` (4 PR từ fork). PR #12 chờ merge |
 
 ---
 
@@ -215,6 +215,17 @@
 
 > Đã merge theo thứ tự **PR #8 → PR #9 → PR #10 → PR #7**. Cả 4 đều từ fork; PR #3/#4/#5/#6 đã đóng để tránh trùng nội dung. Trước mỗi lần merge, PR tiếp theo được `gh pr edit --base main` để code landed thẳng vào `main`.
 
+### PR #12 — `design: thêm Figma export 66 page kèm PNG reference`
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🟢 **OPEN** — chờ review/merge |
+| Branch | `ka31203:design/figma-66-pages` → `Kahprx:main` |
+| Commit | `0eba02b` |
+| Nội dung | 66 SVG vector + 66 PNG screenshot; mỗi màn hình 1 page riêng, gồm 1 frame + 1 ảnh reference tại `X=1600, Y=0`; kèm design tokens, spec và `generate_svg.py` |
+| CI | `build` **pass** (run `44486953724`, 32s) |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/12 |
+
 ---
 
 ## 6. Trạng thái hiện tại
@@ -222,9 +233,9 @@
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
-- **Branch làm việc:** `main` đã chứa toàn bộ 4 PR; bản cập nhật trạng thái sau merge nằm trên `docs/post-merge`.
-- **HEAD / remote:** `upstream/main` = `c6fc00f` (merge PR #7), fork `ka31203/main` đồng bộ trước merge.
-- **PR đang mở:** không còn; #8/#9/#10/#7 đã MERGED (xem mục 5).
+- **Branch làm việc:** `main` đã chứa toàn bộ 4 PR; bản cập nhật trạng thái sau merge nằm trên `docs/post-merge`. Branch mới `design/figma-66-pages` đang mở PR #12.
+- **HEAD / remote:** `upstream/main` = `539ab67` (merge PR #11), fork `ka31203/main` đồng bộ; PR #12 có commit `0eba02b`.
+- **PR đang mở:** **PR #12** (Figma export 66 page, CI pass); #8/#9/#10/#7/#11 đã MERGED (xem mục 5).
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
@@ -252,6 +263,7 @@
 - [x] Fork thật sang `ka31203`, push 4 branch, đóng #3/#4/#5/#6, mở #7/#8/#9/#10 từ fork
 - [x] Merge lần lượt PR #8 → PR #9 → PR #10 → PR #7 vào `main` (4 PR từ fork)
 - [x] Start `F5 Sprint 1` trên Jira và đưa backlog/action/Epic/Story/Form vào project F5
+- [x] Tạo bộ Figma export 66 page kèm PNG reference, commit `0eba02b`, mở **PR #12** (CI pass)
 
 ---
 
@@ -306,8 +318,9 @@ Lưu ý khi dùng fork:
 - **Fork:** https://github.com/ka31203/event-ticket-platform — parent là `Kahprx/event-ticket-platform`, tạo 17/11/2026.
 - **gh CLI:** đã lưu cả 2 account — `Kahprx` (owner, push `upstream`) và `ka31203` (push `fork`). Chuyển bằng `gh auth switch -u <user>`.
 - **Remote local:** `upstream` → repo gốc `Kahprx`; `fork` / `origin` → repo fork `ka31203`.
-- **4 branch đã push lên fork:** `feat/soundpass-ui`, `feat/auth-admin`, `docs-cleanup`, `fix/chatbot-artist`.
+- **5 branch đã push lên fork:** `feat/soundpass-ui`, `feat/auth-admin`, `docs-cleanup`, `fix/chatbot-artist`, `design/figma-66-pages`.
 - **Stacked PR:** `main ← #8 ← #9 ← #10 ← #7`. Ban đầu base của #9/#10/#7 là branch ngay trước; trước mỗi lần merge dùng `gh pr edit --base main` nên cả 4 landed thẳng vào `main`: `ka31203:feat/soundpass-ui`, `ka31203:feat/auth-admin`, `ka31203:docs-cleanup`, `ka31203:fix/chatbot-artist`.
+- **PR #12** tách độc lập từ `main`, không nằm trong stack: `ka31203:design/figma-66-pages → main` (`0eba02b`, CI pass).
 - **PR #3/#4/#5/#6 đã đóng** để tránh trùng nội dung với #8/#9/#10/#7. PR #1 đã merge, PR #2 đã đóng.
 - Đã merge từ dưới lên: **#8 (`a719002`) → #9 (`07474ce`) → #10 (`2700533`) → #7 (`c6fc00f`)**. Merge #10 dùng token `ka31203` vì token `Kahprx` thiếu scope `workflow` cho file `.github/workflows/ci.yml`.
 - ⚠️ Số Fork trên GitHub vẫn là **1**: GitHub chỉ đếm số repo fork, mỗi account chỉ fork được 1 lần/repo (`Kahprx` là owner nên không tự fork được). Muốn tăng số Fork cần account thứ 3 fork repo. "Nhiều PR" không cần nhiều fork — 1 fork đã tạo được 4 PR như trên.
