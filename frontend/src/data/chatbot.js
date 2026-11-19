@@ -8,6 +8,7 @@ export const suggestedQuestions = [
   "Tìm sự kiện EDM dưới 500.000 ₫",
   "Đêm nhạc acoustic nào đang mở bán?",
   "Sự kiện ở Đà Nẵng có gì?",
+  "Có sự kiện của Suboi không?",
   "Làm sao để mua vé?",
   "Tôi có thể hủy vé không?",
 ];
@@ -76,11 +77,46 @@ const locationName = (id) => locations.find((location) => location.id === id)?.n
 
 const categoryName = (id) => categories.find((category) => category.id === id)?.name || "";
 
-const pickEvents = ({ city, category, budget, weekendOnly, limit = 3 }) => {
+// Ghép tên nghệ sĩ từ dữ liệu sự kiện để AI hiểu cả câu hỏi kiểu “có show của Suboi không?”.
+const cleanForMatch = (value) =>
+  normalize(value).replace(/[^a-z0-9\s]/g, " ").replace(/\s+/g, " ").trim();
+
+const escapeRegex = (value) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+const artistNames = Array.from(
+  new Set(
+    events.flatMap((event) =>
+      String(event.artist || "")
+        .split(/[,/&]| và |\bft\.?\b|\bfeat\.?\b/i)
+        .map((name) => name.trim())
+        .filter((name) => cleanForMatch(name).length >= 3),
+    ),
+  ),
+);
+
+const findArtists = (text) => {
+  const padded = ` ${cleanForMatch(text)} `;
+  return artistNames.filter((name) => {
+    const needle = cleanForMatch(name);
+    return new RegExp(`(^|\\s)${escapeRegex(needle)}(\\s|$)`).test(padded);
+  });
+};
+
+const matchesArtist = (event, artists) => {
+  if (artists.length === 0) return true;
+  const haystack = cleanForMatch(event.artist || "");
+  return artists.some((name) => {
+    const needle = cleanForMatch(name);
+    return needle.length >= 3 && haystack.includes(needle);
+  });
+};
+
+const pickEvents = ({ city, category, budget, artists = [], weekendOnly, limit = 3 }) => {
   let result = events.filter((event) => isUpcoming(event));
   if (city) result = result.filter((event) => event.locationId === city);
   if (category) result = result.filter((event) => event.category === category);
   if (budget) result = result.filter((event) => event.priceFrom <= budget);
+  if (artists.length > 0) result = result.filter((event) => matchesArtist(event, artists));
   if (weekendOnly) {
     const [saturday, sunday] = upcomingWeekendRange();
     result = result.filter((event) => {
@@ -93,11 +129,11 @@ const pickEvents = ({ city, category, budget, weekendOnly, limit = 3 }) => {
 
 const buildReply = (text, eventList) => {
   if (eventList.length === 0) {
-    return "Mình chưa tìm thấy sự kiện nào khớp với yêu cầu đó. Bạn thử đổi địa điểm, thể loại hoặc mức giá xem sao. Bạn cũng có thể bấm “Xem tất cả sự kiện” để tự lọc.";
+    return "Mình chưa tìm thấy sự kiện nào khớp với yêu cầu đó. Bạn thử đổi địa điểm, thể loại, tên nghệ sĩ hoặc mức giá xem sao. Bạn cũng có thể bấm “Xem tất cả sự kiện” để tự lọc.";
   }
   if (eventList.length === 1) {
     const event = eventList[0];
-    return `${event.name} là lựa chọn phù hợp. Sự kiện diễn ra lúc ${event.time} ngày ${event.date.split("-").reverse().join("/")} tại ${event.venue}, ${locationName(event.locationId)}. Giá vé từ ${formatPrice(event.priceFrom)}.`;
+    return `${event.name} — ${event.artist} — là lựa chọn phù hợp. Sự kiện diễn ra lúc ${event.time} ngày ${event.date.split("-").reverse().join("/")} tại ${event.venue}, ${locationName(event.locationId)}. Giá vé từ ${formatPrice(event.priceFrom)}.`;
   }
   const names = eventList.map((event) => event.name).join(", ");
   return `Mình tìm thấy ${eventList.length} sự kiện phù hợp: ${names}. Bạn xem thẻ gợi ý bên dưới để biết giá và địa điểm nhé.`;
@@ -106,10 +142,11 @@ const buildReply = (text, eventList) => {
 export const getChatbotReply = (message) => {
   const text = message.trim();
   const t = normalize(text);
+  const artists = findArtists(text);
 
   if (!text) {
     return {
-      text: "Bạn muốn tìm sự kiện ở thành phố nào, hay theo thể loại nào?",
+      text: "Bạn muốn tìm sự kiện ở thành phố nào, theo thể loại hay tên nghệ sĩ nào?",
       eventIds: [],
     };
   }
@@ -137,18 +174,25 @@ export const getChatbotReply = (message) => {
   // Hỏi địa điểm của một sự kiện cụ thể
   if (/(o dau|dia chi|where|cho nao|vi tri)/.test(t)) {
     const city = findCity(text);
-    const found = city
-      ? events.filter((event) => event.locationId === city && isUpcoming(event)).slice(0, 2)
+    const found = city || artists.length > 0
+      ? events
+          .filter(
+            (event) =>
+              (!city || event.locationId === city) &&
+              matchesArtist(event, artists) &&
+              isUpcoming(event),
+          )
+          .slice(0, 2)
       : [];
     if (found.length > 0) {
       const first = found[0];
       return {
-        text: `${first.name} diễn ra tại ${first.venue}, ${first.address}. Bạn có thể xem bản đồ ở phần cuối trang chi tiết sự kiện.`,
+        text: `${first.name} (${first.artist}) diễn ra tại ${first.venue}, ${first.address}. Bạn có thể xem bản đồ ở phần cuối trang chi tiết sự kiện.`,
         eventIds: found.map((event) => event.id),
       };
     }
     return {
-      text: "Bạn đang hỏi địa điểm của sự kiện nào? Bạn gửi tên sự kiện hoặc thành phố giúp mình nhé.",
+      text: "Bạn đang hỏi địa điểm của sự kiện nào? Bạn gửi tên sự kiện, tên nghệ sĩ hoặc thành phố giúp mình nhé.",
       eventIds: [],
     };
   }
@@ -157,22 +201,23 @@ export const getChatbotReply = (message) => {
   const category = findCategory(text);
   const budget = findBudget(text);
   const weekendOnly = /(cuoi tuan|weekend|thu 7|chu nhat)/.test(t) || /(tuan nay|this week)/.test(t);
-  const eventList = pickEvents({ city, category, budget, weekendOnly });
+  const eventList = pickEvents({ city, category, budget, artists, weekendOnly });
 
   // Câu chào
-  if (/(xin chao|chao|hello|hi\b|hey)/.test(t) && !city && !category && !budget) {
+  if (/(xin chao|chao|hello|hi\b|hey)/.test(t) && !city && !category && !budget && artists.length === 0) {
     return {
       text:
-        "Chào bạn! Mình là trợ lý của Soundpass. Bạn có thể hỏi mình về sự kiện theo thành phố, thể loại, mức giá, hoặc cách mua và hủy vé.",
+        "Chào bạn! Mình là trợ lý của Soundpass. Bạn có thể hỏi mình về sự kiện theo thành phố, thể loại, tên nghệ sĩ, mức giá, hoặc cách mua và hủy vé.",
       eventIds: [],
     };
   }
 
   // Câu hỏi tìm sự kiện
-  if (city || category || budget || weekendOnly || /(su kien|event|concert|nhac|goi y|tim|co gi)/.test(t)) {
+  if (city || category || budget || artists.length > 0 || weekendOnly || /(su kien|event|concert|nhac|goi y|tim|co gi)/.test(t)) {
     const filters = [];
     if (city) filters.push(`ở ${locationName(city)}`);
     if (category) filters.push(`thể loại ${categoryName(category)}`);
+    if (artists.length > 0) filters.push(`nghệ sĩ ${artists.join(", ")}`);
     if (budget) filters.push(`giá dưới ${formatPrice(budget)}`);
     if (weekendOnly) filters.push("vào cuối tuần");
     const intro = filters.length > 0 ? `Mình tìm sự kiện ${filters.join(", ")}. ` : "";
@@ -185,7 +230,7 @@ export const getChatbotReply = (message) => {
   // Mặc định
   return {
     text:
-      "Mình có thể giúp bạn tìm sự kiện theo thành phố, thể loại và mức giá; giải thích cách mua vé và chính sách hủy vé. Bạn thử hỏi: “Cuối tuần này có gì ở Đà Nẵng?”",
+      "Mình có thể giúp bạn tìm sự kiện theo thành phố, thể loại, tên nghệ sĩ và mức giá; giải thích cách mua vé và chính sách hủy vé. Bạn thử hỏi: “Cuối tuần này có gì ở Đà Nẵng?” hoặc “Có show của Suboi không?”",
     eventIds: [],
     links: [{ label: "Xem tất cả sự kiện", to: "/events" }],
   };
