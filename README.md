@@ -4,6 +4,12 @@ Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite 
 
 > Quy trình làm việc, nhật ký thời gian, danh sách nhiệm vụ, commit và pull request: xem [`PROJECT_LOG.md`](./PROJECT_LOG.md) hoặc bản Word [`QUY_TRINH_DU_AN.docx`](./QUY_TRINH_DU_AN.docx).
 
+## Trạng thái dự án
+
+- 4 PR từ fork `ka31203` (#8 → #9 → #10 → #7) đã merged vào `main`; review chéo bởi `Kahprx`.
+- CI GitHub Actions chạy `npm ci` → `prisma generate` → build FE → `node --check` backend: ✅ pass.
+- Quản lý task trên Jira project **F5 (fixxo_5)**: https://kaquach62.atlassian.net/jira/software/projects/F5/boards/2/backlog
+
 ## Yêu cầu
 
 - Node.js 20.19+ hoặc 22.12+
@@ -64,7 +70,7 @@ Mở **2 terminal riêng** từ thư mục gốc dự án. Chạy backend trư�
 ### Terminal 1 — Backend (API)
 
 ```powershell
-cd C:\Users\kaqua\Downloads\QuanLyNhanVien\event-ticket-platform
+cd C:\Users\kaqua\Downloads\web
 
 # Cài dependencies (chạy 1 lần; dùng npm ci nếu có sẵn package-lock.json)
 npm install
@@ -83,7 +89,7 @@ npm run dev:backend
 ### Terminal 2 — Frontend (UI)
 
 ```powershell
-cd C:\Users\kaqua\Downloads\QuanLyNhanVien\event-ticket-platform
+cd C:\Users\kaqua\Downloads\web
 
 # Cài dependencies (chạy 1 lần)
 npm install
@@ -140,6 +146,17 @@ Vai trò được lưu trong bảng `Role` với khoá `CUSTOMER` / `ADMIN`. `PO
 Frontend tương ứng tại `/admin/accounts`, `/admin/customers`, `/admin/roles`. Vai trò hệ thống (`isSystem`) và vai trò đang có tài khoản không thể xoá; không thể xoá chính tài khoản đang đăng nhập hoặc quản trị viên cuối cùng.
 
 Server chạy offline: frontend tự chuyển sang dữ liệu mẫu để xem giao diện, nhưng đăng nhập/đăng ký và các thao tác quản trị vẫn yêu cầu backend.
+
+## CI
+
+`.github/workflows/ci.yml` chạy trên push vào `main` và trên mọi pull request:
+
+1. `npm ci` (cài toàn bộ workspace từ `package-lock.json`)
+2. `npm run db:generate` (Prisma Client)
+3. `npm run build -w @event-platform/frontend`
+4. `node --check` cho mọi file trong `backend/src`
+
+Không cần DATABASE_URL thật để chạy CI vì workflow chỉ generate client, không migrate hay seed.
 
 ## Cấu trúc
 
