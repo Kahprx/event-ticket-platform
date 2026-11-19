@@ -1,0 +1,452 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1540" height="1264" viewBox="0 0 1540 1264" font-family="DejaVu Sans">
+<style>.title{font:bold 13px "DejaVu Sans";fill:#fff}.badge{font:bold 9px "DejaVu Sans"}.tag{font:9px "DejaVu Sans";fill:#8A919C}.pk{font:bold 12px "DejaVu Sans";fill:#1F2328}.col{font:12px "DejaVu Sans";fill:#1F2328}.new{font:12px "DejaVu Sans";fill:#C2410C}.type{font:10.5px "DejaVu Sans";fill:#8A919C}.ref{font:bold 10.5px "DejaVu Sans";fill:#6E4A8E}.stub{font:italic 12px "DejaVu Sans";fill:#4B5563}.h1{font:bold 20px "DejaVu Sans";fill:#1F2328}.leg{font:11.5px "DejaVu Sans";fill:#4B5563}</style>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="38" class="h1">ERD tổng quan – Soundpass (QL35-W) · 21 bảng · PostgreSQL</text>
+<rect x="40" y="52" width="12" height="12" rx="2" fill="#3E5C8A"/><text x="58" y="62" class="leg">1. Người dùng &amp; phân quyền</text>
+<rect x="258.78125" y="52" width="12" height="12" rx="2" fill="#B4532A"/><text x="276.78125" y="62" class="leg">2. Sự kiện &amp; sơ đồ khu vực</text>
+<rect x="464.84375" y="52" width="12" height="12" rx="2" fill="#6E4A8E"/><text x="482.84375" y="62" class="leg">3. Đặt vé, thanh toán &amp; soát vé</text>
+<rect x="700.078125" y="52" width="12" height="12" rx="2" fill="#357A55"/><text x="718.078125" y="62" class="leg">4. Chatbot AI, nhật ký &amp; thông báo</text>
+<text x="40" y="82" class="leg">PK khoá chính · FK khoá ngoại · * bắt buộc · cam ★ = cột mới · MỚI = bảng mới</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none"><line x1="40" y1="102" x2="100" y2="102"/><line x1="47.0" y1="107.0" x2="47.0" y2="97.0"/>
+<line x1="52.0" y1="107.0" x2="52.0" y2="97.0"/><line x1="89.0" y1="102.0" x2="100.0" y2="108.0"/>
+<line x1="89.0" y1="102.0" x2="100.0" y2="102.0"/>
+<line x1="89.0" y1="102.0" x2="100.0" y2="96.0"/>
+<circle cx="83.0" cy="102.0" r="3.8" fill="#fff"/></g><text x="110" y="106" class="leg">một – nhiều (0..n)</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none"><line x1="240.96875" y1="102" x2="300.96875" y2="102"/><line x1="248.0" y1="107.0" x2="248.0" y2="97.0"/>
+<circle cx="257.0" cy="102.0" r="3.8" fill="#fff"/><line x1="290.0" y1="102.0" x2="301.0" y2="108.0"/>
+<line x1="290.0" y1="102.0" x2="301.0" y2="102.0"/>
+<line x1="290.0" y1="102.0" x2="301.0" y2="96.0"/>
+<circle cx="284.0" cy="102.0" r="3.8" fill="#fff"/></g><text x="310.96875" y="106" class="leg">khoá ngoại được để trống (0..1 – nhiều)</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none" stroke-linejoin="round">
+<path d="M640,225 L605,225 L605,405 L640,405"/>
+<line x1="633.0" y1="220.0" x2="633.0" y2="230.0"/>
+<line x1="628.0" y1="220.0" x2="628.0" y2="230.0"/>
+<line x1="629.0" y1="405.0" x2="640.0" y2="411.0"/>
+<line x1="629.0" y1="405.0" x2="640.0" y2="405.0"/>
+<line x1="629.0" y1="405.0" x2="640.0" y2="399.0"/>
+<circle cx="623.0" cy="405.0" r="3.8" fill="#fff"/>
+<path d="M749,365 L810,365 L810,595 L776,595"/>
+<line x1="756.0" y1="370.0" x2="756.0" y2="360.0"/>
+<line x1="761.0" y1="370.0" x2="761.0" y2="360.0"/>
+<line x1="787.0" y1="595.0" x2="776.0" y2="589.0"/>
+<line x1="787.0" y1="595.0" x2="776.0" y2="595.0"/>
+<line x1="787.0" y1="595.0" x2="776.0" y2="601.0"/>
+<circle cx="793.0" cy="595.0" r="3.8" fill="#fff"/>
+<path d="M460,638 L460,710 L480,710 L480,785 L447,785"/>
+<line x1="455.0" y1="645.0" x2="465.0" y2="645.0"/>
+<line x1="455.0" y1="650.0" x2="465.0" y2="650.0"/>
+<line x1="454.0" y1="790.0" x2="454.0" y2="780.0"/>
+<circle cx="463.0" cy="785.0" r="3.8" fill="#fff"/>
+<path d="M640,965 L605,965 L605,1195 L640,1195"/>
+<line x1="633.0" y1="960.0" x2="633.0" y2="970.0"/>
+<line x1="628.0" y1="960.0" x2="628.0" y2="970.0"/>
+<line x1="629.0" y1="1195.0" x2="640.0" y2="1201.0"/>
+<line x1="629.0" y1="1195.0" x2="640.0" y2="1195.0"/>
+<line x1="629.0" y1="1195.0" x2="640.0" y2="1189.0"/>
+<circle cx="623.0" cy="1195.0" r="3.8" fill="#fff"/>
+<path d="M940,215 L905,215 L905,485 L940,485"/>
+<line x1="933.0" y1="210.0" x2="933.0" y2="220.0"/>
+<circle cx="924.0" cy="215.0" r="3.8" fill="#fff"/>
+<line x1="929.0" y1="485.0" x2="940.0" y2="491.0"/>
+<line x1="929.0" y1="485.0" x2="940.0" y2="485.0"/>
+<line x1="929.0" y1="485.0" x2="940.0" y2="479.0"/>
+<circle cx="923.0" cy="485.0" r="3.8" fill="#fff"/>
+<path d="M1090,1145 L1205,1145 L1205,1165 L1240,1165"/>
+<line x1="1097.0" y1="1150.0" x2="1097.0" y2="1140.0"/>
+<line x1="1102.0" y1="1150.0" x2="1102.0" y2="1140.0"/>
+<line x1="1229.0" y1="1165.0" x2="1240.0" y2="1171.0"/>
+<line x1="1229.0" y1="1165.0" x2="1240.0" y2="1165.0"/>
+<line x1="1229.0" y1="1165.0" x2="1240.0" y2="1159.0"/>
+<circle cx="1223.0" cy="1165.0" r="3.8" fill="#fff"/>
+<path d="M1076,675 L1205,675 L1205,695 L1240,695"/>
+<line x1="1083.0" y1="680.0" x2="1083.0" y2="670.0"/>
+<circle cx="1092.0" cy="675.0" r="3.8" fill="#fff"/>
+<line x1="1229.0" y1="695.0" x2="1240.0" y2="701.0"/>
+<line x1="1229.0" y1="695.0" x2="1240.0" y2="695.0"/>
+<line x1="1229.0" y1="695.0" x2="1240.0" y2="689.0"/>
+<circle cx="1223.0" cy="695.0" r="3.8" fill="#fff"/>
+<path d="M100,268 L100,295 L340,295"/>
+<line x1="95.0" y1="275.0" x2="105.0" y2="275.0"/>
+<line x1="95.0" y1="280.0" x2="105.0" y2="280.0"/>
+<line x1="329.0" y1="295.0" x2="340.0" y2="301.0"/>
+<line x1="329.0" y1="295.0" x2="340.0" y2="295.0"/>
+<line x1="329.0" y1="295.0" x2="340.0" y2="289.0"/>
+<circle cx="323.0" cy="295.0" r="3.8" fill="#fff"/>
+<path d="M360,328 L360,505 L305,505 L305,605 L340,605"/>
+<line x1="355.0" y1="335.0" x2="365.0" y2="335.0"/>
+<line x1="355.0" y1="340.0" x2="365.0" y2="340.0"/>
+<line x1="329.0" y1="605.0" x2="340.0" y2="611.0"/>
+<line x1="329.0" y1="605.0" x2="340.0" y2="605.0"/>
+<line x1="329.0" y1="605.0" x2="340.0" y2="599.0"/>
+<circle cx="323.0" cy="605.0" r="3.8" fill="#fff"/>
+<path d="M484,565 L605,565 L605,575 L640,575"/>
+<line x1="491.0" y1="570.0" x2="491.0" y2="560.0"/>
+<line x1="496.0" y1="570.0" x2="496.0" y2="560.0"/>
+<line x1="629.0" y1="575.0" x2="640.0" y2="581.0"/>
+<line x1="629.0" y1="575.0" x2="640.0" y2="575.0"/>
+<line x1="629.0" y1="575.0" x2="640.0" y2="569.0"/>
+<circle cx="623.0" cy="575.0" r="3.8" fill="#fff"/>
+<path d="M749,225 L890,225 L890,235 L940,235"/>
+<line x1="756.0" y1="230.0" x2="756.0" y2="220.0"/>
+<line x1="761.0" y1="230.0" x2="761.0" y2="220.0"/>
+<line x1="929.0" y1="235.0" x2="940.0" y2="241.0"/>
+<line x1="929.0" y1="235.0" x2="940.0" y2="235.0"/>
+<line x1="929.0" y1="235.0" x2="940.0" y2="229.0"/>
+<circle cx="923.0" cy="235.0" r="3.8" fill="#fff"/>
+<path d="M472,245 L640,245"/>
+<line x1="479.0" y1="250.0" x2="479.0" y2="240.0"/>
+<line x1="484.0" y1="250.0" x2="484.0" y2="240.0"/>
+<line x1="629.0" y1="245.0" x2="640.0" y2="251.0"/>
+<line x1="629.0" y1="245.0" x2="640.0" y2="245.0"/>
+<line x1="629.0" y1="245.0" x2="640.0" y2="239.0"/>
+<circle cx="623.0" cy="245.0" r="3.8" fill="#fff"/>
+<path d="M450,938 L450,1005 L640,1005"/>
+<line x1="445.0" y1="945.0" x2="455.0" y2="945.0"/>
+<circle cx="450.0" cy="954.0" r="3.8" fill="#fff"/>
+<line x1="629.0" y1="1005.0" x2="640.0" y2="1011.0"/>
+<line x1="629.0" y1="1005.0" x2="640.0" y2="1005.0"/>
+<line x1="629.0" y1="1005.0" x2="640.0" y2="999.0"/>
+<circle cx="623.0" cy="1005.0" r="3.8" fill="#fff"/>
+<path d="M730,418 L730,465 L940,465"/>
+<line x1="725.0" y1="425.0" x2="735.0" y2="425.0"/>
+<line x1="725.0" y1="430.0" x2="735.0" y2="430.0"/>
+<line x1="929.0" y1="465.0" x2="940.0" y2="471.0"/>
+<line x1="929.0" y1="465.0" x2="940.0" y2="465.0"/>
+<line x1="929.0" y1="465.0" x2="940.0" y2="459.0"/>
+<circle cx="923.0" cy="465.0" r="3.8" fill="#fff"/>
+<path d="M410,1014 L410,985 L640,985"/>
+<line x1="415.0" y1="1007.0" x2="405.0" y2="1007.0"/>
+<line x1="415.0" y1="1002.0" x2="405.0" y2="1002.0"/>
+<line x1="629.0" y1="985.0" x2="640.0" y2="991.0"/>
+<line x1="629.0" y1="985.0" x2="640.0" y2="985.0"/>
+<line x1="629.0" y1="985.0" x2="640.0" y2="979.0"/>
+<circle cx="623.0" cy="985.0" r="3.8" fill="#fff"/>
+<path d="M181,655 L305,655 L305,625 L340,625"/>
+<line x1="188.0" y1="660.0" x2="188.0" y2="650.0"/>
+<circle cx="197.0" cy="655.0" r="3.8" fill="#fff"/>
+<line x1="329.0" y1="625.0" x2="340.0" y2="631.0"/>
+<line x1="329.0" y1="625.0" x2="340.0" y2="625.0"/>
+<line x1="329.0" y1="625.0" x2="340.0" y2="619.0"/>
+<circle cx="323.0" cy="625.0" r="3.8" fill="#fff"/>
+<path d="M450,328 L450,385 L640,385"/>
+<line x1="445.0" y1="335.0" x2="455.0" y2="335.0"/>
+<line x1="445.0" y1="340.0" x2="455.0" y2="340.0"/>
+<line x1="629.0" y1="385.0" x2="640.0" y2="391.0"/>
+<line x1="629.0" y1="385.0" x2="640.0" y2="385.0"/>
+<line x1="629.0" y1="385.0" x2="640.0" y2="379.0"/>
+<circle cx="623.0" cy="385.0" r="3.8" fill="#fff"/>
+<path d="M110,344 L110,315 L340,315"/>
+<line x1="115.0" y1="337.0" x2="105.0" y2="337.0"/>
+<line x1="115.0" y1="332.0" x2="105.0" y2="332.0"/>
+<line x1="329.0" y1="315.0" x2="340.0" y2="321.0"/>
+<line x1="329.0" y1="315.0" x2="340.0" y2="315.0"/>
+<line x1="329.0" y1="315.0" x2="340.0" y2="309.0"/>
+<circle cx="323.0" cy="315.0" r="3.8" fill="#fff"/>
+<path d="M1042,215 L1110,215 L1110,775 L1076,775"/>
+<line x1="1049.0" y1="220.0" x2="1049.0" y2="210.0"/>
+<circle cx="1058.0" cy="215.0" r="3.8" fill="#fff"/>
+<line x1="1087.0" y1="775.0" x2="1076.0" y2="769.0"/>
+<line x1="1087.0" y1="775.0" x2="1076.0" y2="775.0"/>
+<line x1="1087.0" y1="775.0" x2="1076.0" y2="781.0"/>
+<circle cx="1093.0" cy="775.0" r="3.8" fill="#fff"/>
+<path d="M772,965 L905,965 L905,1165 L940,1165"/>
+<line x1="779.0" y1="970.0" x2="779.0" y2="960.0"/>
+<circle cx="788.0" cy="965.0" r="3.8" fill="#fff"/>
+<line x1="929.0" y1="1165.0" x2="940.0" y2="1171.0"/>
+<line x1="929.0" y1="1165.0" x2="940.0" y2="1165.0"/>
+<line x1="929.0" y1="1165.0" x2="940.0" y2="1159.0"/>
+<circle cx="923.0" cy="1165.0" r="3.8" fill="#fff"/>
+<path d="M660,1018 L660,1115 L475,1115 L475,1195 L442,1195"/>
+<line x1="655.0" y1="1025.0" x2="665.0" y2="1025.0"/>
+<circle cx="660.0" cy="1034.0" r="3.8" fill="#fff"/>
+<line x1="453.0" y1="1195.0" x2="442.0" y2="1189.0"/>
+<line x1="453.0" y1="1195.0" x2="442.0" y2="1195.0"/>
+<line x1="453.0" y1="1195.0" x2="442.0" y2="1201.0"/>
+<circle cx="459.0" cy="1195.0" r="3.8" fill="#fff"/>
+<path d="M385,328 L385,490 L285,490 L285,525 L253,525"/>
+<line x1="380.0" y1="335.0" x2="390.0" y2="335.0"/>
+<circle cx="385.0" cy="344.0" r="3.8" fill="#fff"/>
+<line x1="264.0" y1="525.0" x2="253.0" y2="519.0"/>
+<line x1="264.0" y1="525.0" x2="253.0" y2="525.0"/>
+<line x1="264.0" y1="525.0" x2="253.0" y2="531.0"/>
+<circle cx="270.0" cy="525.0" r="3.8" fill="#fff"/>
+<path d="M750,924 L750,715 L940,715"/>
+<line x1="755.0" y1="917.0" x2="745.0" y2="917.0"/>
+<line x1="755.0" y1="912.0" x2="745.0" y2="912.0"/>
+<line x1="929.0" y1="715.0" x2="940.0" y2="721.0"/>
+<line x1="929.0" y1="715.0" x2="940.0" y2="715.0"/>
+<line x1="929.0" y1="715.0" x2="940.0" y2="709.0"/>
+<circle cx="923.0" cy="715.0" r="3.8" fill="#fff"/>
+<path d="M715,418 L715,495 L900,495 L900,755 L940,755"/>
+<line x1="710.0" y1="425.0" x2="720.0" y2="425.0"/>
+<line x1="710.0" y1="430.0" x2="720.0" y2="430.0"/>
+<line x1="929.0" y1="755.0" x2="940.0" y2="761.0"/>
+<line x1="929.0" y1="755.0" x2="940.0" y2="755.0"/>
+<line x1="929.0" y1="755.0" x2="940.0" y2="749.0"/>
+<circle cx="923.0" cy="755.0" r="3.8" fill="#fff"/>
+<path d="M470,915 L515,915 L515,275 L472,275"/>
+<line x1="477.0" y1="920.0" x2="477.0" y2="910.0"/>
+<line x1="482.0" y1="920.0" x2="482.0" y2="910.0"/>
+<line x1="483.0" y1="275.0" x2="472.0" y2="269.0"/>
+<line x1="483.0" y1="275.0" x2="472.0" y2="275.0"/>
+<line x1="483.0" y1="275.0" x2="472.0" y2="281.0"/>
+<circle cx="489.0" cy="275.0" r="3.8" fill="#fff"/>
+<path d="M640,955 L530,955 L530,585 L484,585"/>
+<line x1="633.0" y1="950.0" x2="633.0" y2="960.0"/>
+<line x1="628.0" y1="950.0" x2="628.0" y2="960.0"/>
+<line x1="495.0" y1="585.0" x2="484.0" y2="579.0"/>
+<line x1="495.0" y1="585.0" x2="484.0" y2="585.0"/>
+<line x1="495.0" y1="585.0" x2="484.0" y2="591.0"/>
+<circle cx="501.0" cy="585.0" r="3.8" fill="#fff"/>
+<path d="M405,328 L405,475 L320,475 L320,590 L215,590 L215,685 L181,685"/>
+<line x1="400.0" y1="335.0" x2="410.0" y2="335.0"/>
+<circle cx="405.0" cy="344.0" r="3.8" fill="#fff"/>
+<line x1="192.0" y1="685.0" x2="181.0" y2="679.0"/>
+<line x1="192.0" y1="685.0" x2="181.0" y2="685.0"/>
+<line x1="192.0" y1="685.0" x2="181.0" y2="691.0"/>
+<circle cx="198.0" cy="685.0" r="3.8" fill="#fff"/>
+<path d="M435,638 L435,695 L940,695"/>
+<line x1="430.0" y1="645.0" x2="440.0" y2="645.0"/>
+<line x1="430.0" y1="650.0" x2="440.0" y2="650.0"/>
+<line x1="929.0" y1="695.0" x2="940.0" y2="701.0"/>
+<line x1="929.0" y1="695.0" x2="940.0" y2="695.0"/>
+<line x1="929.0" y1="695.0" x2="940.0" y2="689.0"/>
+<circle cx="923.0" cy="695.0" r="3.8" fill="#fff"/>
+<path d="M460,524 L460,480 L885,480 L885,505 L940,505"/>
+<line x1="465.0" y1="517.0" x2="455.0" y2="517.0"/>
+<circle cx="460.0" cy="508.0" r="3.8" fill="#fff"/>
+<line x1="929.0" y1="505.0" x2="940.0" y2="511.0"/>
+<line x1="929.0" y1="505.0" x2="940.0" y2="505.0"/>
+<line x1="929.0" y1="505.0" x2="940.0" y2="499.0"/>
+<circle cx="923.0" cy="505.0" r="3.8" fill="#fff"/>
+<path d="M730,924 L730,625 L870,625 L870,445 L940,445"/>
+<line x1="735.0" y1="917.0" x2="725.0" y2="917.0"/>
+<line x1="735.0" y1="912.0" x2="725.0" y2="912.0"/>
+<line x1="929.0" y1="445.0" x2="940.0" y2="451.0"/>
+<line x1="929.0" y1="445.0" x2="940.0" y2="445.0"/>
+<line x1="929.0" y1="445.0" x2="940.0" y2="439.0"/>
+<circle cx="923.0" cy="445.0" r="3.8" fill="#fff"/>
+<path d="M772,955 L800,955 L800,805 L1205,805 L1205,735 L1240,735"/>
+<line x1="779.0" y1="960.0" x2="779.0" y2="950.0"/>
+<line x1="784.0" y1="960.0" x2="784.0" y2="950.0"/>
+<line x1="1229.0" y1="735.0" x2="1240.0" y2="741.0"/>
+<line x1="1229.0" y1="735.0" x2="1240.0" y2="735.0"/>
+<line x1="1229.0" y1="735.0" x2="1240.0" y2="729.0"/>
+<circle cx="1223.0" cy="735.0" r="3.8" fill="#fff"/>
+<path d="M430,328 L430,465 L590,465 L590,735 L940,735"/>
+<line x1="425.0" y1="335.0" x2="435.0" y2="335.0"/>
+<line x1="425.0" y1="340.0" x2="435.0" y2="340.0"/>
+<line x1="929.0" y1="735.0" x2="940.0" y2="741.0"/>
+<line x1="929.0" y1="735.0" x2="940.0" y2="735.0"/>
+<line x1="929.0" y1="735.0" x2="940.0" y2="729.0"/>
+<circle cx="923.0" cy="735.0" r="3.8" fill="#fff"/>
+<path d="M450,214 L450,155 L1190,155 L1190,715 L1240,715"/>
+<line x1="455.0" y1="207.0" x2="445.0" y2="207.0"/>
+<line x1="455.0" y1="202.0" x2="445.0" y2="202.0"/>
+<line x1="1229.0" y1="715.0" x2="1240.0" y2="721.0"/>
+<line x1="1229.0" y1="715.0" x2="1240.0" y2="715.0"/>
+<line x1="1229.0" y1="715.0" x2="1240.0" y2="709.0"/>
+<circle cx="1223.0" cy="715.0" r="3.8" fill="#fff"/>
+</g>
+<rect x="40" y="214" width="75" height="54" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M40,242 v-23 a5,5 0 0 1 5,-5 h65 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="50" y="233" class="title">Region</text>
+<text x="48" y="259" class="tag">PK</text>
+<text x="70" y="259" class="pk">id</text>
+<rect x="40" y="344" width="86" height="54" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M40,372 v-23 a5,5 0 0 1 5,-5 h76 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="50" y="363" class="title">Category</text>
+<text x="48" y="389" class="tag">PK</text>
+<text x="70" y="389" class="pk">id</text>
+<rect x="40" y="464" width="213" height="74" rx="5" fill="#fff" stroke="#357A55" stroke-width="1.4"/>
+<path d="M40,492 v-23 a5,5 0 0 1 5,-5 h203 a5,5 0 0 1 5,5 v23 z" fill="#357A55"/>
+<text x="50" y="483" class="title">KnowledgeDocument</text>
+<rect x="211" y="471" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="228" y="482" text-anchor="middle" class="badge" fill="#357A55">MỚI</text>
+<text x="48" y="509" class="tag">PK</text>
+<text x="70" y="509" class="pk">id</text>
+<rect x="41" y="515" width="211" height="20" fill="#F7F7F8"/>
+<text x="48" y="529" class="tag">FK</text>
+<text x="70" y="529" class="col">eventId</text>
+<rect x="340" y="214" width="132" height="114" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M340,242 v-23 a5,5 0 0 1 5,-5 h122 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="350" y="233" class="title">Event</text>
+<text x="348" y="259" class="tag">PK</text>
+<text x="370" y="259" class="pk">id</text>
+<rect x="341" y="265" width="130" height="20" fill="#F7F7F8"/>
+<text x="348" y="279" class="tag">FK</text>
+<text x="370" y="279" class="new">organizerId ★ *</text>
+<text x="348" y="299" class="tag">FK</text>
+<text x="370" y="299" class="col">regionId *</text>
+<rect x="341" y="305" width="130" height="20" fill="#F7F7F8"/>
+<text x="348" y="319" class="tag">FK</text>
+<text x="370" y="319" class="col">categoryId *</text>
+<rect x="640" y="184" width="109" height="74" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M640,212 v-23 a5,5 0 0 1 5,-5 h99 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="650" y="203" class="title">Area</text>
+<rect x="707" y="191" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="724" y="202" text-anchor="middle" class="badge" fill="#B4532A">MỚI</text>
+<text x="648" y="229" class="tag">PK</text>
+<text x="670" y="229" class="pk">id</text>
+<rect x="641" y="235" width="107" height="20" fill="#F7F7F8"/>
+<text x="648" y="249" class="tag">FK</text>
+<text x="670" y="249" class="col">eventId *</text>
+<rect x="640" y="324" width="109" height="94" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M640,352 v-23 a5,5 0 0 1 5,-5 h99 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="650" y="343" class="title">TicketType</text>
+<text x="648" y="369" class="tag">PK</text>
+<text x="670" y="369" class="pk">id</text>
+<rect x="641" y="375" width="107" height="20" fill="#F7F7F8"/>
+<text x="648" y="389" class="tag">FK</text>
+<text x="670" y="389" class="col">eventId *</text>
+<text x="648" y="409" class="tag">FK</text>
+<text x="670" y="409" class="new">areaId ★ *</text>
+<rect x="940" y="174" width="102" height="74" rx="5" fill="#fff" stroke="#B4532A" stroke-width="1.4"/>
+<path d="M940,202 v-23 a5,5 0 0 1 5,-5 h92 a5,5 0 0 1 5,5 v23 z" fill="#B4532A"/>
+<text x="950" y="193" class="title">Seat</text>
+<rect x="1000" y="181" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="1017" y="192" text-anchor="middle" class="badge" fill="#B4532A">MỚI</text>
+<text x="948" y="219" class="tag">PK</text>
+<text x="970" y="219" class="pk">id</text>
+<rect x="941" y="225" width="100" height="20" fill="#F7F7F8"/>
+<text x="948" y="239" class="tag">FK</text>
+<text x="970" y="239" class="col">areaId *</text>
+<rect x="40" y="624" width="141" height="74" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M40,652 v-23 a5,5 0 0 1 5,-5 h131 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="50" y="643" class="title">PromoCode</text>
+<rect x="139" y="631" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="156" y="642" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="48" y="669" class="tag">PK</text>
+<text x="70" y="669" class="pk">id</text>
+<rect x="41" y="675" width="139" height="20" fill="#F7F7F8"/>
+<text x="48" y="689" class="tag">FK</text>
+<text x="70" y="689" class="col">eventId</text>
+<rect x="340" y="524" width="144" height="114" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M340,552 v-23 a5,5 0 0 1 5,-5 h134 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="350" y="543" class="title">Order</text>
+<text x="348" y="569" class="tag">PK</text>
+<text x="370" y="569" class="pk">id</text>
+<rect x="341" y="575" width="142" height="20" fill="#F7F7F8"/>
+<text x="348" y="589" class="tag">FK</text>
+<text x="370" y="589" class="col">userId *</text>
+<text x="348" y="609" class="tag">FK</text>
+<text x="370" y="609" class="col">eventId *</text>
+<rect x="341" y="615" width="142" height="20" fill="#F7F7F8"/>
+<text x="348" y="629" class="tag">FK</text>
+<text x="370" y="629" class="new">promoCodeId ★</text>
+<rect x="640" y="514" width="136" height="94" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M640,542 v-23 a5,5 0 0 1 5,-5 h126 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="650" y="533" class="title">OrderItem</text>
+<text x="648" y="559" class="tag">PK</text>
+<text x="670" y="559" class="pk">id</text>
+<rect x="641" y="565" width="134" height="20" fill="#F7F7F8"/>
+<text x="648" y="579" class="tag">FK</text>
+<text x="670" y="579" class="col">orderId *</text>
+<text x="648" y="599" class="tag">FK</text>
+<text x="670" y="599" class="col">ticketTypeId *</text>
+<rect x="340" y="724" width="107" height="74" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M340,752 v-23 a5,5 0 0 1 5,-5 h97 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="350" y="743" class="title">Payment</text>
+<text x="348" y="769" class="tag">PK</text>
+<text x="370" y="769" class="pk">id</text>
+<rect x="341" y="775" width="105" height="20" fill="#F7F7F8"/>
+<text x="348" y="789" class="tag">FK</text>
+<text x="370" y="789" class="col">orderId *</text>
+<rect x="940" y="384" width="136" height="134" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M940,412 v-23 a5,5 0 0 1 5,-5 h126 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="950" y="403" class="title">TicketHold</text>
+<rect x="1034" y="391" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="1051" y="402" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="948" y="429" class="tag">PK</text>
+<text x="970" y="429" class="pk">id</text>
+<rect x="941" y="435" width="134" height="20" fill="#F7F7F8"/>
+<text x="948" y="449" class="tag">FK</text>
+<text x="970" y="449" class="col">userId *</text>
+<text x="948" y="469" class="tag">FK</text>
+<text x="970" y="469" class="col">ticketTypeId *</text>
+<rect x="941" y="475" width="134" height="20" fill="#F7F7F8"/>
+<text x="948" y="489" class="tag">FK</text>
+<text x="970" y="489" class="col">seatId</text>
+<text x="948" y="509" class="tag">FK</text>
+<text x="970" y="509" class="col">orderId</text>
+<rect x="940" y="634" width="136" height="154" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M940,662 v-23 a5,5 0 0 1 5,-5 h126 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="950" y="653" class="title">Ticket</text>
+<text x="948" y="679" class="tag">PK</text>
+<text x="970" y="679" class="pk">id</text>
+<rect x="941" y="685" width="134" height="20" fill="#F7F7F8"/>
+<text x="948" y="699" class="tag">FK</text>
+<text x="970" y="699" class="col">orderId *</text>
+<text x="948" y="719" class="tag">FK</text>
+<text x="970" y="719" class="col">userId *</text>
+<rect x="941" y="725" width="134" height="20" fill="#F7F7F8"/>
+<text x="948" y="739" class="tag">FK</text>
+<text x="970" y="739" class="col">eventId *</text>
+<text x="948" y="759" class="tag">FK</text>
+<text x="970" y="759" class="col">ticketTypeId *</text>
+<rect x="941" y="765" width="134" height="20" fill="#F7F7F8"/>
+<text x="948" y="779" class="tag">FK</text>
+<text x="970" y="779" class="new">seatId ★</text>
+<rect x="1240" y="634" width="116" height="114" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M1240,662 v-23 a5,5 0 0 1 5,-5 h106 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="1250" y="653" class="title">CheckIn</text>
+<rect x="1314" y="641" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="1331" y="652" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="1248" y="679" class="tag">PK</text>
+<text x="1270" y="679" class="pk">id</text>
+<rect x="1241" y="685" width="114" height="20" fill="#F7F7F8"/>
+<text x="1248" y="699" class="tag">FK</text>
+<text x="1270" y="699" class="col">ticketId</text>
+<text x="1248" y="719" class="tag">FK</text>
+<text x="1270" y="719" class="col">eventId *</text>
+<rect x="1241" y="725" width="114" height="20" fill="#F7F7F8"/>
+<text x="1248" y="739" class="tag">FK</text>
+<text x="1270" y="739" class="col">staffId *</text>
+<rect x="340" y="884" width="130" height="54" rx="5" fill="#fff" stroke="#3E5C8A" stroke-width="1.4"/>
+<path d="M340,912 v-23 a5,5 0 0 1 5,-5 h120 a5,5 0 0 1 5,5 v23 z" fill="#3E5C8A"/>
+<text x="350" y="903" class="title">Organizer</text>
+<rect x="428" y="891" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="445" y="902" text-anchor="middle" class="badge" fill="#3E5C8A">MỚI</text>
+<text x="348" y="929" class="tag">PK</text>
+<text x="370" y="929" class="pk">id</text>
+<rect x="340" y="1014" width="85" height="54" rx="5" fill="#fff" stroke="#3E5C8A" stroke-width="1.4"/>
+<path d="M340,1042 v-23 a5,5 0 0 1 5,-5 h75 a5,5 0 0 1 5,5 v23 z" fill="#3E5C8A"/>
+<text x="350" y="1033" class="title">Role</text>
+<text x="348" y="1059" class="tag">PK</text>
+<text x="370" y="1059" class="pk">key</text>
+<rect x="640" y="924" width="132" height="94" rx="5" fill="#fff" stroke="#3E5C8A" stroke-width="1.4"/>
+<path d="M640,952 v-23 a5,5 0 0 1 5,-5 h122 a5,5 0 0 1 5,5 v23 z" fill="#3E5C8A"/>
+<text x="650" y="943" class="title">User</text>
+<text x="648" y="969" class="tag">PK</text>
+<text x="670" y="969" class="pk">id</text>
+<rect x="641" y="975" width="130" height="20" fill="#F7F7F8"/>
+<text x="648" y="989" class="tag">FK</text>
+<text x="670" y="989" class="col">roleKey *</text>
+<text x="648" y="1009" class="tag">FK</text>
+<text x="670" y="1009" class="new">organizerId ★</text>
+<rect x="340" y="1134" width="102" height="74" rx="5" fill="#fff" stroke="#357A55" stroke-width="1.4"/>
+<path d="M340,1162 v-23 a5,5 0 0 1 5,-5 h92 a5,5 0 0 1 5,5 v23 z" fill="#357A55"/>
+<text x="350" y="1153" class="title">ActivityLog</text>
+<text x="348" y="1179" class="tag">PK</text>
+<text x="370" y="1179" class="pk">id</text>
+<rect x="341" y="1185" width="100" height="20" fill="#F7F7F8"/>
+<text x="348" y="1199" class="tag">FK</text>
+<text x="370" y="1199" class="col">userId</text>
+<rect x="640" y="1134" width="105" height="74" rx="5" fill="#fff" stroke="#357A55" stroke-width="1.4"/>
+<path d="M640,1162 v-23 a5,5 0 0 1 5,-5 h95 a5,5 0 0 1 5,5 v23 z" fill="#357A55"/>
+<text x="650" y="1153" class="title">Notification</text>
+<text x="648" y="1179" class="tag">PK</text>
+<text x="670" y="1179" class="pk">id</text>
+<rect x="641" y="1185" width="103" height="20" fill="#F7F7F8"/>
+<text x="648" y="1199" class="tag">FK</text>
+<text x="670" y="1199" class="col">userId *</text>
+<rect x="940" y="1104" width="150" height="74" rx="5" fill="#fff" stroke="#357A55" stroke-width="1.4"/>
+<path d="M940,1132 v-23 a5,5 0 0 1 5,-5 h140 a5,5 0 0 1 5,5 v23 z" fill="#357A55"/>
+<text x="950" y="1123" class="title">ChatConversation</text>
+<text x="948" y="1149" class="tag">PK</text>
+<text x="970" y="1149" class="pk">id</text>
+<rect x="941" y="1155" width="148" height="20" fill="#F7F7F8"/>
+<text x="948" y="1169" class="tag">FK</text>
+<text x="970" y="1169" class="col">userId</text>
+<rect x="1240" y="1104" width="153" height="74" rx="5" fill="#fff" stroke="#357A55" stroke-width="1.4"/>
+<path d="M1240,1132 v-23 a5,5 0 0 1 5,-5 h143 a5,5 0 0 1 5,5 v23 z" fill="#357A55"/>
+<text x="1250" y="1123" class="title">ChatMessage</text>
+<text x="1248" y="1149" class="tag">PK</text>
+<text x="1270" y="1149" class="pk">id</text>
+<rect x="1241" y="1155" width="151" height="20" fill="#F7F7F8"/>
+<text x="1248" y="1169" class="tag">FK</text>
+<text x="1270" y="1169" class="col">conversationId *</text>
+</svg>
