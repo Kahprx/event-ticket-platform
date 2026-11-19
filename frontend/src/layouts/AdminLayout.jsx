@@ -1,15 +1,18 @@
 import { useState } from "react";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
   BarChart3,
   Bot,
   CalendarDays,
   LayoutDashboard,
+  LogOut,
   MapPin,
   Menu,
   ReceiptText,
+  ShieldCheck,
   Ticket,
+  UserCog,
   Users,
   X,
 } from "lucide-react";
@@ -22,7 +25,9 @@ const links = [
   { to: "/admin/events", label: "Sự kiện", icon: CalendarDays },
   { to: "/admin/tickets", label: "Quản lý vé", icon: Ticket },
   { to: "/admin/orders", label: "Đơn hàng", icon: ReceiptText },
-  { to: "/admin/users", label: "Người dùng", icon: Users },
+  { to: "/admin/accounts", label: "Tài khoản", icon: UserCog },
+  { to: "/admin/roles", label: "Vai trò", icon: ShieldCheck },
+  { to: "/admin/customers", label: "Khách hàng", icon: Users },
   { to: "/admin/locations", label: "Địa điểm", icon: MapPin },
   { to: "/admin/chatbot", label: "Chatbot", icon: Bot },
   { to: "/admin/reports", label: "Báo cáo", icon: BarChart3 },
@@ -75,7 +80,14 @@ function SidebarContent({ onNavigate }) {
 
 export default function AdminLayout() {
   const user = useAppStore((state) => state.user);
+  const signOut = useAppStore((state) => state.signOut);
+  const navigate = useNavigate();
   const [mobileOpen, setMobileOpen] = useState(false);
+
+  const handleSignOut = () => {
+    signOut();
+    navigate("/login", { replace: true });
+  };
 
   return (
     <div className="min-h-screen bg-paper">
@@ -114,11 +126,22 @@ export default function AdminLayout() {
             Quản trị <span className="mx-1 text-muted-2">/</span>
             <span className="font-medium text-ink-900">Soundpass</span>
           </p>
-          <div className="ml-auto flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-2.5">
+            <span className="badge badge-accent hidden sm:inline-flex">ADMIN</span>
             <span className="hidden text-[12px] text-muted sm:inline">{user?.name}</span>
             <span className="grid h-8 w-8 place-items-center rounded-full bg-ink-900 text-[11px] font-bold text-white">
               {user?.name ? user.name.split(" ").slice(-1)[0][0] : "A"}
             </span>
+            <button
+              type="button"
+              onClick={handleSignOut}
+              className="btn btn-ghost btn-sm px-2"
+              aria-label="Đăng xuất"
+              title="Đăng xuất"
+            >
+              <LogOut size={15} />
+              <span className="hidden lg:inline">Đăng xuất</span>
+            </button>
           </div>
         </header>
 

@@ -51,7 +51,7 @@ export default function AdminUsersPage() {
           </div>
           <select className="select h-9 w-auto" value={role} onChange={(event) => setRole(event.target.value)} aria-label="Lọc theo vai trò">
             <option value="all">Mọi vai trò</option>
-            <option value="USER">USER</option>
+            <option value="CUSTOMER">CUSTOMER</option>
             <option value="ADMIN">ADMIN</option>
           </select>
         </div>

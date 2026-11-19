@@ -7,9 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-enum UserRole {
-  USER
-  ADMIN
+// Vai trò được lưu trong DB để trang quản trị có thể tạo/sửa/xoá.
+// Khoá `key` là giá trị đưa vào JWT và dùng cho phân quyền.
+model Role {
+  key         String   @id
+  name        String
+  description String?  @db.Text
+  permissions Json
+  isSystem    Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users User[]
 }
 
 enum UserStatus {
@@ -18,16 +27,18 @@ enum UserStatus {
 }
 
 model User {
-  id           String   @id @default(cuid())
+  id           String     @id @default(cuid())
   name         String
-  email        String   @unique
+  email        String     @unique
   passwordHash String
   avatar       String?
   phone        String?
-  role         UserRole @default(USER)
+  city         String?
+  roleKey      String     @default("CUSTOMER")
+  role         Role       @relation(fields: [roleKey], references: [key], onDelete: Restrict)
   status       UserStatus @default(ACTIVE)
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
 
   // Relations for the agreed domain phases; populated as those features are implemented.
   orders        Order[]
@@ -36,7 +47,7 @@ model User {
   notifications Notification[]
   conversations ChatConversation[]
 
-  @@index([role, createdAt])
+  @@index([roleKey, createdAt])
   @@index([status])
 }
 

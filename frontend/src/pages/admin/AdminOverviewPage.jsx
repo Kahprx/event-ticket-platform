@@ -16,10 +16,16 @@ import {
   revenueByMonth,
 } from "../../data/admin.js";
 import { formatCompactVnd, formatVnd } from "../../utils/format.js";
+import { useAppStore } from "../../store/appStore.js";
 import StatusBadge from "../../components/StatusBadge.jsx";
 import { AdminCard, AdminPageHeader, Currency, ProgressBar, StatCard, TableShell } from "./AdminParts.jsx";
 
 export default function AdminOverviewPage() {
+  const user = useAppStore((state) => state.user);
+  const hour = new Date().getHours();
+  const greeting = hour < 12 ? "Chào buổi sáng" : hour < 18 ? "Chào buổi chiều" : "Chào buổi tối";
+  const displayName = user?.name?.split(" ").slice(-1)[0] || "bạn";
+
   const exportSummary = () => {
     const rows = [
       ["Tháng", "Doanh thu (VND)", "Đơn hàng"],
@@ -40,7 +46,7 @@ export default function AdminOverviewPage() {
     <>
       <AdminPageHeader
         eyebrow="Tổng quan"
-        title="Chào buổi sáng, Minh Anh"
+        title={`${greeting}, ${displayName}`}
         description="Tình hình bán vé của Soundpass trong tháng 11/2026."
         actions={[
           <button key="export" type="button" onClick={exportSummary} className="btn btn-secondary btn-sm">

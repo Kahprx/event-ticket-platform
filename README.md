@@ -33,15 +33,27 @@ Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite 
    npm run db:generate
    ```
 
-4. Tạo database schema và chạy ứng dụng:
+4. Tạo database schema, seed vai trò/tài khoản mẫu và chạy ứng dụng:
 
    ```powershell
-   npm run db:migrate -- --name phase1_init
+   npm run db:migrate
+   npm run db:seed
    npm run dev
    ```
 
-Frontend: http://localhost:5173  
+   `db:seed` tạo 2 vai trò (`CUSTOMER`, `ADMIN`) và 4 tài khoản demo. Chạy lại lệnh này nếu cần đặt lại dữ liệu mẫu.
+
+Frontend: http://localhost:5173 (hoặc 5174)  
 Backend health: http://localhost:5000/api/health
+
+### Tài khoản demo
+
+| Vai trò | Email | Mật khẩu |
+| --- | --- | --- |
+| Quản trị | `admin@soundpass.vn` | `Admin@123` |
+| Khách hàng | `minhanh.nguyen@example.com` | `User@123` |
+
+Backend hỗ trợ nhiều origin qua `CLIENT_URL` (phân cách bằng dấu phẩy), mặc định là `http://localhost:5173,http://localhost:5174`.
 
 ## API Phase 1
 
@@ -52,9 +64,17 @@ Backend health: http://localhost:5000/api/health
 - `PUT /api/auth/profile` — yêu cầu Bearer token; cập nhật name, phone hoặc avatar
 - `PUT /api/auth/change-password` — yêu cầu Bearer token; cần currentPassword và newPassword
 
-Tài khoản mới luôn có role `USER`; role không thể gửi từ frontend. JWT chỉ được cấp sau khi xác thực thành công. `POST /logout` stateless nên frontend cần xóa token ở client.
+Vai trò được lưu trong bảng `Role` với khoá `CUSTOMER` / `ADMIN`. `POST /register` luôn tạo tài khoản `CUSTOMER`; không nhận role từ payload. JWT chứa khoá vai trò và chỉ được cấp sau khi xác thực thành công. `POST /logout` stateless nên frontend cần xóa token ở client.
 
-Register luôn tạo tài khoản `USER`; không nhận role từ payload. Tạo ADMIN ban đầu bằng Prisma Studio hoặc thao tác quản trị DB trực tiếp; tuyệt đối không mở endpoint đăng ký admin công khai.
+## API quản trị (yêu cầu Bearer token của ADMIN)
+
+- `GET /api/admin/accounts` · `POST /api/admin/accounts` · `PUT /api/admin/accounts/:id` · `DELETE /api/admin/accounts/:id`
+- `GET /api/admin/customers` · `POST /api/admin/customers` · `PUT /api/admin/customers/:id` · `DELETE /api/admin/customers/:id`
+- `GET /api/admin/roles` · `POST /api/admin/roles` · `PUT /api/admin/roles/:key` · `DELETE /api/admin/roles/:key`
+
+Frontend tương ứng tại `/admin/accounts`, `/admin/customers`, `/admin/roles`. Vai trò hệ thống (`isSystem`) và vai trò đang có tài khoản không thể xoá; không thể xoá chính tài khoản đang đăng nhập hoặc quản trị viên cuối cùng.
+
+Server chạy offline: frontend tự chuyển sang dữ liệu mẫu để xem giao diện, nhưng đăng nhập/đăng ký và các thao tác quản trị vẫn yêu cầu backend.
 
 ## Cấu trúc
 

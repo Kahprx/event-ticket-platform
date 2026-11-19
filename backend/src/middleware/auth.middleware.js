@@ -13,11 +13,22 @@ export async function authenticate(req, _res, next) {
 
     const user = await prisma.user.findUnique({
       where: { id: payload.sub },
-      select: { id: true, name: true, email: true, role: true, status: true, avatar: true, phone: true, createdAt: true },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        roleKey: true,
+        status: true,
+        avatar: true,
+        phone: true,
+        city: true,
+        createdAt: true,
+        role: { select: { key: true, name: true } },
+      },
     });
     if (!user || user.status !== "ACTIVE") throw new AppError("Account is unavailable", 401);
 
-    req.user = user;
+    req.user = { ...user, role: user.role.key };
     next();
   } catch (error) {
     if (error instanceof AppError) return next(error);

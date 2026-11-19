@@ -62,6 +62,7 @@ export const initialProfile = {
   name: "Nguyễn Minh Anh",
   email: "minhanh.nguyen@example.com",
   phone: "0901 234 567",
+  role: "CUSTOMER",
   city: "hcm",
   joinedAt: "2025-09-08",
   notifications: {

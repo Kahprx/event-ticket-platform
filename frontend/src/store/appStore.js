@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { initialBookings, initialProfile } from "../data/bookings.js";
+import { useAuthStore } from "./authStore.js";
 
 const readLocal = (key, fallback) => {
   try {
@@ -35,6 +36,11 @@ export const useAppStore = create((set, get) => ({
       writeLocal("sp-user", user);
       return { user };
     }),
+  signOut: () => {
+    writeLocal("sp-user", null);
+    useAuthStore.getState().logout();
+    set({ user: null });
+  },
 
   bookings: readLocal("sp-bookings", initialBookings),
   addBooking: (booking) =>

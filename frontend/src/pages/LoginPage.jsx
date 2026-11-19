@@ -2,23 +2,36 @@ import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ArrowRight, Check, Music2, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, LayoutDashboard, Music2, ShieldCheck } from "lucide-react";
 import { api } from "../services/api.js";
 import { useAuthStore } from "../store/authStore.js";
 import { useAppStore } from "../store/appStore.js";
 import { loginSchema, registerSchema } from "../validators/auth.js";
+import { initialProfile } from "../data/bookings.js";
+import { demoAccounts, findDemoAccount } from "../data/demoAccounts.js";
 import Brand from "../components/Brand.jsx";
 import ErrorState from "../components/ErrorState.jsx";
+
+// API trả về createdAt, frontend dùng joinedAt/notifications cho hồ sơ demo.
+const normalizeUser = (apiUser = {}) => ({
+  ...initialProfile,
+  ...apiUser,
+  role: apiUser.role || "CUSTOMER",
+  city: apiUser.city || initialProfile.city,
+  joinedAt: apiUser.createdAt?.slice(0, 10) || initialProfile.joinedAt,
+  notifications: initialProfile.notifications,
+});
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const setSession = useAuthStore((state) => state.setSession);
   const user = useAppStore((state) => state.user);
+  const updateUser = useAppStore((state) => state.updateUser);
   const pushToast = useAppStore((state) => state.pushToast);
 
   const [mode, setMode] = useState("login");
-  const [backendError, setBackendError] = useState(false);
+  const [backendError, setBackendError] = useState(null);
   const [submitting, setSubmitting] = useState(false);
 
   const {
@@ -32,28 +45,81 @@ export default function LoginPage() {
   });
 
   const destination = location.state?.from || "/";
+  const needAdmin = Boolean(location.state?.needAdmin);
 
-  const enterDemo = () => {
+  const resolvePath = (role) => {
+    if (role === "ADMIN") return destination === "/" ? "/admin" : destination;
+    return destination.startsWith("/admin") ? "/" : destination;
+  };
+
+  const applySession = ({ token, user: apiUser }) => {
+    const profile = normalizeUser(apiUser);
+    updateUser(profile);
+    setSession({ token, user: profile });
     pushToast({
       type: "success",
-      title: `Chào ${user?.name || "bạn"}!`,
-      message: "Bạn đang dùng tài khoản demo của đồ án.",
+      title: `Chào ${profile.name}!`,
+      message: profile.role === "ADMIN" ? "Đăng nhập quản trị thành công." : "Đăng nhập thành công.",
     });
-    navigate(destination);
+    navigate(resolvePath(profile.role));
+  };
+
+  // Dùng khi backend chưa chạy: vẫn cho xem demo bằng tài khoản có sẵn.
+  const signInWithDemo = (account) => {
+    const { password, ...profile } = account;
+    applySession({ token: `demo-${account.id}`, user: profile });
+  };
+
+  const signInWithApi = async (payload, fallbackAccount) => {
+    try {
+      const response = await api.post("/auth/login", payload);
+      const data = response.data?.data || response.data || {};
+      if (!data.token) throw new Error("Phản hồi đăng nhập thiếu token");
+      applySession(data);
+      return true;
+    } catch (error) {
+      // Chỉ fallback khi không kết nối được server, không fallback khi sai mật khẩu.
+      if (!error.response && fallbackAccount) {
+        signInWithDemo(fallbackAccount);
+        return true;
+      }
+      setBackendError(error.response?.data?.message || "Email hoặc mật khẩu không đúng. Vui lòng thử lại.");
+      return false;
+    }
+  };
+
+  const registerWithApi = async (values) => {
+    try {
+      const response = await api.post("/auth/register", values);
+      const data = response.data?.data || response.data || {};
+      if (!data.token) throw new Error("Phản hồi đăng ký thiếu token");
+      applySession(data);
+      return true;
+    } catch (error) {
+      setBackendError(error.response?.data?.message || "Không thể tạo tài khoản lúc này. Vui lòng thử lại.");
+      return false;
+    }
   };
 
   const onSubmit = async (values) => {
-    setBackendError(false);
+    setBackendError(null);
     setSubmitting(true);
     try {
-      const endpoint = mode === "login" ? "/auth/login" : "/auth/register";
-      const response = await api.post(endpoint, values);
-      const { token, user: apiUser } = response.data || {};
-      if (token) setSession({ token, user: apiUser });
-      navigate(destination);
-    } catch {
-      // Backend chưa chạy là tình huống thật trong quá trình phát triển đồ án.
-      setBackendError(true);
+      if (mode === "login") {
+        await signInWithApi(values, findDemoAccount(values.email, values.password));
+      } else {
+        await registerWithApi(values);
+      }
+    } finally {
+      setSubmitting(false);
+    }
+  };
+
+  const quickSignIn = async (account) => {
+    setBackendError(null);
+    setSubmitting(true);
+    try {
+      await signInWithApi({ email: account.email, password: account.password }, account);
     } finally {
       setSubmitting(false);
     }
@@ -61,7 +127,7 @@ export default function LoginPage() {
 
   const switchMode = (nextMode) => {
     setMode(nextMode);
-    setBackendError(false);
+    setBackendError(null);
     reset();
   };
 
@@ -131,12 +197,19 @@ export default function LoginPage() {
               : "Điền thông tin để lưu vé và nhận nhắc lịch."}
           </p>
 
+          {needAdmin && (
+            <p className="mt-4 rounded-md border border-accent/25 bg-accent-soft px-3 py-2.5 text-[12px] leading-5 text-accent-dark">
+              Khu vực quản trị yêu cầu tài khoản có vai trò <strong>ADMIN</strong>. Chọn nút
+              “Vào quản trị” bên dưới hoặc đăng nhập bằng tài khoản quản trị.
+            </p>
+          )}
+
           {backendError && (
             <div className="mt-5">
               <ErrorState
-                title="Không kết nối được máy chủ"
-                description="Backend chưa chạy hoặc chưa cấu hình VITE_API_URL. Bạn có thể dùng tài khoản demo để xem toàn bộ giao diện."
-                onRetry={() => setBackendError(false)}
+                title={mode === "login" ? "Chưa thể đăng nhập" : "Chưa thể đăng ký"}
+                description={backendError}
+                onRetry={() => setBackendError(null)}
               />
             </div>
           )}
@@ -168,18 +241,46 @@ export default function LoginPage() {
 
           <div className="my-5 flex items-center gap-3 text-[11px] uppercase tracking-wide text-muted-2">
             <span className="h-px flex-1 bg-line" />
-            hoặc
+            hoặc dùng tài khoản demo
             <span className="h-px flex-1 bg-line" />
           </div>
 
-          <button type="button" onClick={enterDemo} className="btn btn-secondary btn-block">
-            <Music2 size={16} />
-            Dùng tài khoản demo
-          </button>
-          <p className="mt-2 flex items-center justify-center gap-1.5 text-center text-[11px] text-muted-2">
-            <ShieldCheck size={13} />
-            Tài khoản demo: Nguyễn Minh Anh · 3 vé mẫu
-          </p>
+          <div className="grid gap-2 sm:grid-cols-2">
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => quickSignIn(demoAccounts[0])}
+              className="btn btn-secondary justify-center"
+            >
+              <Music2 size={16} />
+              Khách hàng
+            </button>
+            <button
+              type="button"
+              disabled={submitting}
+              onClick={() => quickSignIn(demoAccounts[1])}
+              className="btn btn-secondary justify-center"
+            >
+              <LayoutDashboard size={16} />
+              Vào quản trị
+            </button>
+          </div>
+
+          <div className="mt-3 space-y-1 rounded-md border border-line bg-white px-3 py-2.5 text-[11px] leading-5 text-muted">
+            <p className="flex items-center gap-1.5">
+              <ShieldCheck size={13} className="text-success" />
+              Khách hàng: {demoAccounts[0].email} · {demoAccounts[0].password}
+            </p>
+            <p className="flex items-center gap-1.5">
+              <ShieldCheck size={13} className="text-accent" />
+              Quản trị: {demoAccounts[1].email} · {demoAccounts[1].password}
+            </p>
+            {user && (
+              <p className="border-t border-line pt-1.5 text-muted-2">
+                Đang đăng nhập: {user.name} ({user.role || "CUSTOMER"})
+              </p>
+            )}
+          </div>
 
           <p className="mt-8 text-center text-[12px] text-muted">
             Chỉ để xem giao diện? <Link to="/events" className="link">Vào danh sách sự kiện</Link>

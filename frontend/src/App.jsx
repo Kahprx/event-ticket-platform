@@ -1,7 +1,8 @@
 import { useEffect } from "react";
-import { Route, Routes, useLocation } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import PublicLayout from "./layouts/PublicLayout.jsx";
 import AdminLayout from "./layouts/AdminLayout.jsx";
+import RequireAdmin from "./components/RequireAdmin.jsx";
 
 import HomePage from "./pages/HomePage.jsx";
 import EventsPage from "./pages/EventsPage.jsx";
@@ -19,7 +20,9 @@ import AdminOverviewPage from "./pages/admin/AdminOverviewPage.jsx";
 import AdminEventsPage from "./pages/admin/AdminEventsPage.jsx";
 import AdminTicketsPage from "./pages/admin/AdminTicketsPage.jsx";
 import AdminOrdersPage from "./pages/admin/AdminOrdersPage.jsx";
-import AdminUsersPage from "./pages/admin/AdminUsersPage.jsx";
+import AdminAccountsPage from "./pages/admin/AdminAccountsPage.jsx";
+import AdminRolesPage from "./pages/admin/AdminRolesPage.jsx";
+import AdminCustomersPage from "./pages/admin/AdminCustomersPage.jsx";
 import AdminLocationsPage from "./pages/admin/AdminLocationsPage.jsx";
 import AdminChatbotPage from "./pages/admin/AdminChatbotPage.jsx";
 import AdminReportsPage from "./pages/admin/AdminReportsPage.jsx";
@@ -56,12 +59,22 @@ export default function App() {
 
         <Route path="login" element={<LoginPage />} />
 
-        <Route path="admin" element={<AdminLayout />}>
+        <Route
+          path="admin"
+          element={
+            <RequireAdmin>
+              <AdminLayout />
+            </RequireAdmin>
+          }
+        >
           <Route index element={<AdminOverviewPage />} />
           <Route path="events" element={<AdminEventsPage />} />
           <Route path="tickets" element={<AdminTicketsPage />} />
           <Route path="orders" element={<AdminOrdersPage />} />
-          <Route path="users" element={<AdminUsersPage />} />
+          <Route path="accounts" element={<AdminAccountsPage />} />
+          <Route path="roles" element={<AdminRolesPage />} />
+          <Route path="customers" element={<AdminCustomersPage />} />
+          <Route path="users" element={<Navigate to="/admin/customers" replace />} />
           <Route path="locations" element={<AdminLocationsPage />} />
           <Route path="chatbot" element={<AdminChatbotPage />} />
           <Route path="reports" element={<AdminReportsPage />} />

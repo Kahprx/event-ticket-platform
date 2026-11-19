@@ -9,7 +9,8 @@
     "dev:frontend": "npm run dev -w frontend",
     "db:generate": "npm run prisma:generate -w backend",
     "db:migrate": "npm run prisma:migrate -w backend --",
-    "db:studio": "npm run prisma:studio -w backend"
+    "db:studio": "npm run prisma:studio -w backend",
+    "db:seed": "npm run prisma:seed -w backend"
   },
   "devDependencies": { "concurrently": "^9.1.2" }
 }
