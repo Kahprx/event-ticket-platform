@@ -1,0 +1,293 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1560" height="904" viewBox="0 0 1560 904" font-family="DejaVu Sans">
+<style>.title{font:bold 13px "DejaVu Sans";fill:#fff}.badge{font:bold 9px "DejaVu Sans"}.tag{font:9px "DejaVu Sans";fill:#8A919C}.pk{font:bold 12px "DejaVu Sans";fill:#1F2328}.col{font:12px "DejaVu Sans";fill:#1F2328}.new{font:12px "DejaVu Sans";fill:#C2410C}.type{font:10.5px "DejaVu Sans";fill:#8A919C}.ref{font:bold 10.5px "DejaVu Sans";fill:#6E4A8E}.stub{font:italic 12px "DejaVu Sans";fill:#4B5563}.h1{font:bold 20px "DejaVu Sans";fill:#1F2328}.leg{font:11.5px "DejaVu Sans";fill:#4B5563}</style>
+<rect width="100%" height="100%" fill="#fff"/>
+<text x="40" y="38" class="h1">ERD chi tiết – Phân hệ 3: Đặt vé, giữ vé, thanh toán &amp; soát vé</text>
+<rect x="40" y="52" width="12" height="12" rx="2" fill="#6E4A8E"/><text x="58" y="62" class="leg">3. Đặt vé, thanh toán &amp; soát vé</text>
+<text x="40" y="82" class="leg">PK khoá chính · FK khoá ngoại · * bắt buộc · cam ★ = cột mới · MỚI = bảng mới · → Bảng = khoá ngoại tới phân hệ khác (xem ERD tổng quan)</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none"><line x1="40" y1="102" x2="100" y2="102"/><line x1="47.0" y1="107.0" x2="47.0" y2="97.0"/>
+<line x1="52.0" y1="107.0" x2="52.0" y2="97.0"/><line x1="89.0" y1="102.0" x2="100.0" y2="108.0"/>
+<line x1="89.0" y1="102.0" x2="100.0" y2="102.0"/>
+<line x1="89.0" y1="102.0" x2="100.0" y2="96.0"/>
+<circle cx="83.0" cy="102.0" r="3.8" fill="#fff"/></g><text x="110" y="106" class="leg">một – nhiều (0..n)</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none"><line x1="240.96875" y1="102" x2="300.96875" y2="102"/><line x1="248.0" y1="107.0" x2="248.0" y2="97.0"/>
+<circle cx="257.0" cy="102.0" r="3.8" fill="#fff"/><line x1="290.0" y1="102.0" x2="301.0" y2="108.0"/>
+<line x1="290.0" y1="102.0" x2="301.0" y2="102.0"/>
+<line x1="290.0" y1="102.0" x2="301.0" y2="96.0"/>
+<circle cx="284.0" cy="102.0" r="3.8" fill="#fff"/></g><text x="310.96875" y="106" class="leg">khoá ngoại được để trống (0..1 – nhiều)</text>
+<g stroke="#5B6472" stroke-width="1.3" fill="none" stroke-linejoin="round">
+<path d="M1223,225 L1265,225 L1265,235 L1300,235"/>
+<line x1="1230.0" y1="230.0" x2="1230.0" y2="220.0"/>
+<circle cx="1239.0" cy="225.0" r="3.8" fill="#fff"/>
+<line x1="1289.0" y1="235.0" x2="1300.0" y2="241.0"/>
+<line x1="1289.0" y1="235.0" x2="1300.0" y2="235.0"/>
+<line x1="1289.0" y1="235.0" x2="1300.0" y2="229.0"/>
+<circle cx="1283.0" cy="235.0" r="3.8" fill="#fff"/>
+<path d="M269,405 L315,405 L315,415 L350,415"/>
+<line x1="276.0" y1="410.0" x2="276.0" y2="400.0"/>
+<circle cx="285.0" cy="405.0" r="3.8" fill="#fff"/>
+<line x1="339.0" y1="415.0" x2="350.0" y2="421.0"/>
+<line x1="339.0" y1="415.0" x2="350.0" y2="415.0"/>
+<line x1="339.0" y1="415.0" x2="350.0" y2="409.0"/>
+<circle cx="333.0" cy="415.0" r="3.8" fill="#fff"/>
+<path d="M608,225 L665,225 L665,235 L700,235"/>
+<line x1="615.0" y1="230.0" x2="615.0" y2="220.0"/>
+<line x1="620.0" y1="230.0" x2="620.0" y2="220.0"/>
+<line x1="689.0" y1="235.0" x2="700.0" y2="241.0"/>
+<line x1="689.0" y1="235.0" x2="700.0" y2="235.0"/>
+<line x1="689.0" y1="235.0" x2="700.0" y2="229.0"/>
+<circle cx="683.0" cy="235.0" r="3.8" fill="#fff"/>
+<path d="M350,525 L315,525 L315,665 L350,665"/>
+<line x1="343.0" y1="520.0" x2="343.0" y2="530.0"/>
+<line x1="338.0" y1="520.0" x2="338.0" y2="530.0"/>
+<line x1="343.0" y1="660.0" x2="343.0" y2="670.0"/>
+<circle cx="334.0" cy="665.0" r="3.8" fill="#fff"/>
+<path d="M608,505 L665,505 L665,515 L700,515"/>
+<line x1="615.0" y1="510.0" x2="615.0" y2="500.0"/>
+<circle cx="624.0" cy="505.0" r="3.8" fill="#fff"/>
+<line x1="689.0" y1="515.0" x2="700.0" y2="521.0"/>
+<line x1="689.0" y1="515.0" x2="700.0" y2="515.0"/>
+<line x1="689.0" y1="515.0" x2="700.0" y2="509.0"/>
+<circle cx="683.0" cy="515.0" r="3.8" fill="#fff"/>
+<path d="M608,345 L965,345 L965,255 L1000,255"/>
+<line x1="615.0" y1="350.0" x2="615.0" y2="340.0"/>
+<line x1="620.0" y1="350.0" x2="620.0" y2="340.0"/>
+<line x1="989.0" y1="255.0" x2="1000.0" y2="261.0"/>
+<line x1="989.0" y1="255.0" x2="1000.0" y2="255.0"/>
+<line x1="989.0" y1="255.0" x2="1000.0" y2="249.0"/>
+<circle cx="983.0" cy="255.0" r="3.8" fill="#fff"/>
+</g>
+<rect x="40" y="174" width="229" height="274" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M40,202 v-23 a5,5 0 0 1 5,-5 h219 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="50" y="193" class="title">PromoCode</text>
+<rect x="227" y="181" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="244" y="192" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="48" y="219" class="tag">PK</text>
+<text x="70" y="219" class="pk">id</text>
+<text x="259" y="219" text-anchor="end" class="type">text</text>
+<rect x="41" y="225" width="227" height="20" fill="#F7F7F8"/>
+<text x="70" y="239" class="col">code *</text>
+<text x="259" y="239" text-anchor="end" class="type">text</text>
+<text x="70" y="259" class="col">label *</text>
+<text x="259" y="259" text-anchor="end" class="type">text</text>
+<rect x="41" y="265" width="227" height="20" fill="#F7F7F8"/>
+<text x="70" y="279" class="col">discountType *</text>
+<text x="259" y="279" text-anchor="end" class="type">DiscountType</text>
+<text x="70" y="299" class="col">value *</text>
+<text x="259" y="299" text-anchor="end" class="type">decimal</text>
+<rect x="41" y="305" width="227" height="20" fill="#F7F7F8"/>
+<text x="48" y="319" class="tag">FK</text>
+<text x="70" y="319" class="col">eventId</text>
+<text x="259" y="319" text-anchor="end" class="ref">→ Event</text>
+<text x="70" y="339" class="col">usageLimit</text>
+<text x="259" y="339" text-anchor="end" class="type">integer</text>
+<rect x="41" y="345" width="227" height="20" fill="#F7F7F8"/>
+<text x="70" y="359" class="col">usedCount *</text>
+<text x="259" y="359" text-anchor="end" class="type">integer</text>
+<text x="70" y="379" class="col">startsAt</text>
+<text x="259" y="379" text-anchor="end" class="type">timestamp</text>
+<rect x="41" y="385" width="227" height="20" fill="#F7F7F8"/>
+<text x="70" y="399" class="col">endsAt</text>
+<text x="259" y="399" text-anchor="end" class="type">timestamp</text>
+<text x="70" y="419" class="col">isActive *</text>
+<text x="259" y="419" text-anchor="end" class="type">boolean</text>
+<rect x="41" y="425" width="227" height="20" fill="#F7F7F8"/>
+<text x="70" y="439" class="col">createdAt *</text>
+<text x="259" y="439" text-anchor="end" class="type">timestamp</text>
+<rect x="350" y="174" width="258" height="374" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M350,202 v-23 a5,5 0 0 1 5,-5 h248 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="360" y="193" class="title">Order</text>
+<text x="358" y="219" class="tag">PK</text>
+<text x="380" y="219" class="pk">id</text>
+<text x="598" y="219" text-anchor="end" class="type">text</text>
+<rect x="351" y="225" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="239" class="col">orderCode *</text>
+<text x="598" y="239" text-anchor="end" class="type">text</text>
+<text x="358" y="259" class="tag">FK</text>
+<text x="380" y="259" class="col">userId *</text>
+<text x="598" y="259" text-anchor="end" class="ref">→ User</text>
+<rect x="351" y="265" width="256" height="20" fill="#F7F7F8"/>
+<text x="358" y="279" class="tag">FK</text>
+<text x="380" y="279" class="col">eventId *</text>
+<text x="598" y="279" text-anchor="end" class="ref">→ Event</text>
+<text x="380" y="299" class="new">buyerName ★ *</text>
+<text x="598" y="299" text-anchor="end" class="type">text</text>
+<rect x="351" y="305" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="319" class="new">buyerEmail ★ *</text>
+<text x="598" y="319" text-anchor="end" class="type">text</text>
+<text x="380" y="339" class="new">buyerPhone ★ *</text>
+<text x="598" y="339" text-anchor="end" class="type">text</text>
+<rect x="351" y="345" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="359" class="new">subtotal ★ *</text>
+<text x="598" y="359" text-anchor="end" class="type">decimal</text>
+<text x="380" y="379" class="new">serviceFee ★ *</text>
+<text x="598" y="379" text-anchor="end" class="type">decimal</text>
+<rect x="351" y="385" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="399" class="new">discountAmount ★ *</text>
+<text x="598" y="399" text-anchor="end" class="type">decimal</text>
+<text x="358" y="419" class="tag">FK</text>
+<text x="380" y="419" class="new">promoCodeId ★</text>
+<text x="598" y="419" text-anchor="end" class="type">text</text>
+<rect x="351" y="425" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="439" class="col">totalAmount *</text>
+<text x="598" y="439" text-anchor="end" class="type">decimal</text>
+<text x="380" y="459" class="col">status *</text>
+<text x="598" y="459" text-anchor="end" class="type">OrderStatus</text>
+<rect x="351" y="465" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="479" class="col">paymentStatus *</text>
+<text x="598" y="479" text-anchor="end" class="type">PaymentStatus</text>
+<text x="380" y="499" class="new">cancelledAt ★</text>
+<text x="598" y="499" text-anchor="end" class="type">timestamp</text>
+<rect x="351" y="505" width="256" height="20" fill="#F7F7F8"/>
+<text x="380" y="519" class="col">createdAt *</text>
+<text x="598" y="519" text-anchor="end" class="type">timestamp</text>
+<text x="380" y="539" class="col">updatedAt *</text>
+<text x="598" y="539" text-anchor="end" class="type">timestamp</text>
+<rect x="350" y="604" width="246" height="254" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M350,632 v-23 a5,5 0 0 1 5,-5 h236 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="360" y="623" class="title">Payment</text>
+<text x="358" y="649" class="tag">PK</text>
+<text x="380" y="649" class="pk">id</text>
+<text x="586" y="649" text-anchor="end" class="type">text</text>
+<rect x="351" y="655" width="244" height="20" fill="#F7F7F8"/>
+<text x="358" y="669" class="tag">FK</text>
+<text x="380" y="669" class="col">orderId *</text>
+<text x="586" y="669" text-anchor="end" class="type">text</text>
+<text x="380" y="689" class="col">providerRef</text>
+<text x="586" y="689" text-anchor="end" class="type">text</text>
+<rect x="351" y="695" width="244" height="20" fill="#F7F7F8"/>
+<text x="380" y="709" class="col">amount *</text>
+<text x="586" y="709" text-anchor="end" class="type">decimal</text>
+<text x="380" y="729" class="col">method *</text>
+<text x="586" y="729" text-anchor="end" class="type">text</text>
+<rect x="351" y="735" width="244" height="20" fill="#F7F7F8"/>
+<text x="380" y="749" class="col">status *</text>
+<text x="586" y="749" text-anchor="end" class="type">PaymentStatus</text>
+<text x="380" y="769" class="col">paidAt</text>
+<text x="586" y="769" text-anchor="end" class="type">timestamp</text>
+<rect x="351" y="775" width="244" height="20" fill="#F7F7F8"/>
+<text x="380" y="789" class="new">refundAmount ★</text>
+<text x="586" y="789" text-anchor="end" class="type">decimal</text>
+<text x="380" y="809" class="new">refundedAt ★</text>
+<text x="586" y="809" text-anchor="end" class="type">timestamp</text>
+<rect x="351" y="815" width="244" height="20" fill="#F7F7F8"/>
+<text x="380" y="829" class="col">createdAt *</text>
+<text x="586" y="829" text-anchor="end" class="type">timestamp</text>
+<text x="380" y="849" class="col">updatedAt *</text>
+<text x="586" y="849" text-anchor="end" class="type">timestamp</text>
+<rect x="700" y="174" width="223" height="154" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M700,202 v-23 a5,5 0 0 1 5,-5 h213 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="710" y="193" class="title">OrderItem</text>
+<text x="708" y="219" class="tag">PK</text>
+<text x="730" y="219" class="pk">id</text>
+<text x="913" y="219" text-anchor="end" class="type">text</text>
+<rect x="701" y="225" width="221" height="20" fill="#F7F7F8"/>
+<text x="708" y="239" class="tag">FK</text>
+<text x="730" y="239" class="col">orderId *</text>
+<text x="913" y="239" text-anchor="end" class="type">text</text>
+<text x="708" y="259" class="tag">FK</text>
+<text x="730" y="259" class="col">ticketTypeId *</text>
+<text x="913" y="259" text-anchor="end" class="ref">→ TicketType</text>
+<rect x="701" y="265" width="221" height="20" fill="#F7F7F8"/>
+<text x="730" y="279" class="col">quantity *</text>
+<text x="913" y="279" text-anchor="end" class="type">integer</text>
+<text x="730" y="299" class="col">price *</text>
+<text x="913" y="299" text-anchor="end" class="type">decimal</text>
+<rect x="701" y="305" width="221" height="20" fill="#F7F7F8"/>
+<text x="730" y="319" class="col">subtotal *</text>
+<text x="913" y="319" text-anchor="end" class="type">decimal</text>
+<rect x="700" y="394" width="223" height="234" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M700,422 v-23 a5,5 0 0 1 5,-5 h213 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="710" y="413" class="title">TicketHold</text>
+<rect x="881" y="401" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="898" y="412" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="708" y="439" class="tag">PK</text>
+<text x="730" y="439" class="pk">id</text>
+<text x="913" y="439" text-anchor="end" class="type">text</text>
+<rect x="701" y="445" width="221" height="20" fill="#F7F7F8"/>
+<text x="708" y="459" class="tag">FK</text>
+<text x="730" y="459" class="col">userId *</text>
+<text x="913" y="459" text-anchor="end" class="ref">→ User</text>
+<text x="708" y="479" class="tag">FK</text>
+<text x="730" y="479" class="col">ticketTypeId *</text>
+<text x="913" y="479" text-anchor="end" class="ref">→ TicketType</text>
+<rect x="701" y="485" width="221" height="20" fill="#F7F7F8"/>
+<text x="708" y="499" class="tag">FK</text>
+<text x="730" y="499" class="col">seatId</text>
+<text x="913" y="499" text-anchor="end" class="ref">→ Seat</text>
+<text x="708" y="519" class="tag">FK</text>
+<text x="730" y="519" class="col">orderId</text>
+<text x="913" y="519" text-anchor="end" class="type">text</text>
+<rect x="701" y="525" width="221" height="20" fill="#F7F7F8"/>
+<text x="730" y="539" class="col">quantity *</text>
+<text x="913" y="539" text-anchor="end" class="type">integer</text>
+<text x="730" y="559" class="col">status *</text>
+<text x="913" y="559" text-anchor="end" class="type">HoldStatus</text>
+<rect x="701" y="565" width="221" height="20" fill="#F7F7F8"/>
+<text x="730" y="579" class="col">expiresAt *</text>
+<text x="913" y="579" text-anchor="end" class="type">timestamp</text>
+<text x="730" y="599" class="col">createdAt *</text>
+<text x="913" y="599" text-anchor="end" class="type">timestamp</text>
+<rect x="701" y="605" width="221" height="20" fill="#F7F7F8"/>
+<text x="730" y="619" class="col">updatedAt *</text>
+<text x="913" y="619" text-anchor="end" class="type">timestamp</text>
+<rect x="1000" y="174" width="223" height="234" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M1000,202 v-23 a5,5 0 0 1 5,-5 h213 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="1010" y="193" class="title">Ticket</text>
+<text x="1008" y="219" class="tag">PK</text>
+<text x="1030" y="219" class="pk">id</text>
+<text x="1213" y="219" text-anchor="end" class="type">text</text>
+<rect x="1001" y="225" width="221" height="20" fill="#F7F7F8"/>
+<text x="1030" y="239" class="col">ticketCode *</text>
+<text x="1213" y="239" text-anchor="end" class="type">text</text>
+<text x="1008" y="259" class="tag">FK</text>
+<text x="1030" y="259" class="col">orderId *</text>
+<text x="1213" y="259" text-anchor="end" class="type">text</text>
+<rect x="1001" y="265" width="221" height="20" fill="#F7F7F8"/>
+<text x="1008" y="279" class="tag">FK</text>
+<text x="1030" y="279" class="col">userId *</text>
+<text x="1213" y="279" text-anchor="end" class="ref">→ User</text>
+<text x="1008" y="299" class="tag">FK</text>
+<text x="1030" y="299" class="col">eventId *</text>
+<text x="1213" y="299" text-anchor="end" class="ref">→ Event</text>
+<rect x="1001" y="305" width="221" height="20" fill="#F7F7F8"/>
+<text x="1008" y="319" class="tag">FK</text>
+<text x="1030" y="319" class="col">ticketTypeId *</text>
+<text x="1213" y="319" text-anchor="end" class="ref">→ TicketType</text>
+<text x="1008" y="339" class="tag">FK</text>
+<text x="1030" y="339" class="new">seatId ★</text>
+<text x="1213" y="339" text-anchor="end" class="ref">→ Seat</text>
+<rect x="1001" y="345" width="221" height="20" fill="#F7F7F8"/>
+<text x="1030" y="359" class="col">status *</text>
+<text x="1213" y="359" text-anchor="end" class="type">TicketStatus</text>
+<text x="1030" y="379" class="col">qrCode</text>
+<text x="1213" y="379" text-anchor="end" class="type">text</text>
+<rect x="1001" y="385" width="221" height="20" fill="#F7F7F8"/>
+<text x="1030" y="399" class="col">createdAt *</text>
+<text x="1213" y="399" text-anchor="end" class="type">timestamp</text>
+<rect x="1300" y="174" width="236" height="194" rx="5" fill="#fff" stroke="#6E4A8E" stroke-width="1.4"/>
+<path d="M1300,202 v-23 a5,5 0 0 1 5,-5 h226 a5,5 0 0 1 5,5 v23 z" fill="#6E4A8E"/>
+<text x="1310" y="193" class="title">CheckIn</text>
+<rect x="1494" y="181" width="34" height="15" rx="7" fill="#fff" fill-opacity=".9"/><text x="1511" y="192" text-anchor="middle" class="badge" fill="#6E4A8E">MỚI</text>
+<text x="1308" y="219" class="tag">PK</text>
+<text x="1330" y="219" class="pk">id</text>
+<text x="1526" y="219" text-anchor="end" class="type">text</text>
+<rect x="1301" y="225" width="234" height="20" fill="#F7F7F8"/>
+<text x="1308" y="239" class="tag">FK</text>
+<text x="1330" y="239" class="col">ticketId</text>
+<text x="1526" y="239" text-anchor="end" class="type">text</text>
+<text x="1308" y="259" class="tag">FK</text>
+<text x="1330" y="259" class="col">eventId *</text>
+<text x="1526" y="259" text-anchor="end" class="ref">→ Event</text>
+<rect x="1301" y="265" width="234" height="20" fill="#F7F7F8"/>
+<text x="1308" y="279" class="tag">FK</text>
+<text x="1330" y="279" class="col">staffId *</text>
+<text x="1526" y="279" text-anchor="end" class="ref">→ User</text>
+<text x="1330" y="299" class="col">scannedCode *</text>
+<text x="1526" y="299" text-anchor="end" class="type">text</text>
+<rect x="1301" y="305" width="234" height="20" fill="#F7F7F8"/>
+<text x="1330" y="319" class="col">result *</text>
+<text x="1526" y="319" text-anchor="end" class="type">CheckInResult</text>
+<text x="1330" y="339" class="col">gate</text>
+<text x="1526" y="339" text-anchor="end" class="type">text</text>
+<rect x="1301" y="345" width="234" height="20" fill="#F7F7F8"/>
+<text x="1330" y="359" class="col">scannedAt *</text>
+<text x="1526" y="359" text-anchor="end" class="type">timestamp</text>
+</svg>
