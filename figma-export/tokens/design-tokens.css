@@ -1,0 +1,47 @@
+/* Sao chep tu frontend/src/styles.css -> dan vao Figma Variables / Styles */
+:root {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink-950: #0b121b;
+  --color-ink-900: #101a26;
+  --color-ink-800: #182430;
+  --color-ink-700: #243342;
+  --color-ink-600: #34506a;
+
+  --color-paper: #f7f5f0;
+  --color-paper-2: #efece4;
+  --color-line: #e3ded2;
+
+  --color-accent: #e4572e;
+  --color-accent-dark: #c44722;
+  --color-accent-soft: #fbe9e1;
+
+  --color-success: #2f7d54;
+  --color-success-soft: #e7f3ec;
+  --color-warning: #a9761c;
+  --color-warning-soft: #fbf1dd;
+  --color-danger: #b93b2f;
+  --color-danger-soft: #fbe9e7;
+
+  --color-muted: #6b7280;
+  --color-muted-2: #8b8f96;
+
+  --radius-card: 12px;
+  --shadow-card: 0 1px 2px rgba(16, 26, 38, 0.05), 0 10px 26px -18px rgba(16, 26, 38, 0.35);
+  --shadow-pop: 0 18px 50px -22px rgba(11, 18, 27, 0.55);
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink-900);
+  font-family: var(--font-sans);
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
