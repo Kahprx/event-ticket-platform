@@ -1,4 +1,3 @@
-import { env } from "../../config/env.js";
 import {
   allEvents,
   compact,
@@ -8,6 +7,10 @@ import {
   locationName,
   retrieve,
 } from "./knowledge.js";
+
+// Đọc thẳng process.env để test chatbot không phụ thuộc cấu hình DB/JWT của app.
+const geminiApiKey = process.env.GEMINI_API_KEY?.trim();
+const geminiModel = process.env.GEMINI_MODEL?.trim() || "gemini-2.5-flash";
 
 const reply = (text, extra = {}) => ({
   text,
@@ -131,7 +134,7 @@ function shouldUseLLM(answer) {
 }
 
 async function askGemini(query, retrieval) {
-  const key = env.GEMINI_API_KEY;
+  const key = geminiApiKey;
   if (!key) return null;
   const context = retrieval.events.map(eventContext);
   const prompt = [
@@ -143,7 +146,7 @@ async function askGemini(query, retrieval) {
   ].join("\n");
 
   const response = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(env.GEMINI_MODEL)}:generateContent?key=${encodeURIComponent(key)}`,
+    `https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(geminiModel)}:generateContent?key=${encodeURIComponent(key)}`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -174,7 +177,7 @@ export async function answerQuestion({ message, history = [] } = {}) {
   else if (!topics.isDomainRelated && !artists.length && !slots.city && !slots.category && !slots.budget) grounded = STATIC.offtopic;
   else grounded = buildEventAnswer(query, retrieval);
 
-  if (!shouldUseLLM(grounded) || !env.GEMINI_API_KEY) return { ...grounded, mode: "local" };
+  if (!shouldUseLLM(grounded) || !geminiApiKey) return { ...grounded, mode: "local" };
 
   try {
     const generated = await askGemini(query, retrieval);
