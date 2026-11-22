@@ -75,8 +75,8 @@
 | T11 | Dev 1 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #10 | #10 | ✅ Xong |
 | T12 | Dev 2 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | 19/11 ~12:53 | `3bdf01b` | #10 | ✅ Đã merge, CI pass |
 | T13 | Dev 1 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | `c4e04fa`, `32b66ec`, `463a8a9` | #7 (từ fork) | ✅ Xong |
-| T17 | Dev 2 | Chatbot RAG backend: alias ca sĩ (`Vũ.`, `Da LAB`, `nhóm MTV`), phân loại ý định ở đâu/mấy giờ/lịch diễn/giá, API `/api/chatbot/ask` có rate limit, optional Gemini, 6 test cases | 23/11 00:40 | `64bc3ef` | #15 (từ fork) | ✅ Xong, chờ review |
-| T18 | Dev 1 | Frontend gọi API chatbot, gửi 8 lượt history, cập nhật gợi ý “Suboi có lịch diễn ở đâu và mấy giờ?”, fallback local và nhãn nguồn trả lời | 23/11 00:45 | `64bc3ef` | #15 (từ fork) | ✅ Xong, chờ review |
+| T17 | Dev 2 | Chatbot RAG backend: alias ca sĩ (`Vũ.`, `Da LAB`, `nhóm MTV`), phân loại ý định ở đâu/mấy giờ/lịch diễn/giá, API `/api/chatbot/ask` có rate limit, optional Gemini, 6 test cases | 23/11 00:40 | `376c846` | #15 (từ fork) | ✅ Xong, chờ review |
+| T18 | Dev 1 | Frontend gọi API chatbot, gửi 8 lượt history, cập nhật gợi ý “Suboi có lịch diễn ở đâu và mấy giờ?”, fallback local và nhãn nguồn trả lời | 23/11 00:45 | `376c846` | #15 (từ fork) | ✅ Xong, chờ review |
 
 ---
 
@@ -237,7 +237,7 @@
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
-- **Branch làm việc:** `64bc3ef` (từ `fork/main`); `main` đã chứa toàn bộ 4 PR đầu.
+- **Branch làm việc:** `376c846` (từ `fork/main`); `main` đã chứa toàn bộ 4 PR đầu.
 - **HEAD / remote:** `upstream/main` = `c6fc00f` (merge PR #7), fork `ka31203/main` đồng bộ trước merge.
 - **PR đang mở:** #15 — chatbot RAG từ fork `ka31203`, chờ review chéo. #8/#9/#10/#7 đã MERGED (xem mục 5).
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
