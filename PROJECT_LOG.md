@@ -14,8 +14,8 @@
 | 4 | Kiểm tra trước khi commit | Build FE, kiểm tra import thừa, syntax BE, curl health, test browser CRUD |
 | 5 | Commit theo convention | `feat:` / `fix:` / `docs:` kèm mô tả ngắn |
 | 6 | Push lên remote | `git push upstream feat/soundpass-ui feat/auth-admin docs-cleanup` |
-| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2/#3/#4/#5/#6 đã đóng; **4 PR #8/#9/#10/#7 từ fork `ka31203` đều đã merged**. Fork thật + nhiều PR ở mục 9 |
-| 8 | Review → merge → ghi log | Review chéo xong; merge lần lượt **#8 → #9 → #10 → #7** vào `main` (4 PR từ fork) |
+| 7 | Tạo / cập nhật Pull Request | PR #1 merged; PR #2/#3/#4/#5/#6 đã đóng; **5 PR #8/#9/#10/#7/#11 từ fork `ka31203` đã merged**. Đang mở **#12** (Figma export) và **#14** (thanh toán + Gmail). Fork thật + nhiều PR ở mục 9 |
+| 8 | Review → merge → ghi log | Review chéo xong; merge lần lượt **#8 → #9 → #10 → #7 → #11** vào `main` (5 PR từ fork). #12/#14 chờ merge |
 
 ---
 
@@ -213,7 +213,32 @@
 | Review | `Kahprx` approved (review chéo) |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/7 |
 
-> Đã merge theo thứ tự **PR #8 → PR #9 → PR #10 → PR #7**. Cả 4 đều từ fork; PR #3/#4/#5/#6 đã đóng để tránh trùng nội dung. Trước mỗi lần merge, PR tiếp theo được `gh pr edit --base main` để code landed thẳng vào `main`.
+> Đã merge theo thứ tự **PR #8 → PR #9 → PR #10 → PR #7 → PR #11**. Cả 5 đều từ fork; PR #3/#4/#5/#6 đã đóng để tránh trùng nội dung. Trước mỗi lần merge, PR tiếp theo được `gh pr edit --base main` để code landed thẳng vào `main`.
+
+### PR #12 — `design: thêm Figma export 66 page kèm PNG reference`
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🟢 OPEN — chờ review/merge |
+| Branch | `ka31203:design/figma-66-pages` → `Kahprx:main` |
+| Commit | `0eba02b`, `385efd3` |
+| Nội dung | 66 SVG + 66 PNG, mỗi page 1 frame + 1 ảnh reference; design tokens, spec, script |
+| CI | `build` pass |
+| Jira | `F5-50` — Done, parent `F5-12`, sprint `F5 Sprint 1` |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/12 |
+
+### PR #14 — `feat: xác nhận thanh toán thật và gửi biên nhận qua Gmail`
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🟢 OPEN — chờ review/merge |
+| Branch | `ka31203:feat/payment-gmail-notification` → `Kahprx:main` |
+| Commit | `30f4601` (code), `24ffea3` (docs) |
+| Nội dung | API order/confirm idempotent, phát hành vé, gửi biên nhận Gmail SMTP tới email checkout; migration contact fields; seed catalog; test + CI |
+| Kiểm tra | Login → tạo đơn → confirm PAID → 2 vé → confirm lại vẫn 2 vé → GET đơn đúng; migrate + seed local OK. Ngày 23/11 xác nhận gửi Gmail thật: đơn `SP-MWS3VKPI-2C1490` trả `emailSent: true`, thư có trong hộp thư đến |
+| CI | `build` pass (run `44995951281`, 21s) |
+| Jira | `F5-49` — Done, parent `F5-12`, sprint `F5 Sprint 1` |
+| Link | https://github.com/Kahprx/event-ticket-platform/pull/14 |
 
 ---
 
@@ -222,14 +247,14 @@
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
-- **Branch làm việc:** `main` đã chứa toàn bộ 4 PR; bản cập nhật trạng thái sau merge nằm trên `docs/post-merge`.
-- **HEAD / remote:** `upstream/main` = `c6fc00f` (merge PR #7), fork `ka31203/main` đồng bộ trước merge.
-- **PR đang mở:** không còn; #8/#9/#10/#7 đã MERGED (xem mục 5).
+- **Branch làm việc:** `main` đã chứa 5 PR merged (#8/#9/#10/#7/#11). Branch mới: `design/figma-66-pages` (#12), `feat/payment-gmail-notification` (#14).
+- **HEAD / remote:** `upstream/main` = `539ab67` (merge PR #11), fork `ka31203/main` đồng bộ; #14 có commit `30f4601`.
+- **PR đang mở:** **#12** (Figma export) và **#14** (thanh toán + Gmail); #8/#9/#10/#7/#11 đã MERGED (xem mục 5).
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
-- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend; run trên `main` ✅ pass (run `44468475158`).
-- **Jira:** project **F5 (fixxo_5)** — thành viên `hanminh2709@gmail.com` Active, `F5 Sprint 1` đang **active**, 4 action item + 6 backlog + 1 Epic + 4 Story + form `Feature request` (xem mục 10).
+- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend → `npm run test -w @event-platform/backend`; run trên PR #14 ✅ pass (run `44995951281`).
+- **Jira:** project **F5 (fixxo_5)** — thành viên `hanminh2709@gmail.com` Active, `F5 Sprint 1` đang **active**, 4 action item + 6 backlog + 1 Epic + 4 Story + form `Feature request`; thêm `F5-49` (thanh toán + Gmail) và `F5-50` (Figma export), cả hai **Done**, parent `F5-12` (xem mục 10).
 - **Tài khoản seed:**
 
 | Vai trò | Email | Mật khẩu |
@@ -252,6 +277,8 @@
 - [x] Fork thật sang `ka31203`, push 4 branch, đóng #3/#4/#5/#6, mở #7/#8/#9/#10 từ fork
 - [x] Merge lần lượt PR #8 → PR #9 → PR #10 → PR #7 vào `main` (4 PR từ fork)
 - [x] Start `F5 Sprint 1` trên Jira và đưa backlog/action/Epic/Story/Form vào project F5
+- [x] Xây API order/confirm thật, phát hành vé và gửi biên nhận Gmail (commit `30f4601`, PR #14, CI pass, Jira `F5-49` Done; gửi thật xác nhận 23/11 qua đơn `SP-MWS3VKPI-2C1490`)
+- [x] Export 66 page Figma kèm PNG reference (PR #12, Jira `F5-50` Done)
 
 ---
 
@@ -306,7 +333,7 @@ Lưu ý khi dùng fork:
 - **Fork:** https://github.com/ka31203/event-ticket-platform — parent là `Kahprx/event-ticket-platform`, tạo 17/11/2026.
 - **gh CLI:** đã lưu cả 2 account — `Kahprx` (owner, push `upstream`) và `ka31203` (push `fork`). Chuyển bằng `gh auth switch -u <user>`.
 - **Remote local:** `upstream` → repo gốc `Kahprx`; `fork` / `origin` → repo fork `ka31203`.
-- **4 branch đã push lên fork:** `feat/soundpass-ui`, `feat/auth-admin`, `docs-cleanup`, `fix/chatbot-artist`.
+- **6 branch đã push lên fork:** `feat/soundpass-ui`, `feat/auth-admin`, `docs-cleanup`, `fix/chatbot-artist`, `design/figma-66-pages`, `feat/payment-gmail-notification`.
 - **Stacked PR:** `main ← #8 ← #9 ← #10 ← #7`. Ban đầu base của #9/#10/#7 là branch ngay trước; trước mỗi lần merge dùng `gh pr edit --base main` nên cả 4 landed thẳng vào `main`: `ka31203:feat/soundpass-ui`, `ka31203:feat/auth-admin`, `ka31203:docs-cleanup`, `ka31203:fix/chatbot-artist`.
 - **PR #3/#4/#5/#6 đã đóng** để tránh trùng nội dung với #8/#9/#10/#7. PR #1 đã merge, PR #2 đã đóng.
 - Đã merge từ dưới lên: **#8 (`a719002`) → #9 (`07474ce`) → #10 (`2700533`) → #7 (`c6fc00f`)**. Merge #10 dùng token `ka31203` vì token `Kahprx` thiếu scope `workflow` cho file `.github/workflows/ci.yml`.
@@ -332,6 +359,8 @@ Lưu ý khi dùng fork:
 | F5-3 | T12: GitHub Actions CI | Done |
 | F5-4 | Review chéo PR bởi thành viên thứ 2 | Done |
 | F5-5 | Cập nhật README / PROJECT_LOG / Word sau merge | Done |
+| F5-49 | Thanh toán thật + gửi biên nhận qua Gmail (PR #14) | Done |
+| F5-50 | Export Figma 66 page kèm PNG reference (PR #12) | Done |
 
 ### Backlog
 
@@ -349,6 +378,7 @@ Lưu ý khi dùng fork:
 - **Epic F5-12:** `Soundpass - Nen tang dat ve su kien`.
 - **Story F5-13** luồng đặt vé API thật; **F5-14** auth/role; **F5-15** chatbot tên nghệ sĩ; **F5-16** CI/CD, CORS, tài liệu.
 - Toàn bộ 14 issue F5-2…F5-11, F5-13…F5-16 đã gán `parent = F5-12`.
+- **F5-49 / F5-50:** 2 Task mới tạo 22/11/2026, `parent = F5-12`, thuộc `F5 Sprint 1`, cả hai **Done**. Link: https://kaquach62.atlassian.net/jira/browse/F5-49 và https://kaquach62.atlassian.net/jira/browse/F5-50.
 - Form **`Feature request`** đã tạo trong F5: `/jira/software/projects/F5/form/1/builder`.
 
-> Git và Jira dùng chung một danh sách việc: commit/PR ở mục 3–5 tương ứng với F5-2…F5-5; backlog F5-6…F5-11 là việc làm sau khi merge.
+> Git và Jira dùng chung một danh sách việc: commit/PR ở mục 3–5 tương ứng với F5-2…F5-5; backlog F5-6…F5-11 là việc làm sau khi merge; F5-49/F5-50 theo dõi PR #14/#12.

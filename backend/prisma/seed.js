@@ -2,6 +2,8 @@ import bcrypt from "bcrypt";
 import dotenv from "dotenv";
 import { PrismaClient } from "@prisma/client";
 import { fileURLToPath } from "node:url";
+// Dùng chung dữ liệu mẫu với frontend để ID sự kiện/loại vé khớp nhau khi chạy local.
+import { categories, events, locations } from "../../frontend/src/data/events.js";
 
 dotenv.config({ path: fileURLToPath(new URL("../.env", import.meta.url)) });
 
@@ -59,6 +61,88 @@ const accounts = [
   },
 ];
 
+async function seedCatalog() {
+  for (const location of locations) {
+    await prisma.region.upsert({
+      where: { slug: location.id },
+      update: { name: location.name },
+      create: { id: location.id, name: location.name, slug: location.id },
+    });
+  }
+
+  for (const category of categories.filter((item) => item.id !== "all")) {
+    await prisma.category.upsert({
+      where: { slug: category.id },
+      update: { name: category.name, description: category.description || null },
+      create: { id: category.id, name: category.name, slug: category.id, description: category.description || null },
+    });
+  }
+
+  for (const event of events) {
+    const start = new Date(`${event.date}T${event.time || "00:00"}:00`);
+    const end = event.endTime
+      ? new Date(`${event.date}T${event.endTime}:00`)
+      : new Date(start.getTime() + 2 * 60 * 60 * 1000);
+
+    await prisma.event.upsert({
+      where: { id: event.id },
+      update: {
+        title: event.name,
+        description: Array.isArray(event.description) ? event.description.join("\n") : String(event.description || ""),
+        imageUrl: event.image || null,
+        location: event.venue,
+        address: event.address,
+        organizer: event.organizer?.name || "Soundpass",
+        startDate: start,
+        endDate: end,
+        status: "PUBLISHED",
+        featured: Boolean(event.featured),
+        regionId: event.locationId,
+        categoryId: event.category,
+      },
+      create: {
+        id: event.id,
+        title: event.name,
+        slug: event.id,
+        description: Array.isArray(event.description) ? event.description.join("\n") : String(event.description || ""),
+        imageUrl: event.image || null,
+        location: event.venue,
+        address: event.address,
+        organizer: event.organizer?.name || "Soundpass",
+        startDate: start,
+        endDate: end,
+        status: "PUBLISHED",
+        featured: Boolean(event.featured),
+        regionId: event.locationId,
+        categoryId: event.category,
+      },
+    });
+
+    for (const type of event.ticketTypes || []) {
+      const ticketTypeId = `${event.id}-${type.id}`;
+      const quantity = type.total ?? type.quantity ?? 0;
+      const sold = type.sold ?? 0;
+      const data = {
+        eventId: event.id,
+        name: type.name,
+        description: type.note || null,
+        price: type.price,
+        quantity,
+        sold,
+        status: "ACTIVE",
+      };
+      const { sold: _sold, ...ticketUpdate } = data;
+      await prisma.ticketType.upsert({
+        where: { id: ticketTypeId },
+        update: ticketUpdate,
+        create: { id: ticketTypeId, ...data },
+      });
+    }
+  }
+
+  console.log(`Seeded ${locations.length} regions, ${categories.length - 1} categories, ${events.length} events.`);
+}
+
 async function main() {
   for (const role of roles) {
     await prisma.role.upsert({
@@ -78,6 +162,7 @@ async function main() {
   }
 
   console.log(`Seeded ${roles.length} roles and ${accounts.length} accounts.`);
+  await seedCatalog();
 }
 
 main()

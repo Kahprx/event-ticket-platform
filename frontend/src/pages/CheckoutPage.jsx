@@ -16,8 +16,9 @@ import {
 } from "lucide-react";
 import { getEventById } from "../data/events.js";
 import { eventLocationName } from "../utils/events.js";
-import { createBookingCode, formatLongDate, formatTime, formatVnd } from "../utils/format.js";
+import { formatLongDate, formatTime, formatVnd } from "../utils/format.js";
 import { calculateTotal, findPromo, getSelection } from "../utils/pricing.js";
+import { api } from "../services/api.js";
 import { useAppStore } from "../store/appStore.js";
 import { useBookingStore } from "../store/bookingStore.js";
 import Stepper from "../components/Stepper.jsx";
@@ -119,7 +120,7 @@ export default function CheckoutPage() {
     setPromoError("");
   };
 
-  const submit = (eventForm) => {
+  const submit = async (eventForm) => {
     eventForm?.preventDefault?.();
     if (submitting) return;
 
@@ -135,39 +136,72 @@ export default function CheckoutPage() {
     }
 
     setSubmitting(true);
-
-    // Giả lập cổng thanh toán. Khi có backend, thay bằng axios.post('/bookings').
-    setTimeout(() => {
+    try {
+      const customer = {
+        name: form.name.trim(),
+        email: form.email.trim(), // Email này nhận vé sau khi thanh toán.
+        phone: form.phone.replace(/\s/g, ""),
+      };
       const firstItem = selection.items[0];
-      const bookingId = createBookingCode();
+
+      const orderResponse = await api.post("/payments/orders", {
+        eventId: event.id,
+        items: selection.items.map((item) => ({
+          ticketTypeId: `${event.id}-${item.id}`,
+          quantity: item.quantity,
+        })),
+        customer,
+        paymentMethod,
+        promoCode: promoApplied?.code || null,
+      });
+      const order = orderResponse.data?.data;
+      if (!order?.orderCode) throw new Error("Phản hồi đơn hàng không hợp lệ");
+
+      const paymentResponse = await api.post("/payments/confirm", {
+        orderCode: order.orderCode,
+        method: paymentMethod,
+        transactionCode: `MOCK-${order.orderCode}`,
+      });
+      const paid = paymentResponse.data?.data;
+      if (paid?.paymentStatus !== "PAID") throw new Error("Thanh toán chưa được xác nhận");
+
+      const primaryTicket = paid.tickets?.[0]?.ticketCode || paid.orderCode;
       const booking = {
-        id: bookingId,
+        id: paid.orderCode,
+        orderCode: paid.orderCode,
         eventId: event.id,
         status: "confirmed",
-        bookedAt: new Date().toISOString(),
+        bookedAt: paid.paidAt || new Date().toISOString(),
         seats,
         zone: firstItem?.id || "",
         zoneName: firstItem?.name || "",
         unitPrice: firstItem?.price || event.priceFrom,
         quantity: selection.count,
-        subtotal: selection.subtotal,
-        fee: selection.fee,
-        discount,
-        total,
-        customer: {
-          name: form.name.trim(),
-          email: form.email.trim(),
-          phone: form.phone.replace(/\s/g, ""),
-        },
+        subtotal: order.subtotal ?? selection.subtotal,
+        fee: order.fee ?? selection.fee,
+        discount: order.discount ?? discount,
+        total: paid.totalAmount ?? total,
+        customer,
         paymentMethod,
-        // Mã QR phải trùng mã đặt vé.
-        qrValue: `SOUNDPASS|${bookingId}|${event.id}|${seats.length ? seats.join(",") : `${firstItem?.id}x${selection.count}`}`,
+        tickets: paid.tickets || [],
+        emailSent: paid.emailSent,
+        qrValue: `SOUNDPASS|${primaryTicket}|${event.id}|${seats.length ? seats.join(",") : `${firstItem?.id}x${selection.count}`}`,
       };
 
       addBooking(booking);
       resetBooking();
-      navigate(`/payment/success?booking=${bookingId}`, { replace: true });
-    }, 1100);
+      navigate(`/payment/success?booking=${paid.orderCode}&order=${paid.orderCode}`, { replace: true });
+    } catch (error) {
+      if (error.response?.status === 401) {
+        pushToast({ type: "error", title: "Cần đăng nhập", message: "Đăng nhập để tiếp tục đặt vé." });
+        navigate("/login", { state: { from: "/checkout" } });
+        return;
+      }
+      const message = error.response?.data?.message || error.message || "Không thể hoàn tất thanh toán.";
+      pushToast({ type: "error", title: "Thanh toán thất bại", message });
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const fieldClass = (field) => `input ${errors[field] ? "border-danger" : ""}`;
@@ -355,7 +389,7 @@ export default function CheckoutPage() {
             </div>
             <p className="mt-3 flex items-center gap-1.5 text-[11px] text-muted">
               <AlertCircle size={13} />
-              Demo không kết nối cổng thanh toán thật. Không nhập thông tin thẻ.
+              Đơn hàng và thanh toán được xác nhận qua API Soundpass. Chưa kết nối cổng thanh toán bên thứ ba.
             </p>
           </section>
 

@@ -11,6 +11,12 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default("1d"),
   PORT: z.coerce.number().int().positive().default(5000),
   CLIENT_URL: z.string().default("http://localhost:5173"),
+  // Gmail SMTP. Để trống 2 biến user/pass thì luồng đặt vé vẫn chạy, chỉ bỏ qua email.
+  SMTP_HOST: z.string().default("smtp.gmail.com"),
+  SMTP_PORT: z.coerce.number().int().positive().default(587),
+  SMTP_USER: z.string().trim().optional(),
+  SMTP_PASS: z.string().trim().optional(),
+  MAIL_FROM: z.string().trim().optional(),
 });
 
 const parsed = envSchema.safeParse(process.env);
@@ -20,6 +26,9 @@ if (!parsed.success) {
 }
 
 export const env = parsed.data;
+
+// Chỉ bật gửi mail khi có đủ tài khoản + App Password.
+export const mailEnabled = Boolean(env.SMTP_USER && env.SMTP_PASS);
 
 // Cho phép nhiều origin trong development (5173 và 5174).
 export const clientOrigins = env.CLIENT_URL.split(",")
