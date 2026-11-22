@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import {
   ArrowRight,
@@ -11,6 +12,7 @@ import {
 import { getEventById } from "../data/events.js";
 import { eventLocationName } from "../utils/events.js";
 import { formatDateTime, formatVnd } from "../utils/format.js";
+import { api } from "../services/api.js";
 import { useAppStore } from "../store/appStore.js";
 import { downloadTicketFile } from "../components/BookingCard.jsx";
 import QRCodeTicket from "../components/QRCodeTicket.jsx";
@@ -23,7 +25,50 @@ export default function PaymentResultPage() {
   const [params] = useSearchParams();
   const bookings = useAppStore((state) => state.bookings);
   const bookingId = params.get("booking");
-  const booking = bookings.find((item) => item.id === bookingId);
+  const orderCode = params.get("order");
+  const [remoteBooking, setRemoteBooking] = useState(null);
+
+  // Nếu localStorage bị xoá thì vẫn lấy đơn đã thanh toán từ API.
+  useEffect(() => {
+    if (!orderCode) return undefined;
+    let active = true;
+    api
+      .get(`/payments/orders/${encodeURIComponent(orderCode)}`)
+      .then(({ data }) => {
+        if (!active) return;
+        const order = data?.data;
+        if (!order || order.paymentStatus !== "PAID") return;
+        const seats = [
+          ...new Set(
+            (order.tickets || [])
+              .map((ticket) => String(ticket.qrCode || "").split("|")[3])
+              .filter((seat) => seat && !seat.includes("x")),
+          ),
+        ];
+        setRemoteBooking({
+          id: order.orderCode,
+          orderCode: order.orderCode,
+          eventId: order.eventId,
+          status: "confirmed",
+          bookedAt: order.paidAt,
+          seats,
+          zoneName: (order.items || []).map((item) => item.name).join(", "),
+          quantity: (order.items || []).reduce((sum, item) => sum + item.quantity, 0),
+          total: order.totalAmount,
+          paymentMethod: order.paymentMethod,
+          tickets: order.tickets || [],
+          customer: order.customer,
+          emailSent: order.emailSent,
+          qrValue: order.tickets?.[0]?.qrCode || `SOUNDPASS|${order.orderCode}`,
+        });
+      })
+      .catch(() => {});
+    return () => {
+      active = false;
+    };
+  }, [orderCode]);
+
+  const booking = remoteBooking || bookings.find((item) => item.id === bookingId);
   const event = booking ? getEventById(booking.eventId) : null;
 
   if (result === "failed") {
@@ -71,7 +116,9 @@ export default function PaymentResultPage() {
             Đặt vé thành công!
           </h1>
           <p className="mt-2 max-w-md text-[13px] leading-6 text-muted">
-            Vé điện tử đã được lưu trong tài khoản của bạn. Xuất trình mã QR tại cổng soát vé.
+            {booking.emailSent === false
+              ? "Thanh toán thành công. Email chưa được gửi (SMTP chưa cấu hình) — vé vẫn có trong ứng dụng."
+              : `Vé điện tử đã được gửi tới ${booking.customer?.email || "email của bạn"}. Xuất trình mã QR tại cổng soát vé.`}
           </p>
           <div className="mt-4 rounded-lg border border-success/25 bg-white px-4 py-2.5">
             <p className="text-[11px] uppercase tracking-wide text-muted-2">Mã đặt vé</p>

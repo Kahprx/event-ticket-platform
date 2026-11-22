@@ -7,7 +7,8 @@ Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite 
 ## Trạng thái dự án
 
 - 4 PR từ fork `ka31203` (#8 → #9 → #10 → #7) đã merged vào `main`; review chéo bởi `Kahprx`.
-- CI GitHub Actions chạy `npm ci` → `prisma generate` → build FE → `node --check` backend: ✅ pass.
+- CI GitHub Actions chạy `npm ci` → `prisma generate` → build FE → `node --check` backend → test backend: ✅ pass.
+- Luồng đặt vé/thanh toán dùng API thật (Prisma `Order`/`Payment`/`Ticket`) và gửi email xác nhận qua Gmail SMTP khi cấu hình.
 - Quản lý task trên Jira project **F5 (fixxo_5)**: https://kaquach62.atlassian.net/jira/software/projects/F5/boards/2/backlog
 
 ## Yêu cầu
@@ -49,7 +50,7 @@ Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite 
    npm run dev
    ```
 
-   `db:seed` tạo 2 vai trò (`CUSTOMER`, `ADMIN`) và 4 tài khoản demo. Chạy lại lệnh này nếu cần đặt lại dữ liệu mẫu.
+   `db:seed` tạo 2 vai trò (`CUSTOMER`, `ADMIN`), 4 tài khoản demo và 14 sự kiện kèm loại vé (ID trùng dữ liệu frontend). Chạy lại lệnh này nếu cần đặt lại dữ liệu mẫu.
 
 Frontend: http://localhost:5173 (hoặc 5174)  
 Backend health: http://localhost:5000/api/health
@@ -137,6 +138,39 @@ Script này dùng `concurrently` để chạy cả backend lẫn frontend.
 
 Vai trò được lưu trong bảng `Role` với khoá `CUSTOMER` / `ADMIN`. `POST /register` luôn tạo tài khoản `CUSTOMER`; không nhận role từ payload. JWT chứa khoá vai trò và chỉ được cấp sau khi xác thực thành công. `POST /logout` stateless nên frontend cần xóa token ở client.
 
+## API đặt vé / thanh toán (yêu cầu Bearer token)
+
+Checkout hiện gọi API thật, không còn giả lập `setTimeout`:
+
+- `POST /api/payments/orders` — tạo `Order` + `OrderItem` + `Payment(PENDING)`. Payload:
+  ```json
+  {
+    "eventId": "soundwave-festival-2026",
+    "items": [{ "ticketTypeId": "soundwave-festival-2026-ga", "quantity": 2 }],
+    "customer": { "name": "Nguyễn Văn A", "email": "user@gmail.com", "phone": "0901234567" },
+    "paymentMethod": "MoMo",
+    "promoCode": "SOUNDPASS10"
+  }
+  ```
+- `POST /api/payments/confirm` — `{ "orderCode": "...", "transactionCode": "...", "method": "MoMo" }`. Chuyển `Order`/`Payment` sang `PAID`, phát hành `Ticket`, tăng `TicketType.sold`, ghi `Notification` và gửi email. Gọi lại nhiều lần không tạo thêm vé hay gửi lại email (idempotent).
+- `GET /api/payments/orders/:orderCode` — lấy đơn đã thanh toán để hiển thị lại trang result.
+
+Giá vé, phí 2% và mã giảm giá được tính lại ở server; client không gửi tổng tiền. Email được gửi tới **`customer.email` nhập ở trang checkout**, không phải email cố định.
+
+### Cấu hình Gmail SMTP
+
+Trong `backend/.env` (xem `backend/.env.example`):
+
+```env
+SMTP_HOST="smtp.gmail.com"
+SMTP_PORT=587
+SMTP_USER="tai-khoan@gmail.com"
+SMTP_PASS="app-password-16-ky-tu"
+MAIL_FROM="Soundpass <tai-khoan@gmail.com>"
+```
+
+Tạo **App Password**: Google Account → Security → 2-Step Verification → App passwords → chọn app *Mail*, device *Windows Computer* → copy chuỗi 16 ký tự vào `SMTP_PASS` (không dùng mật khẩu đăng nhập Gmail). Nếu bật 2FA thì bắt buộc dùng App Password. Để trống `SMTP_USER`/`SMTP_PASS` thì API vẫn chạy, `emailSent: false` và log cảnh báo — phù hợp CI/local chưa có credential.
+
 ## API quản trị (yêu cầu Bearer token của ADMIN)
 
 - `GET /api/admin/accounts` · `POST /api/admin/accounts` · `PUT /api/admin/accounts/:id` · `DELETE /api/admin/accounts/:id`
@@ -155,6 +189,7 @@ Server chạy offline: frontend tự chuyển sang dữ liệu mẫu để xem g
 2. `npm run db:generate` (Prisma Client)
 3. `npm run build -w @event-platform/frontend`
 4. `node --check` cho mọi file trong `backend/src`
+5. `npm run test -w @event-platform/backend` (unit test template email)
 
 Không cần DATABASE_URL thật để chạy CI vì workflow chỉ generate client, không migrate hay seed.
 
