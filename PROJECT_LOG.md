@@ -226,7 +226,7 @@
 | Branch | `ka31203:feat/chatbot-rag` → `Kahprx:main` |
 | Fork | https://github.com/ka31203/event-ticket-platform |
 | Nội dung | API `/api/chatbot/ask`, RAG bám dữ liệu sự kiện, optional Gemini, 6 tests, frontend gọi API + history |
-| Kiểm tra | `npm run test -w @event-platform/backend` 6/6 pass; `npm run build -w @event-platform/frontend` pass; API test thực tế với câu hỏi gộp “ở đâu + mấy giờ” trả đủ 2 sự kiện của Suboi |
+| Kiểm tra | `npm run test -w @event-platform/backend` 6/6 pass; `npm run build -w @event-platform/frontend` pass; API test thực tế với câu hỏi gộp “ở đâu + mấy giờ” trả đủ 2 sự kiện của Suboi; CI pass run `45051507332` (sau fix `6c19d5e`) |
 
 > Đã merge theo thứ tự **PR #8 → PR #9 → PR #10 → PR #7**. Cả 4 đều từ fork; PR #3/#4/#5/#6 đã đóng để tránh trùng nội dung. Trước mỗi lần merge, PR tiếp theo được `gh pr edit --base main` để code landed thẳng vào `main`.
 
@@ -243,7 +243,7 @@
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
-- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend → `npm run test -w @event-platform/backend` (6 ca chatbot RAG). Run trước khi thêm test ✅ pass (`44468475158`); PR #15 đang chạy check mới.
+- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend → `npm run test -w @event-platform/backend` (6 ca chatbot RAG). PR #15 ✅ pass run `45051507332` (27s).
 - **Jira:** project **F5 (fixxo_5)** — thành viên `hanminh2709@gmail.com` Active, `F5 Sprint 1` đang **active**, 4 action item + 6 backlog + 1 Epic + 4 Story + form `Feature request` (xem mục 10).
 - **Tài khoản seed:**
 
