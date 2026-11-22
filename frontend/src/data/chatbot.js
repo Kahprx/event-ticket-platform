@@ -1,14 +1,14 @@
 import { events, locations, categories } from "./events.js";
 
-// Bộ trả lời đơn giản dựa trên từ khóa. Đây là phần "AI" của đồ án: không gọi
-// model bên ngoài, nhưng vẫn trả lời được các câu hỏi thường gặp và gợi ý sự kiện.
+// Fallback local khi backend chatbot không sẵn sàng. Luồng chính là RAG ở
+// backend/src/modules/chatbot: truy xuất sự kiện rồi trả lời bám dữ liệu.
 
 export const suggestedQuestions = [
+  "Suboi có lịch diễn ở đâu và mấy giờ?",
+  "Bùi Lan Hương hát ở đâu?",
   "Cuối tuần này có gì ở TP. Hồ Chí Minh?",
   "Tìm sự kiện EDM dưới 500.000 ₫",
-  "Đêm nhạc acoustic nào đang mở bán?",
   "Sự kiện ở Đà Nẵng có gì?",
-  "Có sự kiện của Suboi không?",
   "Làm sao để mua vé?",
   "Tôi có thể hủy vé không?",
 ];
@@ -171,9 +171,11 @@ export const getChatbotReply = (message) => {
     };
   }
 
-  // Hỏi địa điểm của một sự kiện cụ thể
-  if (/(o dau|dia chi|where|cho nao|vi tri)/.test(t)) {
+  // Hỏi địa điểm / lịch diễn / giờ diễn của một ca sĩ hoặc sự kiện cụ thể.
+  // Fallback này xử lý cả câu hỏi gộp "ở đâu + mấy giờ" để không bỏ sót ý user.
+  if (/(o dau|dia diem|dia chi|where|cho nao|vi tri|lich dien|may gio|may h|khi nao)/.test(t)) {
     const city = findCity(text);
+    const wantsWhen = /(may gio|may h|gio|thoi gian|lich dien|khi nao|ngay nao)/.test(t);
     const found = city || artists.length > 0
       ? events
           .filter(
@@ -182,17 +184,21 @@ export const getChatbotReply = (message) => {
               matchesArtist(event, artists) &&
               isUpcoming(event),
           )
-          .slice(0, 2)
+          .slice(0, 3)
       : [];
     if (found.length > 0) {
-      const first = found[0];
+      const lines = found.map((event, index) => {
+        const detail = `${event.name} — ${event.time} ngày ${event.date.split("-").reverse().join("/")} tại ${event.venue}, ${event.address}`;
+        return `${index + 1}. ${wantsWhen ? detail : detail.replace(` — ${event.time} ngày ${event.date.split("-").reverse().join("/")}`, "")}`;
+      });
       return {
-        text: `${first.name} (${first.artist}) diễn ra tại ${first.venue}, ${first.address}. Bạn có thể xem bản đồ ở phần cuối trang chi tiết sự kiện.`,
+        text: `${artists.length > 0 ? `${artists.join(", ")}: ` : ""}${lines.join("\n")}. Bạn xem chi tiết ở thẻ bên dưới nhé.`,
         eventIds: found.map((event) => event.id),
+        artist: artists[0] || null,
       };
     }
     return {
-      text: "Bạn đang hỏi địa điểm của sự kiện nào? Bạn gửi tên sự kiện, tên nghệ sĩ hoặc thành phố giúp mình nhé.",
+      text: "Bạn đang hỏi ca sĩ hoặc sự kiện nào? Bạn gửi tên nghệ sĩ, tên sự kiện hoặc thành phố giúp mình nhé.",
       eventIds: [],
     };
   }

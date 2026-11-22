@@ -124,7 +124,25 @@ Script này dùng `concurrently` để chạy cả backend lẫn frontend.
 - PowerShell báo `npm.ps1 cannot be loaded`: chạy `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` rồi thử lại, hoặc dùng `npm.cmd`.
 - `npm install` lỗi mạng: `npm config set registry https://registry.npmjs.org/`, xoá `node_modules` rồi `npm ci`.
 - Lỗi build native (bcrypt / Prisma engine): cài Node 20.19+ hoặc 22.12+ và Visual Studio Build Tools (workload C++).
-- Chạy frontend mà không có backend: UI vẫn lên với dữ liệu mẫu, nhưng đăng nhập/đăng ký và CRUD quản trị cần API.
+- Chạy frontend mà không có backend: UI vẫn lên với dữ liệu mẫu, nhưng đăng nhập/đăng ký và CRUD quản trị cần API. Chatbot có fallback local; có backend thì dùng luồng RAG bên dưới.
+
+## Chatbot RAG
+
+Trợ lý Soundpass dùng luồng **retrieval-augmented generation** để trả lời đúng chủ đề thay vì đoán theo từ khóa:
+
+1. **Retrieve** — `backend/src/modules/chatbot/knowledge.js` đọc chung dữ liệu `frontend/src/data/events.js`, nhận diện tên ca sĩ (kể cả `Vũ.`, `Da LAB`, `nhóm MTV`, `Suboi`), thành phố, thể loại, ngân sách và ý định (ở đâu / mấy giờ / lịch diễn / giá vé / có show không).
+2. **Generate** — `chatbot.service.js` tạo câu trả lời chỉ từ các sự kiện vừa truy xuất. Câu hỏi gộp như “Suboi có hát ở đâu không? Có lịch diễn ở đâu và mấy giờ diễn?” được trả lời đủ tên sự kiện, ngày, giờ, địa điểm. Câu hỏi “ca sĩ này…” dùng lại nghệ sĩ ở lượt trước qua `history`. Câu ngoài chủ đề bị từ chối, không bịa.
+3. **LLM (tuỳ chọn)** — nếu có `GEMINI_API_KEY` trong `backend/.env`, sự kiện truy xuất được đưa vào prompt dưới dạng context và Gemini chỉ được phép trả lời dựa trên context đó. Không có key hoặc Gemini lỗi thì hệ thống tự dùng câu trả lời bám dữ liệu. Không có endpoint public nào cho phép gửi mail hay ghi dữ liệu.
+
+API: `POST /api/chatbot/ask` với body `{ "message": "...", "history": [{ "role": "user"|"assistant", "text": "...", "artist": "..." }] }`. Route có rate limit 60 request/15 phút, không cần đăng nhập.
+
+Ví dụ:
+
+```powershell
+Invoke-RestMethod http://localhost:5000/api/chatbot/ask -Method Post -ContentType 'application/json' -Body '{"message":"Suboi có lịch diễn ở đâu và mấy giờ?"}'
+```
+
+Test: `npm run test -w @event-platform/backend` (6 ca, gồm ca hỏi gộp ở đâu + mấy giờ và ca “ca sĩ này”).
 
 ## API Phase 1
 
@@ -155,6 +173,7 @@ Server chạy offline: frontend tự chuyển sang dữ liệu mẫu để xem g
 2. `npm run db:generate` (Prisma Client)
 3. `npm run build -w @event-platform/frontend`
 4. `node --check` cho mọi file trong `backend/src`
+5. `npm run test -w @event-platform/backend` (test chatbot RAG)
 
 Không cần DATABASE_URL thật để chạy CI vì workflow chỉ generate client, không migrate hay seed.
 

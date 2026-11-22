@@ -51,6 +51,13 @@ export default function ChatMessage({ message }) {
           </div>
         )}
 
+        {message.sources?.length > 0 && (
+          <p className="mt-1.5 text-[10px] text-muted-2">
+            Trả lời từ {message.mode === "llm" ? "LLM + RAG" : "dữ liệu sự kiện Soundpass"}
+            {message.artist ? ` · ${message.artist}` : ""}
+          </p>
+        )}
+
         {(message.links || []).map((link) => (
           <Link
             key={link.to}

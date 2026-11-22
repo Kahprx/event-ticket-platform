@@ -5,6 +5,7 @@ import morgan from "morgan";
 import { clientOrigins } from "./config/env.js";
 import authRoutes from "./modules/auth/auth.routes.js";
 import adminRoutes from "./modules/admin/admin.routes.js";
+import chatbotRoutes from "./modules/chatbot/chatbot.routes.js";
 import { errorHandler, notFound } from "./middleware/error.middleware.js";
 
 export const app = express();
@@ -16,5 +17,6 @@ app.use(morgan("dev"));
 app.get("/api/health", (_req, res) => res.json({ success: true, data: { status: "ok" } }));
 app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/chatbot", chatbotRoutes);
 app.use(notFound);
 app.use(errorHandler);
