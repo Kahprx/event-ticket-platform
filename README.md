@@ -6,7 +6,8 @@ Nền tảng bán vé sự kiện theo khu vực, xây dựng bằng React/Vite 
 
 ## Trạng thái dự án
 
-- 4 PR từ fork `ka31203` (#8 → #9 → #10 → #7) đã merged vào `main`; review chéo bởi `Kahprx`.
+- 5 PR từ fork `ka31203` (#8 → #9 → #10 → #7 → #11) đã merged vào `main`; review chéo bởi `Kahprx`.
+- Đang mở: **PR #12** (Figma export 66 page) và **PR #14** (thanh toán thật + biên nhận Gmail), cả hai CI pass.
 - CI GitHub Actions chạy `npm ci` → `prisma generate` → build FE → `node --check` backend → test backend: ✅ pass.
 - Luồng đặt vé/thanh toán dùng API thật (Prisma `Order`/`Payment`/`Ticket`) và gửi email xác nhận qua Gmail SMTP khi cấu hình.
 - Quản lý task trên Jira project **F5 (fixxo_5)**: https://kaquach62.atlassian.net/jira/software/projects/F5/boards/2/backlog
