@@ -235,7 +235,7 @@
 | Branch | `ka31203:feat/payment-gmail-notification` → `Kahprx:main` |
 | Commit | `30f4601` (code), `24ffea3` (docs) |
 | Nội dung | API order/confirm idempotent, phát hành vé, gửi biên nhận Gmail SMTP tới email checkout; migration contact fields; seed catalog; test + CI |
-| Kiểm tra | Login → tạo đơn → confirm PAID → 2 vé → confirm lại vẫn 2 vé → GET đơn đúng; migrate + seed local OK |
+| Kiểm tra | Login → tạo đơn → confirm PAID → 2 vé → confirm lại vẫn 2 vé → GET đơn đúng; migrate + seed local OK. Ngày 23/11 xác nhận gửi Gmail thật: đơn `SP-MWS3VKPI-2C1490` trả `emailSent: true`, thư có trong hộp thư đến |
 | CI | `build` pass (run `44995951281`, 21s) |
 | Jira | `F5-49` — Done, parent `F5-12`, sprint `F5 Sprint 1` |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/14 |
@@ -277,7 +277,7 @@
 - [x] Fork thật sang `ka31203`, push 4 branch, đóng #3/#4/#5/#6, mở #7/#8/#9/#10 từ fork
 - [x] Merge lần lượt PR #8 → PR #9 → PR #10 → PR #7 vào `main` (4 PR từ fork)
 - [x] Start `F5 Sprint 1` trên Jira và đưa backlog/action/Epic/Story/Form vào project F5
-- [x] Xây API order/confirm thật, phát hành vé và gửi biên nhận Gmail (commit `30f4601`, PR #14, CI pass, Jira `F5-49` Done)
+- [x] Xây API order/confirm thật, phát hành vé và gửi biên nhận Gmail (commit `30f4601`, PR #14, CI pass, Jira `F5-49` Done; gửi thật xác nhận 23/11 qua đơn `SP-MWS3VKPI-2C1490`)
 - [x] Export 66 page Figma kèm PNG reference (PR #12, Jira `F5-50` Done)
 
 ---

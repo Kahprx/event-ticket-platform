@@ -172,6 +172,8 @@ MAIL_FROM="Soundpass <tai-khoan@gmail.com>"
 
 Tạo **App Password**: Google Account → Security → 2-Step Verification → App passwords → chọn app *Mail*, device *Windows Computer* → copy chuỗi 16 ký tự vào `SMTP_PASS` (không dùng mật khẩu đăng nhập Gmail). Nếu bật 2FA thì bắt buộc dùng App Password. Để trống `SMTP_USER`/`SMTP_PASS` thì API vẫn chạy, `emailSent: false` và log cảnh báo — phù hợp CI/local chưa có credential.
 
+Đã xác nhận gửi thật ngày 23/11/2026: đơn `SP-MWS3VKPI-2C1490` trả `emailSent: true` và thư **"Soundpass — Thanh toán thành công đơn SP-MWS3VKPI-2C1490"** có mặt trong hộp thư đến. Sửa `.env` cần restart backend (`node --watch` không reload file env).
+
 ## API quản trị (yêu cầu Bearer token của ADMIN)
 
 - `GET /api/admin/accounts` · `POST /api/admin/accounts` · `PUT /api/admin/accounts/:id` · `DELETE /api/admin/accounts/:id`
