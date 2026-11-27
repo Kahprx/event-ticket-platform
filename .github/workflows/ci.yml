@@ -32,3 +32,6 @@ jobs:
           find backend/src -type f -name '*.js' -print0 | while IFS= read -r -d '' file; do
             node --check "$file"
           done
+
+      - name: Test backend
+        run: npm run test -w @event-platform/backend

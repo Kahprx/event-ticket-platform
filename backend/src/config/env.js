@@ -11,6 +11,9 @@ const envSchema = z.object({
   JWT_EXPIRES_IN: z.string().default("1d"),
   PORT: z.coerce.number().int().positive().default(5000),
   CLIENT_URL: z.string().default("http://localhost:5173"),
+  // Chatbot RAG. Không bắt buộc: thiếu key thì vẫn trả lời từ dữ liệu sự kiện.
+  GEMINI_API_KEY: z.string().trim().optional(),
+  GEMINI_MODEL: z.string().trim().default("gemini-2.5-flash"),
 });
 
 const parsed = envSchema.safeParse(process.env);

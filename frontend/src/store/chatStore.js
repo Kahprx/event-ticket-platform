@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { getChatbotReply } from "../data/chatbot.js";
+import { askChatbot } from "../services/chatbot.js";
 
 let messageId = 0;
 
@@ -26,12 +27,26 @@ export const useChatStore = create((set, get) => ({
     set((state) => ({ messages: [...state.messages, userMessage], pending: true }));
 
     try {
-      // Độ trễ nhỏ để người dùng thấy trạng thái "đang trả lời".
-      await new Promise((resolve) => setTimeout(resolve, 650));
       if (typeof navigator !== "undefined" && navigator.onLine === false) {
         throw new Error("offline");
       }
-      const reply = getChatbotReply(text);
+      const history = get()
+        .messages.filter((item) => item.from === "user" || item.from === "bot")
+        .slice(-8)
+        .map((item) => ({
+          role: item.from === "user" ? "user" : "assistant",
+          text: item.text,
+          ...(item.artist ? { artist: item.artist } : {}),
+        }));
+
+      let reply;
+      try {
+        reply = await askChatbot(text, history);
+      } catch (apiError) {
+        // Backend chưa chạy thì vẫn dùng fallback local để demo không bị chết.
+        console.warn("[chatbot] API unavailable, dùng fallback local:", apiError.message);
+        reply = { ...getChatbotReply(text), mode: "fallback" };
+      }
       set((state) => ({
         messages: [...state.messages, { id: ++messageId, from: "bot", ...reply }],
         pending: false,

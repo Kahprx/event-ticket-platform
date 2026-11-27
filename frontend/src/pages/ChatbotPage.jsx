@@ -19,9 +19,9 @@ export default function ChatbotPage() {
           Hỏi trợ lý để tìm sự kiện nhanh hơn
         </h1>
         <p className="mt-2 max-w-2xl text-[13px] leading-6 text-muted">
-          Trợ lý tìm theo thành phố, thể loại, mức giá và ngày diễn; đồng thời giải đáp các câu hỏi
-          về cách mua vé, thanh toán và hủy vé. Câu trả lời được tạo từ dữ liệu sự kiện trong demo,
-          nên đôi khi sẽ cần bạn kiểm tra lại thông tin trên trang chi tiết.
+          Trợ lý dùng RAG: truy xuất dữ liệu sự kiện thật (ca sĩ, ngày diễn, giờ diễn, địa điểm, giá
+          vé) rồi trả lời đúng ý bạn hỏi, kể cả câu gộp “ca sĩ này diễn ở đâu và mấy giờ”. Câu trả
+          lời luôn bám nguồn dữ liệu Soundpass; bạn vẫn nên kiểm tra trang chi tiết trước khi thanh toán.
         </p>
       </div>
 

@@ -25,9 +25,9 @@
 
 | Thành viên | Vai trò chính | Số nghiệp vụ | Đã xong | Chưa xong | PR phụ trách |
 | --- | --- | --- | --- | --- | --- |
-| **Dev 1** | Frontend / UI / Chatbot | 7 | 7 | 0 | #8, #7 (đều từ fork) |
-| **Dev 2** | Backend / DB / Hạ tầng / Tài liệu | 6 | 6 | 0 | #1, #9, #10 (đều đã merge) |
-| **Tổng** | — | **13** | **13** | **0** | 4 PR từ fork đã merge |
+| **Dev 1** | Frontend / UI / Chatbot | 8 | 8 | 0 | #8, #7, #15 (đều từ fork) |
+| **Dev 2** | Backend / DB / Hạ tầng / Tài liệu | 7 | 7 | 0 | #1, #9, #10, #15 (đều từ fork) |
+| **Tổng** | — | **15** | **15** | **0** | 4 PR từ fork đã merge; #15 chờ review |
 
 ### Dev 1 — đã làm gì
 
@@ -38,6 +38,7 @@
 - `T09` Sửa triệt để JSX demo còn sót trong `LoginPage.jsx`, bỏ fallback demo.
 - `T11` Viết lại `PROJECT_LOG.md` thành quy trình + timeline + PR.
 - `T13` Sửa AI chatbot: hiểu tên nghệ sĩ, gợi ý và thẻ kết quả đều hiện tên nghệ sĩ.
+- `T18` Đổi chatbot sang gọi API RAG ở backend: gửi `history` để hiểu “ca sĩ này”, gợi ý câu hỏi theo ca sĩ/lịch diễn, hiện nguồn trả lời.
 
 ### Dev 2 — đã làm gì
 
@@ -47,6 +48,7 @@
 - `T08` Ghi nhật ký dự án lần đầu vào `PROJECT_LOG.md`.
 - `T10` Xoá UI cũ, dời toàn bộ repo về `C:\Users\kaqua\Downloads\web`.
 - `T12` ✅ Đã làm: GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE), commit `3bdf01b` trong PR #10.
+- `T17` Xây RAG chatbot ở backend: truy xuất sự kiện theo ca sĩ/ý định, API `POST /api/chatbot/ask`, optional Gemini, 6 test cases + bước test trong CI.
 
 ### Quy ước
 
@@ -73,6 +75,8 @@
 | T11 | Dev 1 | Viết lại tài liệu thành QUY TRÌNH đầy đủ: nhiệm vụ + thời gian + commit + PR | 18/11 11:17 | xem commit cuối PR #10 | #10 | ✅ Xong |
 | T12 | Dev 2 | Thêm GitHub Actions CI (`npm ci` → `prisma generate` → build FE → syntax BE) | 19/11 ~12:53 | `3bdf01b` | #10 | ✅ Đã merge, CI pass |
 | T13 | Dev 1 | Sửa AI chatbot: hiểu tên nghệ sĩ, câu hỏi gợi ý có nghệ sĩ, hiển thị nghệ sĩ trong câu trả lời và thẻ gợi ý | 18/11 11:32 | `c4e04fa`, `32b66ec`, `463a8a9` | #7 (từ fork) | ✅ Xong |
+| T17 | Dev 2 | Chatbot RAG backend: alias ca sĩ (`Vũ.`, `Da LAB`, `nhóm MTV`), phân loại ý định ở đâu/mấy giờ/lịch diễn/giá, API `/api/chatbot/ask` có rate limit, optional Gemini, 6 test cases | 23/11 00:40 | `376c846` | #15 (từ fork) | ✅ Xong, chờ review |
+| T18 | Dev 1 | Frontend gọi API chatbot, gửi 8 lượt history, cập nhật gợi ý “Suboi có lịch diễn ở đâu và mấy giờ?”, fallback local và nhãn nguồn trả lời | 23/11 00:45 | `376c846` | #15 (từ fork) | ✅ Xong, chờ review |
 
 ---
 
@@ -147,6 +151,8 @@
 | **11:27** | Đóng PR #2, tạo 3 branch stacked và mở PR #3/#4/#5 (sau thay bằng #8/#9/#10) | PR #3/#4/#5 → #8/#9/#10 |
 | **11:32** | Fix AI chatbot: nhận diện tên nghệ sĩ, hỏi/gợi ý theo nghệ sĩ, hiển thị tên nghệ sĩ trong thẻ gợi ý | PR #6 (đã đóng) |
 | **18/11 (sau device flow)** | Thêm `ka31203` vào gh CLI, push 4 branch lên fork. Đóng PR #3/#4/#5/#6, mở lại **#7/#8/#9/#10 đều từ fork** | PR #7/#8/#9/#10 |
+| **23/11 00:45** | Nâng chatbot lên RAG: truy xuất sự kiện theo ca sĩ + ý định, trả lời gộp địa điểm/giờ/lịch diễn, không trả lời ngoài chủ đề; frontend gọi API và gửi history | PR #15 (từ fork) |
+| **23/11 01:10** | Tạo form Jira riêng `Chatbot RAG Feedback` (form 35), comment link form + PR #15 vào F5-15; cập nhật docs | Jira F5 / PR #15 |
 
 ---
 
@@ -213,6 +219,16 @@
 | Review | `Kahprx` approved (review chéo) |
 | Link | https://github.com/Kahprx/event-ticket-platform/pull/7 |
 
+### PR #15 — `feat: chatbot RAG theo chủ đề sự kiện`
+
+| Trường | Giá trị |
+| --- | --- |
+| Trạng thái | 🟡 **OPEN** — chờ `Kahprx` review |
+| Branch | `ka31203:feat/chatbot-rag` → `Kahprx:main` |
+| Fork | https://github.com/ka31203/event-ticket-platform |
+| Nội dung | API `/api/chatbot/ask`, RAG bám dữ liệu sự kiện, optional Gemini, 6 tests, frontend gọi API + history |
+| Kiểm tra | `npm run test -w @event-platform/backend` 6/6 pass; `npm run build -w @event-platform/frontend` pass; API test thực tế với câu hỏi gộp “ở đâu + mấy giờ” trả đủ 2 sự kiện của Suboi; CI pass run `45051620768` (sau fix `6c19d5e`) |
+
 > Đã merge theo thứ tự **PR #8 → PR #9 → PR #10 → PR #7**. Cả 4 đều từ fork; PR #3/#4/#5/#6 đã đóng để tránh trùng nội dung. Trước mỗi lần merge, PR tiếp theo được `gh pr edit --base main` để code landed thẳng vào `main`.
 
 ---
@@ -222,14 +238,14 @@
 - **Root repo:** `C:\Users\kaqua\Downloads\web`
 - **Source FE:** `C:\Users\kaqua\Downloads\web\frontend\src` (84 files)
 - **Source BE:** `C:\Users\kaqua\Downloads\web\backend\src` (18 files)
-- **Branch làm việc:** `main` đã chứa toàn bộ 4 PR; bản cập nhật trạng thái sau merge nằm trên `docs/post-merge`.
+- **Branch làm việc:** `376c846` (từ `fork/main`); `main` đã chứa toàn bộ 4 PR đầu.
 - **HEAD / remote:** `upstream/main` = `c6fc00f` (merge PR #7), fork `ka31203/main` đồng bộ trước merge.
-- **PR đang mở:** không còn; #8/#9/#10/#7 đã MERGED (xem mục 5).
+- **PR đang mở:** #15 — chatbot RAG từ fork `ka31203`, chờ review chéo. #8/#9/#10/#7 đã MERGED (xem mục 5).
 - **Remote:** `upstream` → `https://github.com/Kahprx/event-ticket-platform.git`
 - **Đang chạy:** UI `http://localhost:5173/login`, API `http://localhost:5000/api/health`, PostgreSQL `:5432`
 - **Build FE:** pass (còn chunk-size warning >500 kB, không blocking)
-- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend; run trên `main` ✅ pass (run `44468475158`).
-- **Jira:** project **F5 (fixxo_5)** — thành viên `hanminh2709@gmail.com` Active, `F5 Sprint 1` đang **active**, 4 action item + 6 backlog + 1 Epic + 4 Story + form `Feature request` (xem mục 10).
+- **CI:** `.github/workflows/ci.yml` — `npm ci` → `prisma generate` → build FE → `node --check` backend → `npm run test -w @event-platform/backend` (6 ca chatbot RAG). PR #15 ✅ pass run `45051620768` (26s).
+- **Jira:** project **F5 (fixxo_5)** — thành viên `hanminh2709@gmail.com` Active, `F5 Sprint 1` đang **active**, 4 action item + 6 backlog + 1 Epic + 4 Story + 2 form (`Feature request`, `Chatbot RAG Feedback`) (xem mục 10). F5-15 đã có comment link PR #15 và form riêng.
 - **Tài khoản seed:**
 
 | Vai trò | Email | Mật khẩu |
@@ -246,6 +262,7 @@
 - [x] Test luồng đặt vé và CRUD admin trên browser
 - [x] Xoá UI cũ, thống nhất một đường dẫn source
 - [x] Thêm CI GitHub Actions (`.github/workflows/ci.yml`, commit `3bdf01b`, run pass)
+- [x] Test chatbot RAG 6/6 pass + build FE pass trước khi mở PR #15
 - [x] Review bởi người khác (`Kahprx` review chéo cả 4 PR từ fork `ka31203`)
 - [x] Tách PR #2 thành stack; chuyển toàn bộ sang 4 PR từ fork (#8/#9/#10/#7)
 - [x] Ghi phương án fork và nhiều PR vào mục 9
@@ -350,5 +367,6 @@ Lưu ý khi dùng fork:
 - **Story F5-13** luồng đặt vé API thật; **F5-14** auth/role; **F5-15** chatbot tên nghệ sĩ; **F5-16** CI/CD, CORS, tài liệu.
 - Toàn bộ 14 issue F5-2…F5-11, F5-13…F5-16 đã gán `parent = F5-12`.
 - Form **`Feature request`** đã tạo trong F5: `/jira/software/projects/F5/form/1/builder`.
+- Form riêng **`Chatbot RAG Feedback`** (ID 35) tạo ngày 23/11/2026 để thu câu hỏi/phản hồi sai chủ đề của chatbot: https://kaquach62.atlassian.net/jira/software/projects/F5/form/35/builder . Đã comment link form + PR #15 vào **F5-15**.
 
 > Git và Jira dùng chung một danh sách việc: commit/PR ở mục 3–5 tương ứng với F5-2…F5-5; backlog F5-6…F5-11 là việc làm sau khi merge.
